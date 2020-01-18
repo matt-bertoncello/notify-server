@@ -6,7 +6,6 @@ var uuid = require('uuid/v4');
 
 var UserSchema = new mongoose.Schema({
   name: String,
-  username:  {type:String, unique:true, sparse:true},
   google: {
     id: String,
     displayName: String,
@@ -33,7 +32,7 @@ var UserSchema = new mongoose.Schema({
   password: String,
   notify: {
     auth_token: {type:String, unique:true, default:uuid},
-    firebase_instances: {type:[String], unique:true, default:[]},
+    firebase_instances: {type:[String], unique:true, default:[], sparse:true},
   },
 });
 
@@ -55,7 +54,7 @@ UserSchema.methods.comparePassword = function(candidatePassword, next) {
 
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
       if (err) return next(err, false);
-      if (!isMatch) return next("[ERROR] this password and username/email combination is incorrect", false);
+      if (!isMatch) return next("[ERROR] this password and email combination is incorrect", false);
       return next(null, isMatch);
   });
 };

@@ -5,7 +5,7 @@ var userController = require("../../controllers/UserController.js");
 var notifyController = require("../../controllers/notify/NotifyController.js");
 
 /*
-Confirm email/username and password are correct.
+Confirm email and password are correct.
 If correct, reply with auth token.
 If error, handle and reply with error.
 */

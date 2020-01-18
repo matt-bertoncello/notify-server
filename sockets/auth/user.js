@@ -27,27 +27,6 @@ socket_router.sock = function(socket, io) {
     }
   }
 
-  socket.on('update_username', function(username) {
-    if (username === "") {  // if there is no username provided, emit error
-      socket.emit('err', {id: 'username_error', text: 'Cannot provide an empty username.'});
-    } else if (authController.isEmail(username)) { // username cannot be an email
-      socket.emit('err', {id: 'username_error', text: 'Username cannot be an email.'});
-    } else {
-      userController.updateUsername(socket.handshake.session.passport.user._id, username, function(err) {
-        if (err && err.code === 11000) {
-          socket.emit('err', {id: 'username_error', text: 'This username is already taken.'});
-        } else {
-          if (userController.postLoginRedirect) { // If the user was sent to to update username. Send back to original page.
-            socket.emit('redirect', userController.postLoginRedirect);
-            delete userController.postLoginRedirect;  // Delete postLoginRedirect now that user has returned to page.
-          } else {
-            socket.emit('redirect', '/user');
-          }
-        }
-      });
-    }
-  });
-
   socket.on('update_password', function(data) {
     userController.getUser(socket.handshake.session.passport.user._id, function(err, user) {
       // If there was an error finding the user, redirect to home screen;

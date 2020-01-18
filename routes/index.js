@@ -19,6 +19,10 @@ router.get('/user', authController.checkAuthentication, function(req,res) {
   res.render('auth/user', {req: req});
 });
 
+router.get('/loginerror', (req, res, next) => {
+  console.log(req.flash('error'));
+});
+
 /* LOGIN capabilities. If user is already logged in, redirect to user page. */
 router.get('/login', (req, res, next) => {
   if(req.session.passport && req.session.passport.user) {
@@ -37,7 +41,7 @@ router.get('/register', (req, res, next) => {
     res.redirect('/user');
   } else {
     var comment = authController.registerComment;
-    authController.registerComment = { email: null, username: null, password1: null, password2: null };
+    authController.registerComment = { email: null, password1: null, password2: null };
     res.render('auth/register', {req: req, registerComment: comment});
   }
 });

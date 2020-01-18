@@ -9,7 +9,6 @@ var authController = {};
 authController.loginComment = null;
 authController.registerComment = {
   email: null,
-  username: null,
   password1: null,
   password2: null
 };
@@ -20,26 +19,24 @@ passport.deserializeUser(function(obj, done) { done(null, obj); });
 
 // Update the local login strategy.
 passport.use(new LocalStrategy(
-  function(username, password, done) {
-    authController.attempt_login(username, password, done);
+  function(email, password, done) {
+    authController.attempt_login(email, password, done);
   }
 ));
 
-authController.attempt_login = function(username, password, done) {
+authController.attempt_login = function(email, password, done) {
   if (!password) {  // If no password is provided,return error.
     err = '[ERROR] No password provided';
     return loginError(err, null, done);
   }
-  if (authController.isEmail(username)) {  // If email
-    userController.getUserFromEmail(username, function(err, user) {
+  if (authController.isEmail(email)) {  // If valid email
+    userController.getUserFromEmail(email, function(err, user) {
       if (err) { return loginError(err, user, done); }
       else { authenticate_user(user, password, done); }
     });
-  } else {  // If username
-    userController.getUserFromUsername(username, function(err, user) {
-      if (err) { return loginError(err, user, done); }
-      authenticate_user(user, password, done);
-    });
+  } else {  // If not a valid email
+    err = '[ERROR] Not a valid email';
+    return loginError(err, null, done);
   }
 }
 
@@ -63,15 +60,12 @@ function loginError(err, user, done) {
 /*
 Redirect to login page if user isn't logged in.
 Load User into req.user.
-If user does not have a unique username, make user create username.
 */
 authController.checkAuthentication = function(req,res,next){
   /* If session has never been initialised on client side, also redirect to login page */
   if (req.session.passport && req.session.passport.user) {
     userController.updateUser(req, res, function() {
-      userController.checkUsername(req, res, function() {  // check if username is valid and unique
-        next();
-      });
+      next();
     })
   } else {
     userController.postLoginRedirect = req.originalUrl;

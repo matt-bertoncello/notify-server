@@ -49,7 +49,6 @@ passport.use(new GitHubStrategy({
                 user = new User({
                   name: profile.displayName,
                   email: profile.emails[0].value,
-                  username: profile.username,
                   //now in the future searching on User.findOne({'github.id': profile.id } will match because of this next line
                   github: {
                     id: profile.id,
