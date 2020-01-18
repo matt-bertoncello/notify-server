@@ -25,14 +25,13 @@ var UserSchema = new mongoose.Schema({
     displayName: String,
   },
   email: {type:String, unique:true, required:true},
-  updated_at: { type: Date, default: Date.now },
   provider: String,
   created: {type: Date, default: Date.now},
   updated: {type: Date, default: Date.now},
   password: String,
   notify: {
-    auth_token: {type:String, unique:true, default:uuid},
-    firebase_instances: {type:[String], unique:true, default:[], sparse:true},
+    authToken: {type:String, unique:true, default:uuid},
+    firebaseInstances: {type:[String], unique:true, sparse:true, default:[]},
   },
 });
 
@@ -95,8 +94,8 @@ When Notify is triggered to send to this user, all tokens will be sent.
 */
 UserSchema.methods.addFirebaseToken = function(token, next) {
   // if token is not already saved in array, push to array.
-  if (!this.notify.firebase_instances.includes(token)) {
-    this.notify.firebase_instances.push(token);
+  if (!this.notify.firebaseInstances.includes(token)) {
+    this.notify.firebaseInstances.push(token);
 
     this.save(function(err) {
       if (err) {return next(err, false);}
@@ -108,6 +107,22 @@ UserSchema.methods.addFirebaseToken = function(token, next) {
   } else {
     return next(null, true);
   }
+}
+
+/*
+Remove this firebaseInstance from the user.
+*/
+UserSchema.methods.removeFirebaseInstance = function(firebaseInstance, next) {
+  console.log('remove: '+firebaseInstance);
+  this.notify.firebaseInstances = this.notify.firebaseInstances.filter(function(value, index, arr){
+    return value != token;
+  });
+
+  // save
+  this.save(function(err) {
+    if (err) {return next(err, false);}
+    else {return next(null, true);}
+  });
 }
 
 module.exports = mongoose.model('User', UserSchema);

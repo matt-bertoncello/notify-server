@@ -55,13 +55,13 @@ userController.getUserFromEmail = function(email, next) {
 }
 
 /*
-Get user from auth_token.
+Get user from authToken.
 */
-userController.getUserFromAuthToken = function(auth_token, next) {
-  User.findOne({ 'notify.auth_token': auth_token}, function(err, user) {
+userController.getUserFromAuthToken = function(authToken, next) {
+  User.findOne({ 'notify.authToken': authToken}, function(err, user) {
     if (err) { throw err; }
     if (!user) {
-      err = "[ERROR] no user found with auth_token: "+auth_token;
+      err = "[ERROR] no user found with authToken: "+authToken;
     }
     next(err, user);
   });
