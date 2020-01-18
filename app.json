@@ -1,0 +1,8 @@
+{
+  "name": "Notify",
+  "description": "Interface and server for Notify application.",
+  "repository": "https://github.com/matt-bertoncello/notify-server",
+  "logo": "https://cdn.rawgit.com/heroku/node-js-getting-started/master/public/node.svg",
+  "keywords": ["node", "express", "heroku", "notify"],
+  "image": "heroku/nodejs"
+}
