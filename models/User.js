@@ -29,10 +29,6 @@ var UserSchema = new mongoose.Schema({
   created: {type: Date, default: Date.now},
   updated: {type: Date, default: Date.now},
   password: String,
-  notify: {
-    authToken: {type:String, unique:true, default:uuid},
-    firebaseInstances: {type:[String], unique:true, sparse:true, default:[]},
-  },
 });
 
 // On pre-save, update the 'updated' field and check if password needs to be re-hashed.
@@ -115,7 +111,7 @@ Remove this firebaseInstance from the user.
 UserSchema.methods.removeFirebaseInstance = function(firebaseInstance, next) {
   console.log('remove: '+firebaseInstance);
   this.notify.firebaseInstances = this.notify.firebaseInstances.filter(function(value, index, arr){
-    return value != token;
+    return value != firebaseInstance;
   });
 
   // save
