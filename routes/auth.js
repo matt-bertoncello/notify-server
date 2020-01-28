@@ -65,7 +65,7 @@ router.get('/github/callback',
   });
 
 /* LOCAL ROUTER */
-// router.post('/local/login', (req, res) => authController.doLogin(req, res));
+//router.post('/local/login', (req, res) => console.log(req));
 
 router.post('/local/login',
   passport.authenticate('local', { failureRedirect: '/login'}),
@@ -78,11 +78,10 @@ router.post('/local/login',
 /*
 Called when registration form is sent.
 1. confirm email is valid and unique.
-2. confirm username is valid and unique.
-3. confirm password1 is the same as password2.
-4. confirm the password is strong enough.
-5. create and save user with.
-6. login user.
+2. confirm password1 is the same as password2.
+3. confirm the password is strong enough.
+4. create and save user with.
+5. login user.
 */
 router.post('/local/register', (req, res) => {
   error = false;
@@ -98,44 +97,37 @@ router.post('/local/register', (req, res) => {
       error = true;
       authController.registerComment.email = "[ERROR] Email is already used.";
     }
-    // confirm username is unique.
-    userController.getUserFromUsername(req.body.username, function(err, user) {
-      if (user) {
+    // confirm password is strong enough.
+    userController.checkPasswordStrength(req.body.password1, function(err, successful) {
+      if (err) {
         error = true;
-        authController.registerComment.username = "[ERROR] Username is taken.";
+        authController.registerComment.password1 = err;
       }
-      // confirm password is strong enough.
-      userController.checkPasswordStrength(req.body.password1, function(err, successful) {
-        if (err) {
-          error = true;
-          authController.registerComment.password1 = err;
-        }
-        // confirm password1 is the same as password2.
-        if (req.body.password1 != req.body.password2) {
-          error = true;
-          authController.registerComment.password2 = "[ERROR] Passwords are not the same.";
-        }
+      // confirm password1 is the same as password2.
+      if (req.body.password1 != req.body.password2) {
+        error = true;
+        authController.registerComment.password2 = "[ERROR] Passwords are not the same.";
+      }
 
-        // if there was any error, reload page and render errors.
-        if (error) {
-          res.redirect('/register');
-        } else {
-          // if no error, createUser.
-          userController.createUser(req.body.email, req.body.username, req.body.password1, function(err, user) {
-            if (err) {
-              console.log(err);
-              authController.registerComment.email = err; // comment is rendered on next load of /register. index.js delete's after being rendered once.
-              res.redirect('/register');
-            }
-            else {
-              req.login(user, function(err) {
-                if (err) { console.log(err); }
-                return res.redirect('/user');
-              });
-            }
-          });
-        }
-      });
+      // if there was any error, reload page and render errors.
+      if (error) {
+        res.redirect('/register');
+      } else {
+        // if no error, createUser.
+        userController.createUser(req.body.email, req.body.password1, function(err, user) {
+          if (err) {
+            console.log(err);
+            authController.registerComment.email = err; // comment is rendered on next load of /register. index.js delete's after being rendered once.
+            res.redirect('/register');
+          }
+          else {
+            req.login(user, function(err) {
+              if (err) { console.log(err); }
+              return res.redirect('/user');
+            });
+          }
+        });
+      }
     });
   });
 });

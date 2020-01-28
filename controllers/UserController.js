@@ -26,21 +26,6 @@ userController.updateUser = function(req,res,next) {
   }
 }
 
-/*
-If username is not valid or unique, redirect to user update page.
-*/
-userController.checkUsername = function(req, res, next) {
-  exceptions = ["/user"];
-
-  if (req.user.username || exceptions.includes(req.originalUrl)) {
-    next();
-  } else {
-    userController.postLoginRedirect = req.originalUrl;
-    console.log('[ERROR] user does not have unique username. Post-authentication redirect: '+userController.postLoginRedirect);
-    res.redirect("/user");
-  }
-}
-
 // Get user by ID.
 userController.getUser = function(id, next) {
   User.findOne({
@@ -56,30 +41,6 @@ userController.getUser = function(id, next) {
   });
 }
 
-// Retrieve user by Id, then update username. Return error.
-userController.updateUsername = function(id, username, next) {
-  userController.getUser(id, function(err, user) {
-    if (err) { throw err; }
-    user.username = username;
-    user.save(function(err) {
-      next(err);
-    })
-  })
-}
-
-/*
-Get user from username
-*/
-userController.getUserFromUsername = function(username, next) {
-  User.findOne({ username: username}, function(err, user) {
-    if (err) { throw err; }
-    if (!user) {
-      err = "[ERROR] no user found with username: "+username;
-    }
-    next(err, user);
-  });
-}
-
 /*
 Get user from email
 */
@@ -88,19 +49,6 @@ userController.getUserFromEmail = function(email, next) {
     if (err) { throw err; }
     if (!user) {
       err = "[ERROR] no user found with email: "+email;
-    }
-    next(err, user);
-  });
-}
-
-/*
-Get user from auth_token.
-*/
-userController.getUserFromAuthToken = function(auth_token, next) {
-  User.findOne({ 'notify.auth_token': auth_token}, function(err, user) {
-    if (err) { throw err; }
-    if (!user) {
-      err = "[ERROR] no user found with auth_token: "+auth_token;
     }
     next(err, user);
   });
@@ -125,17 +73,16 @@ userController.checkPasswordStrength = function(password, next) {
 }
 
 /*
-Create user with email, username and password.
-Assume email and username are valid. This method will check password strength.
+Create user with email  and password.
+Assume email is uniqu and valid. This method will check password strength.
 */
-userController.createUser = function(email, username, password, next) {
+userController.createUser = function(email, password, next) {
   userController.checkPasswordStrength(password, function(err, successful) {
     if (err) { return next(err, null); }
     else {
       // Generate new user object.
       user = new User({
         email: email,
-        username: username,
         provider: 'local'
       });
 

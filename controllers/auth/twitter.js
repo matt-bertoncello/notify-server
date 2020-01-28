@@ -59,7 +59,6 @@ passport.use(new TwitterStrategy({
                 user = new User({
                   name: profile.displayName,
                   email: profile.emails[0].value,
-                  username: profile.username,
                   //now in the future searching on User.findOne({'twitter.id': profile.id } will match because of this next line
                   twitter: {
                     id: profile.id,

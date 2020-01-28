@@ -1,20 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title><%= process.env.TITLE %> - user</title>
   <% include ../../partials/header.ejs %>
-  <% if (!user.username) { %>
-    <title><%= process.env.TITLE %> - user</title>
-  <% } else { %>
-    <title><%= process.env.TITLE %> - <%= user.username %></title>
-  <% } %>
 
   <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io.connect('/');
-
-    function update_username() {
-      socket.emit('update_username', document.getElementById('username').value);
-    }
 
     <% if (user.password) { %>
       function update_password() {
@@ -55,9 +47,6 @@
   <% include ../../partials/post-nav.ejs %>
 
   <div>
-    <% if (!user.username) { %>
-      <div style="color:red; font-size:30px">Must have a username to access this website.</div>
-    <% } %>
     <% if (!user.password) { %>
       <div style="color:red; font-size:30px">You have not set a password for this account.</div>
     <% } else if (req.updatedPassword) { %>
@@ -67,31 +56,12 @@
 
   <div class='content-container'>
     <div class="content-centered">
-      <h1>Username: <%= user.username %></h1>
       <h1>User ID: <%= user._id %></h1>
-      <h1>Auth Token: <%= user.notify.auth_token %></h1>
       <h1>Email: <%= user.email %></h1>
     </div>
   </div>
 
   <div class='content-container'>
-    <div class="card bordered shadowed">
-      <% if (!user.username) { %>
-        <div class="card-header">Set Username</div>
-        <div class = "card-body">
-          <div class='error' id='username_error'></div>
-          <input class='form-control' type='text' id='username' placeholder='username'>
-          <button class='card-link-inverted bordered' onclick="update_username()">Set Username</button>
-      <% } else { %>
-        <div class="card-header">Change Username</div>
-        <div class = "card-body">
-          <div class='error' id='username_error'></div>
-          <input class='form-control' type='text' id='username' placeholder='<%= user.username %>'>
-          <button class='card-link-inverted bordered' onclick="update_username()">Update Username</button>
-      <% } %>
-      </div>
-    </div>
-
     <div class="card bordered shadowed">
       <% if (!user.password) { %>
         <div class="card-header">Set Password</div>

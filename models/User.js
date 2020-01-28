@@ -6,7 +6,6 @@ var uuid = require('uuid/v4');
 
 var UserSchema = new mongoose.Schema({
   name: String,
-  username:  {type:String, unique:true, sparse:true},
   google: {
     id: String,
     displayName: String,
@@ -26,15 +25,10 @@ var UserSchema = new mongoose.Schema({
     displayName: String,
   },
   email: {type:String, unique:true, required:true},
-  updated_at: { type: Date, default: Date.now },
   provider: String,
   created: {type: Date, default: Date.now},
   updated: {type: Date, default: Date.now},
   password: String,
-  notify: {
-    auth_token: {type:String, unique:true, default:uuid},
-    firebase_instances: {type:[String], unique:true, default:[]},
-  },
 });
 
 // On pre-save, update the 'updated' field and check if password needs to be re-hashed.
@@ -55,7 +49,7 @@ UserSchema.methods.comparePassword = function(candidatePassword, next) {
 
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
       if (err) return next(err, false);
-      if (!isMatch) return next("[ERROR] this password and username/email combination is incorrect", false);
+      if (!isMatch) return next("[ERROR] this password and email combination is incorrect", false);
       return next(null, isMatch);
   });
 };
@@ -96,8 +90,8 @@ When Notify is triggered to send to this user, all tokens will be sent.
 */
 UserSchema.methods.addFirebaseToken = function(token, next) {
   // if token is not already saved in array, push to array.
-  if (!this.notify.firebase_instances.includes(token)) {
-    this.notify.firebase_instances.push(token);
+  if (!this.notify.firebaseInstances.includes(token)) {
+    this.notify.firebaseInstances.push(token);
 
     this.save(function(err) {
       if (err) {return next(err, false);}
@@ -109,6 +103,22 @@ UserSchema.methods.addFirebaseToken = function(token, next) {
   } else {
     return next(null, true);
   }
+}
+
+/*
+Remove this firebaseInstance from the user.
+*/
+UserSchema.methods.removeFirebaseInstance = function(firebaseInstance, next) {
+  console.log('remove: '+firebaseInstance);
+  this.notify.firebaseInstances = this.notify.firebaseInstances.filter(function(value, index, arr){
+    return value != firebaseInstance;
+  });
+
+  // save
+  this.save(function(err) {
+    if (err) {return next(err, false);}
+    else {return next(null, true);}
+  });
 }
 
 module.exports = mongoose.model('User', UserSchema);
