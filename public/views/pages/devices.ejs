@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+  <title><%= process.env.TITLE %> - notify</title>
+</head>
+
+<body style="text-align:center;">
+
+  <% include ../partials/pre-nav.ejs %>
+  <% include ../partials/post-nav.ejs %>
+
+  <h1>Notify Dashboard</h1>
+
+  <div class='card wide bordered shadowed'>
+    <div>
+      <h2>Device Token</h2>
+      <input class='text-input wide' id='device-token' value='dCv8_Za634Y:APA91bFY8PFKWB3IlMKLfZoFvC0dXDR1RhhGEWRcfvmyZwe236JCZCCNqz6zhRL1JKYUNM0B-ySKmbNiLVnLVHEACqATBnJt9kAtQUi3KV9tmWi1nct0w0txMtn1w6wNsKfwejB38IKU'>
+    </div>
+    <div>
+      <h2>Notification Title</h2>
+      <input class='text-input wide' id='notification-title'>
+    </div>
+    <div>
+      <h2>Notification Body</h2>
+      <input class='text-input wide' id='notification-body'>
+    </div>
+    <button type='button' class="card-link-inverted bordered" style='width:100px; margin-bottom:10px' onclick="send()">Send</button>
+  </div>
+
+</body>
+</html>

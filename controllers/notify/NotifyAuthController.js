@@ -52,4 +52,13 @@ notifyAuthController.deleteDeviceFromAuthToken = function(authToken, next) {
   });
 }
 
+/*
+Update the device name in the DB.
+*/
+notifyAuthController.updateDeviceName = function(device_id, name, next) {
+  Device.findOneAndUpdate({'_id':device_id}, {$set: {'name': name}}, {'returnNewDocument': true}, function(err, device) {
+    next(err, device);
+  });
+};
+
 module.exports = notifyAuthController;

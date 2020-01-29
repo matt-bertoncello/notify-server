@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var passportLocalMongoose = require('passport-local-mongoose');
 
-var UserSchema = new mongoose.Schema({
+var NotificationGroupSchema = new mongoose.Schema({
   name: String,
   users: [{type:mongoose.Schema.Types.ObjectId, required:true, ref:User}],
   email: {type:String, unique:true, required:true},
@@ -10,7 +10,7 @@ var UserSchema = new mongoose.Schema({
 });
 
 // On pre-save, update the 'updated' field and check if password needs to be re-hashed.
-UserSchema.pre('save', function(next) {
+NotificationGroupSchema.pre('save', function(next) {
   this.updated = Date.now();
   next();
 });

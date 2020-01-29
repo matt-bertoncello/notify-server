@@ -6,6 +6,16 @@ var notifyController = require("../../controllers/notify/NotifyController.js");
 var notifyAuthController = require("../../controllers/notify/NotifyAuthController.js");
 
 /*
+Send response to client.
+*/
+function apiResponse(statusCode, json, res) {
+  res.statusCode = statusCode;
+  res.setHeader('Content-Type', 'application/json');
+  res.json(json);
+  res.end();
+}
+
+/*
 Confirm email and password are correct.
 If correct, reply with auth token.
 If error, handle and reply with error.
@@ -15,14 +25,12 @@ router.get('/login', function(req, res) {
 
     // If there was a login error:
     if (loginError && loginError.message) {
-      console.log("[API LOGIN] "+loginError.message)
-      res.statusCode = 401; // unauthorized
-      res.json({'message': loginError.message});
-      res.end();
+      console.log("[API LOGIN] "+loginError.message);
+      var json = { 'message': loginError.message }; // unauthorized
+      apiResponse(401, json, res);
     } else if (err || !user) {
-      res.statusCode = 500; // server error.
-      res.json({'message': 'error code: 101'});
-      res.end();
+      var json = { 'message': 'error code: 101' }; // server error
+      apiResponse(500, json, res);
     }
     // If login was successful, create new device and provide authToken and secret for future.
     else {
@@ -31,26 +39,24 @@ router.get('/login', function(req, res) {
         name: req.headers['device-name'],
         user_id: user._id,
         firebaseInstance: req.headers['firebase-instance-id'],
-      }
+        name: req.headers['device-name'],
+      };
 
       notifyAuthController.createDevice(deviceData, function(err, device) {
         // if error saving
         if (err) {
-          res.statusCode = 500; // server error.
-          res.setHeader('Content-Type', 'application/json');
-          res.json({'message': '[ERROR] '+err});
-          res.end();
+          var json = { 'message': '[ERROR] '+err }; // server error
+          apiResponse(500, json, res);
         }
         // if everything succeeded.
         else {
           // create response.
-          res.statusCode = 200;
-          res.setHeader('Content-Type', 'application/json');
-          res.json({
+          var json = {
             'auth-token': device.authToken,
             'secret': device.secret, // should only be sent once.
-          });
-          res.end();
+          };
+          apiResponse(200, json, res);
+
           console.log('user logged-in via API: '+device.user);
         }
       })
@@ -65,26 +71,21 @@ router.get('/user', function(req, res) {
   notifyAuthController.getDeviceFromAuthToken(req.headers['auth-token'], function(err, device) {
     // If there was a login error:
     if (err) {
-      res.statusCode = 401; // unauthorized
-      res.setHeader('Content-Type', 'application/json');
-      res.json({'message': err});
-      res.end();
+      var json = { 'message': err }; // unauthorized
+      apiResponse(401, json, res);
     } else if (!device) {
-      res.statusCode = 500; // server error
-      res.setHeader('Content-Type', 'application/json');
-      res.json({'message': 'error code: 101'});
-      res.end();
+      var json = { 'message': 'error code: 101' }; // server error
+      apiResponse(500, json, res);
     }
     // If login was successful:
     else {
       // create response.
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json');
-      res.json({
+      var json = {
         'email': device.user.email,
         'device-name': device.name,
-      });
-      res.end();
+      };
+      apiResponse(200, json, res);
+
       console.log('retrieved user data via API: '+device.user._id);
     }
   });
@@ -93,23 +94,50 @@ router.get('/user', function(req, res) {
 /*
 Log-out user. Remove token from user list.
 */
-router.get('/logout', function(req, res) {
+router.post('/logout', function(req, res) {
   // retrieve user from authToken.
   notifyAuthController.deleteDeviceFromAuthToken(req.headers['auth-token'], function(err) {
     // If there was a login error:
     if (err) {
-      res.statusCode = 401; // unauthorized
-      res.setHeader('Content-Type', 'application/json');
-      res.json({'message': err});
-      res.end();
+      notifyController.apiError(401, err, res) // unauthorized.
     } else {
       // device was deleted from the database successfullyyy.
-      res.statusCode = 200; // unauthorized
-      res.setHeader('Content-Type', 'application/json');
-      res.json({'message': 'logout successful'});
-      res.end()
+      var json = {'message': 'logout successful'};
+      apiResponse(200, json, res);
 
-      console.log('user logged-out with authToken: '+req.headers['auth-token'])
+      console.log('user logged-out with authToken: '+req.headers['auth-token']);
+    }
+  });
+});
+
+/*
+Update the device name.
+*/
+router.post('/device', function(req, res) {
+  if (!req.body['Device-Name']) {
+    var json = {'message': 'error code: 102'}; // did not provide device-token in body.
+    apiResponse(400, json, res);
+  }
+  notifyAuthController.getDeviceFromAuthToken(req.headers['auth-token'], function(err, device) {
+    // If there was a login error:
+    if (err) {
+      var json = {'message': err}; // unauthorized.
+      apiResponse(401, json, res);
+    } else if (!device) {
+      var json = {'message': 'error code: 101'}; // unauthorized.
+      apiResponse(500, json, res);
+    }
+    // If login was successful:
+    else {
+      notifyAuthController.updateDeviceName(device._id, req.body['Device-Name'], function(err, device) {
+        if (err) {
+            var json = {'message': 'error code: 103'}; // could not save device.
+            apiResponse(500, json, res);
+          } else {
+            var json = {'message': 'updated device name successfully'}; // success.
+            apiResponse(200, json, res);
+          }
+      });
     }
   });
 });
