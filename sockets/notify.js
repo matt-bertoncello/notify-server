@@ -1,5 +1,5 @@
 var notifyController = require('../controllers/notify/NotifyController');
-var notifyDeviceController = require('../controllers/notify/notifyDeviceController');
+var notifyDeviceController = require('../controllers/notify/NotifyDeviceController');
 
 socket_router = {}
 
