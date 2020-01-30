@@ -22,10 +22,10 @@ admin.initializeApp({
 });
 console.log('[INFO] Connected Notify to Firebase');
 
-// This registration token comes from the client FCM SDKs.
-var registrationToken = 'dCv8_Za634Y:APA91bFY8PFKWB3IlMKLfZoFvC0dXDR1RhhGEWRcfvmyZwe236JCZCCNqz6zhRL1JKYUNM0B-ySKmbNiLVnLVHEACqATBnJt9kAtQUi3KV9tmWi1nct0w0txMtn1w6wNsKfwejB38IKU';
-
-notifyController.send = function(data) {
+/*
+Send notification with title and body to token.
+*/
+notifyController.send = function(data, next) {
   var message = {
     notification: {
       title: data.title,
@@ -42,9 +42,11 @@ notifyController.send = function(data) {
     .then((response) => {
       // Response is a message ID string.
       console.log('Successfully sent message:', response);
+      next(null, response);
     })
     .catch((error) => {
       console.log('Error sending message:', error);
+      next(error, null);
     });
 }
 

@@ -108,6 +108,10 @@ body {
   color: red;
 }
 
+.success {
+  color: green;
+}
+
 /* The alert message box */
 .alert {
   display: none;
@@ -278,4 +282,12 @@ div[alt]:hover:before {
 .no-padding {
   padding: 0px;
   margin: 0px;
+}
+
+.no-decoration {
+  text-decoration: none;
+}
+
+.no-decoration:hover {
+  text-decoration: none;
 }
