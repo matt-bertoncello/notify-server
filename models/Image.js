@@ -4,7 +4,7 @@ var User = require('./User');
 var ImageSchema = new mongoose.Schema({
   name: {type:String, required:true},
   data: {type:Buffer, required:true},  // hold image data here. Cannot required:true for some reason.
-  uploader: {type:mongoose.Schema.Types.ObjectId, required:true, ref:User},
+  organisation: {type:mongoose.Schema.Types.ObjectId, required:true, ref:'Organisation'},
   path: {type:String, required:true, unique:true},
   contentType: {type:String, required:true},
   created: {type: Date, default: Date.now},

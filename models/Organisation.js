@@ -1,13 +1,14 @@
 var mongoose = require('mongoose');
 var User = require('./User');
-var Image = require('./Image');
 
 var OrganisationSchema = new mongoose.Schema({
   name: {type:String, required:true},
-  image: {type:mongoose.Schema.Types.ObjectId, required:true, ref:Image},
+  image: {type:mongoose.Schema.Types.ObjectId, ref:'Image'},
   admin: [ {type:mongoose.Schema.Types.ObjectId, required:true, ref:User} ],
   developers: [ {type:mongoose.Schema.Types.ObjectId, required:true, ref:User} ],
   email: {type:String, required:true},
+  mainColour: {type:String, required:true},
+  secondaryColour: {type:String, required:true},
   created: {type: Date, default: Date.now},
   updated: {type: Date, default: Date.now},
 });

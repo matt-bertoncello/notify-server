@@ -13,7 +13,16 @@
     <h1>Developer Dashboard</h1>
   </div>
 
-  <img src="/image/0Notify-48px-round.png">
+  <% for (var i=0; i<organisations.length; i++) { %>
+    <a class="card bordered shadowed no-decoration" href="/organisation/<%= organisations[i]._id %>"
+      style="background-color:<%= organisations[i].mainColour %>;">
+      <h2 style="color:<%= organisations[i].secondaryColour %>;"><%= organisations[i].name %></h2>
+      <div>
+        <img class='sub-image' src='/image/<%= organisations[i].image.path %>'>
+      </div>
+    </a>
+  <% } %>
+
 
 </body>
 </html>

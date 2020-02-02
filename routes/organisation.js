@@ -9,13 +9,13 @@ Parameter for organisation._id.
 If there are any errors, print to screen and redirect to developer page.
 */
 router.get('/:organisation', authController.checkAuthentication, (req,res) => {
-  organisationController.getOrganisationFromId(req.session.passport.user._id, req.params.organisation, function(err, organisaiton) {
+  organisationController.getOrganisationFromId(req.session.passport.user._id, req.params.organisation, function(err, organisation) {
     if (err) {
       console.log(err);
       res.redirect('/developer');
     }
     else if (!organisation) {
-      console.log('Server error 303');
+      console.log('Not part of this organisation');
       res.redirect('/developer');
     }
     // Else, load page with details about this organisation.

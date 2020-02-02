@@ -1,5 +1,6 @@
 var fs = require("fs");
 var path = require("path");
+var shortid = require("shortid");
 var Image = require("../models/Image");
 
 var imageController = {};
@@ -7,7 +8,7 @@ var imageController = {};
 /*
 Create new Image document in DB if the file can be loaded successfully.
 */
-imageController.saveImage = function(localPath, user_id, next) {
+imageController.saveImage = function(localPath, organisation_id, next) {
   var name = localPath.replace(/^.*[\\\/]/, ''); // get filename from path. Include the extension.
 
   // Load file and then save in DB.
@@ -18,26 +19,26 @@ imageController.saveImage = function(localPath, user_id, next) {
     // else, save to a new Image document in mongoose.
     else {
       // save image in mongoose that can be indexed by 'path'.
-      function innerSaveImage(name) {
+      function innerSaveImage(uniqueName) {
         image = new Image({
           'name': name,
           'data': bufferData,
-          'uploader': user_id,
-          'path': name,
+          'organisation': organisation_id,
+          'path': encodeURI(uniqueName),
           'contentType': localPath.substring(localPath.lastIndexOf('.')+1, localPath.length) || localPath,
         });
 
         image.save(function(err) {
           // if duplicate path, save at newpath.
           if (err && err.code === 11000) {
-            return innerSaveImage('0'+name);
+            return innerSaveImage(shortid.generate()+name);
           }
           else if (err) { return next(err, null); }
           else { return next(err, image); }
         });
       }
 
-      return innerSaveImage(name);
+      return innerSaveImage(shortid.generate()+name);
     };
   });
 };
