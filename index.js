@@ -18,7 +18,9 @@ require('dotenv').config();
 var auth = require('./routes/auth');
 var index = require('./routes/index');
 var client = require('./routes/client');
+var image = require('./routes/image');
 var developer = require('./routes/developer');
+var organisation = require('./routes/organisation');
 var apiServerV1 = require('./routes/api/v1');
 
 /* Define sockets */
@@ -67,6 +69,8 @@ app.use(express.static(path.join(__dirname, 'public')))
   .use('/', index)
   .use('/auth', auth)
   .use('/client', client)
+  .use('/image', image)
+  .use('/organisation', organisation)
   .use('/developer', developer)
   .use('/api/v1', apiServerV1)
   .set('views', path.join(__dirname, 'public/views/pages'))

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../../partials/header.ejs %>
+  <title><%= process.env.TITLE %> - <%= organisation.name %></title>
+</head>
+
+<body style="text-align:center;">
+
+  <% include ../../partials/pre-nav.ejs %>
+    <li><a href='/developer'>Developer Dashboard</a></li>
+  <% include ../../partials/post-nav.ejs %>
+
+  <h1><%= organisation.name %></h1>
+
+  <div class="card bordered shadowed">
+    <p><%= organisation.name %></p>
+  </div>
+
+  <img src="/image/0Notify-48px-round.png">
+
+</body>
+</html>
