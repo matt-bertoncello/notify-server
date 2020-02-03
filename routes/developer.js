@@ -29,30 +29,41 @@ router.post('/new/organisation', authController.checkAuthentication, (req,res) =
   new formidable.IncomingForm().parse(req, function(err, fields, files) {
     if (err) { res.send(err); }
 
-    // move file onto server.
-    var oldpath = files.file.path;
-    var newpath = 'temp/' + files.file.name;
-    fs.rename(oldpath, newpath, function (err) {
-      if (err) { console.log(err); }
-      else {
-        // when file is uploaded, create new organisation with this file.
-        organisationController.createOrganisation(newpath,
-          req.session.passport.user,
-          fields.name,
-          fields.mainColour,
-          fields.secondaryColour,
-          function(err, organisation) {
-          // delete temp file.
-          fs.unlink(newpath, function(err){});
+    // validation check on inputs.
+    if (!/^#[0-9A-F]{6}$/i.test(fields.mainColour)) { // check if mainColour is invalid.
+      res.send('Server error 305');
+    } else if (!/^#[0-9A-F]{6}$/i.test(fields.secondaryColour)) { // check if secondaryColour is invalid.
+      res.send('Server error 306');
+    } else if (files.file.type.split('/')[0] !== 'image') {  // check if file type is not image
+      res.send('Server error 307');
+    } else {  // if all validation checks have been passed.
 
-          if (err) {
-            res.send('Server error 304');
-          } else {
-            res.redirect('/organisation/'+organisation._id);
-          }
-        });
-      }
-    });
+      // move file onto server.
+      var oldpath = files.file.path;
+      var newpath = 'temp/' + files.file.name;
+      fs.rename(oldpath, newpath, function (err) {
+        if (err) { console.log(err); }
+        else {
+          // when file is uploaded, create new organisation with this file.
+          organisationController.createOrganisation(newpath,
+            req.session.passport.user,
+            fields.name,
+            fields.mainColour,
+            fields.secondaryColour,
+            function(err, organisation) {
+            // delete temp file.
+            fs.unlink(newpath, function(err){});
+
+            if (err) {
+              console.log(err);
+              res.send('Server error 304');
+            } else {
+              res.redirect('/organisation/'+organisation._id);
+            }
+          });
+        }
+      });
+    }
   });
 });
 

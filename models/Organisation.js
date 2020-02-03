@@ -19,4 +19,19 @@ OrganisationSchema.pre('save', function(next) {
   next();
 });
 
+/*
+Return 'admin' if user is admin.
+Return 'developer' if user is developer.
+Return null if neither admin nor developer.
+*/
+OrganisationSchema.methods.getUserRole = function(user_id) {
+  if (this.admin.includes(user_id)){
+    return 'admin';
+  } else if (this.developers.includes(user_id)){
+    return 'developer';
+  } else {
+    return null;
+  }
+};
+
 module.exports = mongoose.model('Organisation', OrganisationSchema);

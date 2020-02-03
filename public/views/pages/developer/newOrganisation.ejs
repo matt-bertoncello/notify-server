@@ -3,6 +3,41 @@
 <head>
   <% include ../../partials/header.ejs %>
   <title><%= process.env.TITLE %> - developer</title>
+
+  <script>
+  function setMainColour(colour) {
+    document.getElementById('example-organisation').style['background-color'] = document.getElementById('mainColour').value;
+  }
+
+  function setSecondaryColour(colour) {
+    document.getElementById('example-title').style.color = document.getElementById('secondaryColour').value;
+  }
+
+  function setTitle(title) {
+    if (document.getElementById('name').value) {
+      document.getElementById('example-title').innerHTML = document.getElementById('name').value;
+    } else {
+      document.getElementById('example-title').innerHTML = 'new organisation';
+    }
+  }
+
+  function handleFileSelect(evt) {
+    var files = evt.target.files;
+    var f = files[0];
+    var reader = new FileReader();
+
+    reader.onload = (function(theFile) {
+      return function(e) {
+        document.getElementById('example-image').innerHTML = ['<img src="', e.target.result,'" title="', theFile.name, '" class="sub-image"/>'].join('');
+      };
+    })(f);
+
+    reader.readAsDataURL(f);
+  }
+
+
+  </script>
+
 </head>
 <body>
 
@@ -14,22 +49,35 @@
     <h1>New Organisation</h1>
   </div>
 
-  <form class='form-signin' role='form' action='/developer/new/organisation' method='post' enctype="multipart/form-data">
-    <div>
-      <input class='form-control' type='text' name='name' id='name' placeholder='organisation name' required autofocus>
-    </div>
-    <div>
-      <input class='form-control' type='text' name='mainColour' id='mainColour' placeholder='main colour' required>
-    </div>
-    <div>
-      <input class='form-control' type='text' name='secondaryColour' id='secondaryColour' placeholder='secondary colour' required>
-    </div>
-    <div>
-      <input class='form-control' type='file' name='file' id='file' required>
-    </div>
+  <div class='card bordered shadowed grid'>
+    <form class='form-signin' role='form' action='/developer/new/organisation' method='post' enctype="multipart/form-data">
+      <div>
+        <input class='form-control' type='text' name='name' id='name' placeholder='organisation name' required autofocus oninput="setTitle()">
+      </div>
+      <div>
+        <input class='form-control' style='height:50px;' type='color' name='mainColour' id='mainColour' placeholder='main colour' required oninput="setMainColour()" value="#ffffff">
+      </div>
+      <div>
+        <input class='form-control' style='height:50px;' type='color' name='secondaryColour' id='secondaryColour' placeholder='secondary colour' required oninput="setSecondaryColour()" value="#000000">
+      </div>
+      <div>
+        <input class='form-control' type='file' name='file' id='file' required>
+      </div>
 
-    <button class='card-link-inverted bordered' type='submit'>Create Organisation</button>
-  </form>
+      <button class='card-link-inverted bordered' type='submit'>Create Organisation</button>
+    </form>
+  </div>
+
+  <div class='card bordered shadowed grid' id='example-organisation'>
+    <h2 id="example-title">new organisation</h2>
+    <div id='example-image' style="height:200px;">
+      <img class='sub-image' title='placeholder' src='/images/placeholder.png'>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('file').addEventListener('change', handleFileSelect, false);
+  </script>
 
 </body>
 </html>
