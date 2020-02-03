@@ -28,7 +28,6 @@ router.get('/new', authController.checkAuthentication, (req,res) => {
 router.post('/new/organisation', authController.checkAuthentication, (req,res) => {
   // save file to '/temp' directory before creating Image document in DB.
   var form = new formidable.IncomingForm()
-  form.uploadDir = "temp";
   form.parse(req, function(err, fields, files) {
     if (err) { res.send(err); }
 
@@ -54,7 +53,7 @@ router.post('/new/organisation', authController.checkAuthentication, (req,res) =
             fields.mainColour,
             fields.secondaryColour,
             function(err, organisation) {
-              
+
             // delete temp file.
             fs.unlink(newPath, function(err){});
 
