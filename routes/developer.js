@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var formidable = require("formidable");
 var fs = require("fs");
+var mv = require("mv");
 var authController = require("../controllers/AuthController.js");
 var organisationController = require("../controllers/OrganisationController.js");
 
@@ -26,7 +27,9 @@ router.get('/new', authController.checkAuthentication, (req,res) => {
 /* POST response for creating new organisation */
 router.post('/new/organisation', authController.checkAuthentication, (req,res) => {
   // save file to '/temp' directory before creating Image document in DB.
-  new formidable.IncomingForm().parse(req, function(err, fields, files) {
+  var form = new formidable.IncomingForm()
+  form.uploadDir = "temp";
+  form.parse(req, function(err, fields, files) {
     if (err) { res.send(err); }
 
     // validation check on inputs.
@@ -38,21 +41,22 @@ router.post('/new/organisation', authController.checkAuthentication, (req,res) =
       res.send('Server error 307');
     } else {  // if all validation checks have been passed.
 
-      // move file onto server.
-      var oldpath = files.file.path;
-      var newpath = 'temp/' + files.file.name;
-      fs.rename(oldpath, newpath, function (err) {
-        if (err) { console.log(err); }
-        else {
+      var newPath = 'temp/'+files.file.name;
+      mv(files.file.path, newPath, function(err){
+        if (err) {
+          console.log(err);
+          res.send('Server error 303');
+        } else {
           // when file is uploaded, create new organisation with this file.
-          organisationController.createOrganisation(newpath,
+          organisationController.createOrganisation(newPath,
             req.session.passport.user,
             fields.name,
             fields.mainColour,
             fields.secondaryColour,
             function(err, organisation) {
+              
             // delete temp file.
-            fs.unlink(newpath, function(err){});
+            fs.unlink(newPath, function(err){});
 
             if (err) {
               console.log(err);
@@ -63,7 +67,7 @@ router.post('/new/organisation', authController.checkAuthentication, (req,res) =
           });
         }
       });
-    }
+    };
   });
 });
 
