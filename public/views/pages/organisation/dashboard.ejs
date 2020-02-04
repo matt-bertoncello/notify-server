@@ -15,7 +15,11 @@
     style="background-color:<%= organisation.mainColour %>;">
     <h2 style="color:<%= organisation.secondaryColour %>;"><%= organisation.name %></h2>
     <div>
-      <img class='sub-image' src='/image/<%= organisation.image.path %>'>
+      <% if (organisation.image) { %>
+        <img class='sub-image' src='/image/<%= organisation.image.path %>'>
+      <% } else { %>
+        <img class='sub-image' src='/images/placeholder.png'>
+      <% } %>
     </div>
     <div style='text-align:right;color:<%= organisation.secondaryColour %>;'><%= organisation.getUserRole(user._id) %></div>
   </div>

@@ -24,7 +24,11 @@
       style="background-color:<%= organisations[i].mainColour %>;">
       <h2 style="color:<%= organisations[i].secondaryColour %>;"><%= organisations[i].name %></h2>
       <div>
-        <img class='sub-image' src='/image/<%= organisations[i].image.path %>'>
+        <% if (organisations[i].image) { %>
+          <img class='sub-image' src='/image/<%= organisations[i].image.path %>'>
+        <% } else { %>
+          <img class='sub-image' src='/images/placeholder.png'>
+        <% } %>
       </div>
       <div style='text-align:right;color:<%= organisations[i].secondaryColour %>;'><%= organisations[i].getUserRole(user._id) %></div>
     </a>
