@@ -13,5 +13,27 @@
     <h1>Developer Dashboard</h1>
   </div>
 
+  <div>
+    <div class="card grid bordered shadowed">
+      <a type='button' class='card-link' href="/developer/new">New Organisation</a>
+    </div>
+  </div>
+
+  <% for (var i=0; i<organisations.length; i++) { %>
+    <a class="card bordered shadowed no-decoration" href="/organisation/<%= organisations[i]._id %>"
+      style="background-color:<%= organisations[i].mainColour %>;">
+      <h2 style="color:<%= organisations[i].secondaryColour %>;"><%= organisations[i].name %></h2>
+      <div>
+        <% if (organisations[i].image) { %>
+          <img class='sub-image' src='/image/<%= organisations[i].image.path %>'>
+        <% } else { %>
+          <img class='sub-image' src='/images/placeholder.png'>
+        <% } %>
+      </div>
+      <div style='text-align:right;color:<%= organisations[i].secondaryColour %>;'><%= organisations[i].getUserRole(user._id) %></div>
+    </a>
+  <% } %>
+
+
 </body>
 </html>

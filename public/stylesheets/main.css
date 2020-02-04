@@ -291,3 +291,7 @@ div[alt]:hover:before {
 .no-decoration:hover {
   text-decoration: none;
 }
+
+.sub-image {
+  height: 200px;
+}
