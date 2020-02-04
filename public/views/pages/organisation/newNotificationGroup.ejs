@@ -5,21 +5,6 @@
   <title><%= process.env.TITLE %> - developer</title>
 
   <script>
-  function setMainColour(colour) {
-    document.getElementById('example-organisation').style['background-color'] = document.getElementById('mainColour').value;
-  }
-
-  function setSecondaryColour(colour) {
-    document.getElementById('example-title').style.color = document.getElementById('secondaryColour').value;
-  }
-
-  function setTitle(title) {
-    if (document.getElementById('name').value) {
-      document.getElementById('example-title').innerHTML = document.getElementById('name').value;
-    } else {
-      document.getElementById('example-title').innerHTML = 'new organisation';
-    }
-  }
 
   function handleFileSelect(evt) {
     var files = evt.target.files;
@@ -42,10 +27,20 @@
 
   <% include ../../partials/pre-nav.ejs %>
     <li><a href='/developer'>Developer Dashboard</a></li>
+    <% if (organisation.image) { %>
+      <li><a class='no-padding' href='/organisation/<%= organisation._id %>'><img style="height:50px;" src='/image/<%= organisation.image.path %>'></a></li>
+    <% } else { %>
+      <li><a href='/organisation/<%= organisation._id %>'><%= organisation.name %></a></li>
+    <% } %>
   <% include ../../partials/post-nav.ejs %>
 
   <div class="jumbotron">
-    <h1>New Organisation</h1>
+    <h1>
+      <% if (organisation.image) { %>
+        <img style="height:100px;" src='/image/<%= organisation.image.path %>'>
+      <% } %>
+      New Notification Group
+    </h1>
   </div>
 
   <div class='card bordered shadowed grid'>

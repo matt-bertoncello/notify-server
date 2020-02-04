@@ -11,6 +11,10 @@
     <li><a href='/developer'>Developer Dashboard</a></li>
   <% include ../../partials/post-nav.ejs %>
 
+  <div class="card grid bordered shadowed">
+    <a type='button' class='card-link' href="/organisation/<%= organisation._id %>/new-notification-group">New NotificationGroup</a>
+  </div>
+
   <div class="card bordered shadowed"
     style="background-color:<%= organisation.mainColour %>;">
     <h2 style="color:<%= organisation.secondaryColour %>;"><%= organisation.name %></h2>

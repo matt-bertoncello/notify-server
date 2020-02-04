@@ -1,7 +1,6 @@
 .jumbotron {
   background: #532F8C;
   color: white;
-  padding-bottom: 80px;
   text-align: center;
 }
 .jumbotron .btn-primary {
@@ -280,8 +279,8 @@ div[alt]:hover:before {
 }
 
 .no-padding {
-  padding: 0px;
-  margin: 0px;
+  padding: 0px !important;
+  margin: 0px !important;
 }
 
 .no-decoration {

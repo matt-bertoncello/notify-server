@@ -1,4 +1,5 @@
 var Organisation = require("../models/Organisation");
+var NotificationGroup = require("../models/NotificationGroup");
 var imageController = require("./ImageController.js");
 var uuid = require("uuid/v4");
 
@@ -60,6 +61,17 @@ organisationController.getAllOrganisationsForUser = function(user_id, next) {
   }, function(err, organisations) {
     next(err, organisations);
   }).populate('image', 'path'); // populate image path.
+};
+
+/*
+Return all notification groups for this organisation.
+*/
+organisationController.getAllNotificationGroups = function(organisation_id, next) {
+  NotificationGroup.findOne({
+    'organisation': organisation_id,
+  }, function(err, notificationGroup) {
+    next(err, notificationGroup);
+  });
 };
 
 module.exports = organisationController;

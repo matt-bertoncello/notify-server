@@ -20,12 +20,12 @@ router.get('/', authController.checkAuthentication, (req,res) => {
 });
 
 /* Create new organisation page */
-router.get('/new', authController.checkAuthentication, (req,res) => {
+router.get('/new-organisation', authController.checkAuthentication, (req,res) => {
   res.render('developer/newOrganisation', {req: req});
 });
 
 /* POST response for creating new organisation */
-router.post('/new/organisation', authController.checkAuthentication, (req,res) => {
+router.post('/new-organisation/submit', authController.checkAuthentication, (req,res) => {
   // save file to '/temp' directory before creating Image document in DB.
   var form = new formidable.IncomingForm()
   form.uploadDir = "temp";
