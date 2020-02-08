@@ -1,7 +1,7 @@
 var fs = require("fs");
 var path = require("path");
 var shortid = require("shortid");
-var Image = require("../models/Image");
+var Image = require("../../models/Image");
 
 var imageController = {};
 

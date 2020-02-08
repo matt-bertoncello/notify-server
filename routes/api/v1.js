@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var authController = require("../../controllers/AuthController.js");
 var userController = require("../../controllers/UserController.js");
-var notifyController = require("../../controllers/notify/NotifyController.js");
-var notifyDeviceController = require("../../controllers/notify/NotifyDeviceController.js");
+var clientController = require("../../controllers/client/ClientController.js");
+var deviceController = require("../../controllers/client/DeviceController.js");
 
 /*
 Send response to client.
@@ -42,7 +42,7 @@ router.get('/login', function(req, res) {
         name: req.headers['device-name'],
       };
 
-      notifyDeviceController.createDevice(deviceData, function(err, device) {
+      deviceController.createDevice(deviceData, function(err, device) {
         // if error saving
         if (err) {
           var json = { 'message': '[ERROR] '+err }; // server error
@@ -68,7 +68,7 @@ router.get('/login', function(req, res) {
 Retrieve user data from the authToken.
 */
 router.get('/user', function(req, res) {
-  notifyDeviceController.getDeviceFromAuthToken(req.headers['auth-token'], function(err, device) {
+  deviceController.getDeviceFromAuthToken(req.headers['auth-token'], function(err, device) {
     // If there was a login error:
     if (err) {
       var json = { 'message': err }; // unauthorized
@@ -96,10 +96,10 @@ Log-out user. Remove token from user list.
 */
 router.post('/logout', function(req, res) {
   // retrieve user from authToken.
-  notifyDeviceController.deleteDeviceFromAuthToken(req.headers['auth-token'], function(err) {
+  deviceController.deleteDeviceFromAuthToken(req.headers['auth-token'], function(err) {
     // If there was a login error:
     if (err) {
-      notifyController.apiError(401, err, res) // unauthorized.
+      clientController.apiError(401, err, res) // unauthorized.
     } else {
       // device was deleted from the database successfullyyy.
       var json = {'message': 'logout successful'};
@@ -118,7 +118,7 @@ router.post('/device', function(req, res) {
     var json = {'message': 'error code: 102'}; // did not provide device-token in body.
     apiResponse(400, json, res);
   }
-  notifyDeviceController.getDeviceFromAuthToken(req.headers['auth-token'], function(err, device) {
+  deviceController.getDeviceFromAuthToken(req.headers['auth-token'], function(err, device) {
     // If there was a login error:
     if (err) {
       var json = {'message': err}; // unauthorized.
@@ -129,7 +129,7 @@ router.post('/device', function(req, res) {
     }
     // If login was successful:
     else {
-      notifyDeviceController.updateDeviceName(device._id, req.body['Device-Name'], function(err, device) {
+      deviceController.updateDeviceName(device._id, req.body['Device-Name'], function(err, device) {
         if (err) {
             var json = {'message': 'error code: 103'}; // could not save device.
             apiResponse(500, json, res);

@@ -3,8 +3,8 @@ var router = express.Router();
 var formidable = require("formidable");
 var fs = require("fs");
 var mv = require("mv");
-var authController = require("../controllers/AuthController.js");
-var organisationController = require("../controllers/OrganisationController.js");
+var authController = require("../../controllers/AuthController.js");
+var organisationController = require("../../controllers/developer/OrganisationController.js");
 
 /* Dashboard */
 router.get('/', authController.checkAuthentication, (req,res) => {
@@ -14,14 +14,14 @@ router.get('/', authController.checkAuthentication, (req,res) => {
       console.log(err);
       res.redirect('/');
     } else {
-      res.render('developer/dashboard', {req: req, organisations: organisations});
+      res.render('developer/developer/dashboard', {req: req, organisations: organisations});
     }
   });
 });
 
 /* Create new organisation page */
 router.get('/new-organisation', authController.checkAuthentication, (req,res) => {
-  res.render('developer/newOrganisation', {req: req});
+  res.render('developer/developer/newOrganisation', {req: req});
 });
 
 /* POST response for creating new organisation */

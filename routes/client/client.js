@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var authController = require("../controllers/AuthController.js");
-var notifyDeviceController = require("../controllers/notify/NotifyDeviceController.js");
+var authController = require("../../controllers/AuthController.js");
+var deviceController = require("../../controllers/client/DeviceController.js");
 
 /* Dashboard */
 router.get('/', authController.checkAuthentication, (req,res) => {
@@ -12,7 +12,7 @@ router.get('/', authController.checkAuthentication, (req,res) => {
 Display all of user's devices. If error, redirect to dashboard.
 */
 router.get('/devices',authController.checkAuthentication, (req,res) => {
-  notifyDeviceController.getAllDevicesForUser(req.session.passport.user._id, function(err, devices) {
+  deviceController.getAllDevicesForUser(req.session.passport.user._id, function(err, devices) {
     if (err) {
       console.log(err);
       res.redirect('/client');
@@ -26,7 +26,7 @@ router.get('/devices',authController.checkAuthentication, (req,res) => {
 Send manual notification to user's device.
 */
 router.get('/devices/:device', authController.checkAuthentication, (req,res) => {
-  notifyDeviceController.getDeviceFromId(req.session.passport.user._id, req.params.device, function(err, device) {
+  deviceController.getDeviceFromId(req.session.passport.user._id, req.params.device, function(err, device) {
     if (err) {
       res.redirect('/client/devices');
     } else if (!device) {

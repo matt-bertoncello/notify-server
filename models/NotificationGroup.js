@@ -2,10 +2,11 @@ var mongoose = require('mongoose');
 var passportLocalMongoose = require('passport-local-mongoose');
 
 var NotificationGroupSchema = new mongoose.Schema({
-  name: String,
+  name: {type:String, required:true},
+  description: {type:String, required:true},
   organisation: {type:mongoose.Schema.Types.ObjectId, required:true, ref:'Organisation'},
   users: [{type:mongoose.Schema.Types.ObjectId, required:true, ref:'User'}],
-  image: [{type:mongoose.Schema.Types.ObjectId, ref:'Image'}],
+  image: {type:mongoose.Schema.Types.ObjectId, ref:'Image'},
   created: {type: Date, default: Date.now},
   updated: {type: Date, default: Date.now},
 });
@@ -51,6 +52,17 @@ Rename notification group then run next(err);
 */
 NotificationGroupSchema.methods.rename = function(name, next) {
   this.name = name;
+
+  this.save(function(err){
+    return next(err);
+  });
+};
+
+/*
+Remove image from this notification group. next(err).
+*/
+NotificationGroupSchema.methods.rename = function(name, next) {
+  delete this.image;
 
   this.save(function(err){
     return next(err);

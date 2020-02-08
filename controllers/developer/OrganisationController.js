@@ -1,7 +1,6 @@
-var Organisation = require("../models/Organisation");
-var NotificationGroup = require("../models/NotificationGroup");
+var Organisation = require("../../models/Organisation");
+var NotificationGroup = require("../../models/NotificationGroup");
 var imageController = require("./ImageController.js");
-var uuid = require("uuid/v4");
 
 var organisationController = {};
 
@@ -72,6 +71,38 @@ organisationController.getAllNotificationGroups = function(organisation_id, next
   }, function(err, notificationGroup) {
     next(err, notificationGroup);
   });
+};
+
+organisationController.createNotificationGroup = function(organisation_id, notificationGroupData, next) {
+  // Create organisation.
+  notificationGroup = new NotificationGroup({
+    'name': notificationGroupData.name,
+    'description': notificationGroupData.description,
+    'organisation': organisation_id,
+    'users': [],
+  });
+
+  // if image exists, upload image to DB, then link it to organisation if it was created successfully.
+  if (notificationGroupData.imagePath) {
+    imageController.saveImage(notificationGroupData.imagePath, organisation_id, function(err, image){
+      // if the image was uploaded successfully, allocate it to this organisation.
+      if (image) {
+        notificationGroup.image = image._id;
+      }
+
+      // save notificationGroup.
+      notificationGroup.save(function(err) {
+        if (err) { return next(err, null); }
+        else { return next(err, notificationGroup); }
+      });
+    });
+  } else {
+    // save notificationGroup.
+    notificationGroup.save(function(err) {
+      if (err) { return next(err, null); }
+      else { return next(err, notificationGroup); }
+    });
+  }
 };
 
 module.exports = organisationController;

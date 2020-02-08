@@ -17,15 +17,15 @@ require('dotenv').config();
 /* Define routes */
 var auth = require('./routes/auth');
 var index = require('./routes/index');
-var client = require('./routes/client');
-var image = require('./routes/image');
-var developer = require('./routes/developer');
-var organisation = require('./routes/organisation');
+var client = require('./routes/client/client');
+var image = require('./routes/developer/image');
+var developer = require('./routes/developer/developer');
+var organisation = require('./routes/developer/organisation');
 var apiServerV1 = require('./routes/api/v1');
 
 /* Define sockets */
 var user_sock = require('./sockets/auth/user');
-var notify_sock = require('./sockets/notify');
+var device_sock = require('./sockets/client/device');
 
 /* Remove deprecated settings from mongoose */
 mongoose.set('useNewUrlParser', true);
@@ -83,7 +83,7 @@ io.on('connection', function(socket){
 
   // Load socket configuration from external files.
   user_sock.sock(socket, io);
-  notify_sock.sock(socket, io);
+  device_sock.sock(socket, io);
 
   socket.on('disconnect', function() {
   });
