@@ -19,6 +19,7 @@ var auth = require('./routes/auth');
 var index = require('./routes/index');
 var client = require('./routes/client/client');
 var image = require('./routes/developer/image');
+var notificationGroup = require('./routes/developer/notificationGroup');
 var developer = require('./routes/developer/developer');
 var organisation = require('./routes/developer/organisation');
 var apiServerV1 = require('./routes/api/v1');
@@ -72,6 +73,7 @@ app.use(express.static(path.join(__dirname, 'public')))
   .use('/image', image)
   .use('/organisation', organisation)
   .use('/developer', developer)
+  .use('/notification-group', notificationGroup)
   .use('/api/v1', apiServerV1)
   .set('views', path.join(__dirname, 'public/views/pages'))
   .set('view engine', 'ejs');

@@ -25,7 +25,7 @@
       <h2 style="color:<%= organisations[i].secondaryColour %>;"><%= organisations[i].name %></h2>
       <div>
         <% if (organisations[i].image) { %>
-          <img class='sub-image' src='/image/<%= organisations[i].image.path %>'>
+          <img class='sub-image' src='/image/<%= organisations[i].image %>'>
         <% } else { %>
           <img class='sub-image' src='/images/placeholder.png'>
         <% } %>

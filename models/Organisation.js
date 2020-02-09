@@ -3,7 +3,7 @@ var User = require('./User');
 
 var OrganisationSchema = new mongoose.Schema({
   name: {type:String, required:true},
-  image: {type:mongoose.Schema.Types.ObjectId, ref:'Image'},
+  image: {type:String, ref:'Image'},
   admin: [ {type:mongoose.Schema.Types.ObjectId, required:true, ref:User} ],
   developers: [ {type:mongoose.Schema.Types.ObjectId, required:true, ref:User} ],
   email: {type:String, required:true},

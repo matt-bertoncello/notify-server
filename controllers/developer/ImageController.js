@@ -1,5 +1,4 @@
 var fs = require("fs");
-var path = require("path");
 var shortid = require("shortid");
 var Image = require("../../models/Image");
 
@@ -21,10 +20,10 @@ imageController.saveImage = function(localPath, organisation_id, next) {
       // save image in mongoose that can be indexed by 'path'.
       function innerSaveImage(uniqueName) {
         image = new Image({
+          '_id': encodeURI(uniqueName),
           'name': name,
           'data': bufferData,
           'organisation': organisation_id,
-          'path': encodeURI(uniqueName),
           'contentType': localPath.substring(localPath.lastIndexOf('.')+1, localPath.length) || localPath,
         });
 
@@ -48,15 +47,10 @@ Return the organisation with the organisation_id if this user is an admin or a d
 */
 imageController.getImageFromPath = function(path, next) {
   Image.findOne({
-    'path': encodeURI(path),
+    '_id': encodeURI(path),
   }, function(err, image) {
     next(err, image);
   });
 };
-
-// imageController.saveImage("C:\\Users\\mattb\\Pictures\\Photoshop\\Notify\\old\\Notify-48px-round.png", "5e23914cc6458b320049c48f", function(err, image){
-//   console.log(err);
-//   console.log(image);
-// });
 
 module.exports = imageController;

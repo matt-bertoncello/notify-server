@@ -11,22 +11,35 @@
     <li><a href='/developer'>Developer Dashboard</a></li>
   <% include ../../../partials/post-nav.ejs %>
 
-  <div class="card grid bordered shadowed">
-    <a type='button' class='card-link' href="/organisation/<%= organisation._id %>/new-notification-group">New NotificationGroup</a>
-  </div>
+  <div class='banner'>About</div>
 
   <div class="card bordered shadowed"
     style="background-color:<%= organisation.mainColour %>;">
     <h2 style="color:<%= organisation.secondaryColour %>;"><%= organisation.name %></h2>
     <div>
       <% if (organisation.image) { %>
-        <img class='sub-image' src='/image/<%= organisation.image.path %>'>
+        <img class='sub-image' src='/image/<%= organisation.image %>'>
       <% } else { %>
         <img class='sub-image' src='/images/placeholder.png'>
       <% } %>
     </div>
     <div style='text-align:right;color:<%= organisation.secondaryColour %>;'><%= organisation.getUserRole(user._id) %></div>
   </div>
+
+  <div class='banner'>Notification Groups
+    <button style='width:230px;margin:0px 0px 0px 50px;height:40px;line-height:35px;' type="button" class="card-link-inverted bordered" onclick="window.location.href = '/organisation/<%= organisation._id %>/new-notification-group';">New Notification Group</button>
+  </div>
+
+  <% for (var i=0; i<notificationGroups.length; i++) { %>
+    <a class="card bordered shadowed no-decoration" href="/notification-group/<%= notificationGroups[i]._id %>">
+      <h2>
+        <% if (notificationGroups[i].displayImage) { %>
+          <img style="height:50px;" src='/image/<%= notificationGroups[i].displayImage %>'>
+        <% } %>
+        <%= notificationGroups[i].name %>
+      </h2>
+    </a>
+  <% } %>
 
 </body>
 </html>

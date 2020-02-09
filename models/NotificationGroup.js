@@ -6,15 +6,36 @@ var NotificationGroupSchema = new mongoose.Schema({
   description: {type:String, required:true},
   organisation: {type:mongoose.Schema.Types.ObjectId, required:true, ref:'Organisation'},
   users: [{type:mongoose.Schema.Types.ObjectId, required:true, ref:'User'}],
-  image: {type:mongoose.Schema.Types.ObjectId, ref:'Image'},
+  image: {type:String, ref:'Image'},
   created: {type: Date, default: Date.now},
   updated: {type: Date, default: Date.now},
 });
 
-// On pre-save, update the 'updated' field and check if password needs to be re-hashed.
+/*
+On pre-save, update the 'updated' field and check if password needs to be re-hashed.
+Needs to have organisation populated.
+*/
 NotificationGroupSchema.pre('save', function(next) {
   this.updated = Date.now();
   next();
+});
+
+// After initialised by a find. populate the organisation and imagePath attributes.
+NotificationGroupSchema.post('init', function(doc) {
+  // if this notification group has an image, populate image and return the image.
+  if (doc.image) {
+    doc.displayImage = doc.image;
+  }
+
+  // else, populate the organisation and their
+  else if (doc.organisation.image) {
+    doc.displayImage = doc.organisation.image;
+  }
+
+  else {
+    doc.displayImage = null;
+  }
+
 });
 
 /*
@@ -67,33 +88,6 @@ NotificationGroupSchema.methods.rename = function(name, next) {
   this.save(function(err){
     return next(err);
   });
-};
-
-/*
-Get image. If no image is defined return the organisation's image.
-Return next(err, image);
-*/
-NotificationGroupSchema.methods.getImage = function(next) {
-  // if this notification group has an image, populate image and return the image.
-  if (this.image) {
-    this.populate('image', function(err){
-      if (err) {return next(err, null);}
-      else {next(null, this.image);}
-    });
-  }
-
-  // else, populate the organisation and their
-  else {
-    return this.populate('organisation', 'image', function(err){
-      if (err) {return next(err, null);}
-      else {
-        this.organisation.populate('image', function(err){
-          if (err) {return next(err, null);}
-          else {next(null, this.image);}
-        });
-      };
-    });
-  };
 };
 
 module.exports = mongoose.model('NotificationGroup', NotificationGroupSchema);

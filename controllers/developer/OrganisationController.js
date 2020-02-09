@@ -22,7 +22,7 @@ organisationController.createOrganisation = function(imageLocalPath, user, organ
   imageController.saveImage(imageLocalPath, organisation._id, function(err, image){
     // if the image was uploaded successfully, allocate it to this organisation.
     if (image) {
-      organisation.image = image._id;
+      organisation.image = image;
     }
 
     // save organisation.
@@ -45,7 +45,7 @@ organisationController.getOrganisationFromId = function(user_id, organisation_id
     ],
   }, function(err, organisation) {
     next(err, organisation);
-  }).populate('image', 'path');
+  });
 };
 
 /*
@@ -59,50 +59,7 @@ organisationController.getAllOrganisationsForUser = function(user_id, next) {
     ],
   }, function(err, organisations) {
     next(err, organisations);
-  }).populate('image', 'path'); // populate image path.
-};
-
-/*
-Return all notification groups for this organisation.
-*/
-organisationController.getAllNotificationGroups = function(organisation_id, next) {
-  NotificationGroup.findOne({
-    'organisation': organisation_id,
-  }, function(err, notificationGroup) {
-    next(err, notificationGroup);
-  });
-};
-
-organisationController.createNotificationGroup = function(organisation_id, notificationGroupData, next) {
-  // Create organisation.
-  notificationGroup = new NotificationGroup({
-    'name': notificationGroupData.name,
-    'description': notificationGroupData.description,
-    'organisation': organisation_id,
-    'users': [],
-  });
-
-  // if image exists, upload image to DB, then link it to organisation if it was created successfully.
-  if (notificationGroupData.imagePath) {
-    imageController.saveImage(notificationGroupData.imagePath, organisation_id, function(err, image){
-      // if the image was uploaded successfully, allocate it to this organisation.
-      if (image) {
-        notificationGroup.image = image._id;
-      }
-
-      // save notificationGroup.
-      notificationGroup.save(function(err) {
-        if (err) { return next(err, null); }
-        else { return next(err, notificationGroup); }
-      });
-    });
-  } else {
-    // save notificationGroup.
-    notificationGroup.save(function(err) {
-      if (err) { return next(err, null); }
-      else { return next(err, notificationGroup); }
-    });
-  }
+  })
 };
 
 module.exports = organisationController;

@@ -9,15 +9,20 @@
 
   <% include ../../../partials/pre-nav.ejs %>
     <li><a href='/developer'>Developer Dashboard</a></li>
-    <% if (organisation.image) { %>
-      <li><a class='no-padding' href='/organisation/<%= notificationGroup.organisation._id %>'><img style="height:50px;" src='/image/<%= notificationGroup.organisation.image.path %>'></a></li>
+    <% if (notificationGroup.organisation.image) { %>
+      <li><a class='no-padding' href='/organisation/<%= notificationGroup.organisation._id %>'><img style="height:50px;" src='/image/<%= notificationGroup.organisation.image %>'></a></li>
     <% } else { %>
       <li><a href='/organisation/<%= notificationGroup.organisation._id %>'><%= notificationGroup.organisation.name %></a></li>
     <% } %>
   <% include ../../../partials/post-nav.ejs %>
 
-  <div class="card bordered shadowed"
-    <%= notificationGroup %>
+  <div class="card bordered shadowed">
+    <div><%= notificationGroup.name %></div>
+    <div><%= notificationGroup.description %></div>
+
+    <% if (notificationGroup.displayImage) { %>
+      <img style="height:50px;" src='/image/<%= notificationGroup.displayImage %>'>
+    <% } %>
   </div>
 
 </body>

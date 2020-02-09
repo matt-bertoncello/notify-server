@@ -28,7 +28,7 @@
   <% include ../../../partials/pre-nav.ejs %>
     <li><a href='/developer'>Developer Dashboard</a></li>
     <% if (organisation.image) { %>
-      <li><a class='no-padding' href='/organisation/<%= organisation._id %>'><img style="height:50px;" src='/image/<%= organisation.image.path %>'></a></li>
+      <li><a class='no-padding' href='/organisation/<%= organisation._id %>'><img style="height:50px;" src='/image/<%= organisation.image %>'></a></li>
     <% } else { %>
       <li><a href='/organisation/<%= organisation._id %>'><%= organisation.name %></a></li>
     <% } %>
@@ -37,7 +37,7 @@
   <div class="jumbotron">
     <h1>
       <% if (organisation.image) { %>
-        <img style="height:100px;" src='/image/<%= organisation.image.path %>'>
+        <img style="height:100px;" src='/image/<%= organisation.image %>'>
       <% } %>
       New Notification Group
     </h1>
@@ -49,7 +49,7 @@
         <input style='width:75%;max-width:330px;display:inline-block;' class='form-control' type='text' name='name' id='name' placeholder='notification group name' required autofocus>
         <div id='image-container' style='display:inline-block;'>
           <% if (organisation.image) { %>
-            <img style="height:45px;" src='/image/<%= organisation.image.path %>'>
+            <img style="height:45px;" src='/image/<%= organisation.image %>'>
           <% } %>
         </div>
       </div>

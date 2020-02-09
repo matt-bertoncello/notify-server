@@ -5,6 +5,7 @@ var fs = require('fs');
 var formidable = require("formidable");
 var authController = require("../../controllers/AuthController.js");
 var organisationController = require("../../controllers/developer/OrganisationController.js");
+var notificationGroupController = require("../../controllers/developer/NotificationGroupController.js");
 
 function auth_organisation(res, user_id, organisation_id, next) {
   organisationController.getOrganisationFromId(user_id, organisation_id, function(err, organisation) {
@@ -27,8 +28,10 @@ If there are any errors, print to screen and redirect to developer page.
 */
 router.get('/:organisation', authController.checkAuthentication, (req,res) => {
   auth_organisation(res, req.session.passport.user._id, req.params.organisation, function(organisation) {
-    // if user is authorised to control the organisation:
-    res.render('developer/organisation/dashboard', {req: req, organisation: organisation});
+    // if user is authorised to control the organisation, get all notificationGroups controlled by this organisation/
+    notificationGroupController.getAllNotificationGroupsForOrganisation(organisation._id, function(err, notificationGroups) {
+      res.render('developer/organisation/dashboard', {req: req, organisation: organisation, notificationGroups:notificationGroups});
+    });
   });
 });
 
@@ -89,7 +92,7 @@ router.post('/:organisation/new-notification-group/submit', authController.check
 
         // common function, regardless if image was uploaded.
         function innerCreateNotificationGroup(notificationGroupData) {
-          organisationController.createNotificationGroup(req.params.organisation, notificationGroupData, function(err, notificationGroup) {
+          notificationGroupController.createNotificationGroup(req.params.organisation, notificationGroupData, function(err, notificationGroup) {
 
             // delete temp file if image was uploaded.
             if (files.file.size > 0) {
@@ -98,7 +101,7 @@ router.post('/:organisation/new-notification-group/submit', authController.check
               fs.unlink(files.file.path, function(err){});
             }
 
-            res.render('developer/organisation/newNotificationGroup', {req: req, organisation: organisation});
+            res.redirect('/notification-group/'+notificationGroup._id);
           });
         }
       }

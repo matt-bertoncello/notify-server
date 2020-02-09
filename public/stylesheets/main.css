@@ -294,3 +294,13 @@ div[alt]:hover:before {
 .sub-image {
   height: 200px;
 }
+
+.banner {
+  height: 50px;
+  line-height: 50px;
+  font-size: 20px;
+  background-color: black;
+  color: white;
+  opacity: 75%;
+  margin: 10px 20px;
+}
