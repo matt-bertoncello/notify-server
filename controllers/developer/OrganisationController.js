@@ -1,6 +1,6 @@
-var Organisation = require("../models/Organisation");
+var Organisation = require("../../models/Organisation");
+var NotificationGroup = require("../../models/NotificationGroup");
 var imageController = require("./ImageController.js");
-var uuid = require("uuid/v4");
 
 var organisationController = {};
 
@@ -22,7 +22,7 @@ organisationController.createOrganisation = function(imageLocalPath, user, organ
   imageController.saveImage(imageLocalPath, organisation._id, function(err, image){
     // if the image was uploaded successfully, allocate it to this organisation.
     if (image) {
-      organisation.image = image._id;
+      organisation.image = image;
     }
 
     // save organisation.
@@ -45,7 +45,7 @@ organisationController.getOrganisationFromId = function(user_id, organisation_id
     ],
   }, function(err, organisation) {
     next(err, organisation);
-  }).populate('image', 'path');
+  });
 };
 
 /*
@@ -59,7 +59,7 @@ organisationController.getAllOrganisationsForUser = function(user_id, next) {
     ],
   }, function(err, organisations) {
     next(err, organisations);
-  }).populate('image', 'path'); // populate image path.
+  })
 };
 
 module.exports = organisationController;

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <% include ../../partials/header.ejs %>
+  <% include ../../../partials/header.ejs %>
   <title><%= process.env.TITLE %> - developer</title>
 </head>
 <body>
 
-  <% include ../../partials/pre-nav.ejs %>
-  <% include ../../partials/post-nav.ejs %>
+  <% include ../../../partials/pre-nav.ejs %>
+  <% include ../../../partials/post-nav.ejs %>
 
   <div class="jumbotron">
     <h1>Developer Dashboard</h1>
@@ -15,7 +15,7 @@
 
   <div>
     <div class="card grid bordered shadowed">
-      <a type='button' class='card-link' href="/developer/new">New Organisation</a>
+      <a type='button' class='card-link' href="/developer/new-organisation">New Organisation</a>
     </div>
   </div>
 
@@ -25,7 +25,7 @@
       <h2 style="color:<%= organisations[i].secondaryColour %>;"><%= organisations[i].name %></h2>
       <div>
         <% if (organisations[i].image) { %>
-          <img class='sub-image' src='/image/<%= organisations[i].image.path %>'>
+          <img class='sub-image' src='/image/<%= organisations[i].image %>'>
         <% } else { %>
           <img class='sub-image' src='/images/placeholder.png'>
         <% } %>

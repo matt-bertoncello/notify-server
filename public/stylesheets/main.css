@@ -1,7 +1,6 @@
 .jumbotron {
   background: #532F8C;
   color: white;
-  padding-bottom: 80px;
   text-align: center;
 }
 .jumbotron .btn-primary {
@@ -280,8 +279,8 @@ div[alt]:hover:before {
 }
 
 .no-padding {
-  padding: 0px;
-  margin: 0px;
+  padding: 0px !important;
+  margin: 0px !important;
 }
 
 .no-decoration {
@@ -294,4 +293,27 @@ div[alt]:hover:before {
 
 .sub-image {
   height: 200px;
+}
+
+.banner {
+  height: 50px;
+  line-height: 50px;
+  font-size: 20px;
+  background-color: black;
+  color: white;
+  opacity: 75%;
+  margin: 10px 20px;
+}
+
+.card-link-red {
+  transition-duration: 0.2s;
+  color: #ffffff;
+  background-color: red;
+  border-radius: 10px;
+}
+
+.card-link-red:hover {
+  background-color: #ffffff;
+  text-decoration: none;
+  color: red;
 }

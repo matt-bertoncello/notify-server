@@ -17,15 +17,17 @@ require('dotenv').config();
 /* Define routes */
 var auth = require('./routes/auth');
 var index = require('./routes/index');
-var client = require('./routes/client');
-var image = require('./routes/image');
-var developer = require('./routes/developer');
-var organisation = require('./routes/organisation');
+var client = require('./routes/client/client');
+var image = require('./routes/developer/image');
+var notificationGroup = require('./routes/developer/notificationGroup');
+var developer = require('./routes/developer/developer');
+var organisation = require('./routes/developer/organisation');
 var apiServerV1 = require('./routes/api/v1');
 
 /* Define sockets */
 var user_sock = require('./sockets/auth/user');
-var notify_sock = require('./sockets/notify');
+var device_sock = require('./sockets/client/device');
+var notificationGroup_sock = require('./sockets/developer/notificationGroup');
 
 /* Remove deprecated settings from mongoose */
 mongoose.set('useNewUrlParser', true);
@@ -72,6 +74,7 @@ app.use(express.static(path.join(__dirname, 'public')))
   .use('/image', image)
   .use('/organisation', organisation)
   .use('/developer', developer)
+  .use('/notification-group', notificationGroup)
   .use('/api/v1', apiServerV1)
   .set('views', path.join(__dirname, 'public/views/pages'))
   .set('view engine', 'ejs');
@@ -83,7 +86,8 @@ io.on('connection', function(socket){
 
   // Load socket configuration from external files.
   user_sock.sock(socket, io);
-  notify_sock.sock(socket, io);
+  device_sock.sock(socket, io);
+  notificationGroup_sock.sock(socket, io);
 
   socket.on('disconnect', function() {
   });
