@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var passportLocalMongoose = require('passport-local-mongoose');
+var deviceController = require('../controllers/client/DeviceController');
 
 var NotificationGroupSchema = new mongoose.Schema({
   name: {type:String, required:true},
@@ -19,6 +20,17 @@ NotificationGroupSchema.pre('save', function(next) {
   this.updated = Date.now();
   next();
 });
+
+// called pre find and pre findOne to populate organisation.
+var autoPopulateOrganisation = function(next) {
+  this.populate('organisation');
+  next();
+};
+
+// populate organisation every time this is initialised
+NotificationGroupSchema.
+  pre('findOne', autoPopulateOrganisation).
+  pre('find', autoPopulateOrganisation);
 
 // After initialised by a find. populate the organisation and imagePath attributes.
 NotificationGroupSchema.post('init', function(doc) {
@@ -94,6 +106,25 @@ NotificationGroupSchema.methods.deleteImage = function(name, next) {
 
   this.save(function(err){
     return next(err);
+  });
+};
+
+/*
+Get all firebase tokens of users in this notification group.
+These firebase tokens will be used as notification endpoints.
+return next(err, firebaseTokens);
+*/
+NotificationGroupSchema.methods.getAllFirebaseTokens = function(next) {
+  // get all devices from each user.
+  deviceController.getAllDevicesForNotificationGroup(this, function(err, devices) {
+    if (err) { return next(err, null); }
+    else {
+      var firebaseTokens = [];
+      for (var i=0; i<devices.length; i++){
+        firebaseTokens.push(devices[i].firebaseInstance);
+      }
+      return next(null, firebaseTokens);
+    }
   });
 };
 

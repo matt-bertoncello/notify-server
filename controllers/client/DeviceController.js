@@ -79,4 +79,15 @@ deviceController.getDeviceFromId = function(user_id, device_id, next) {
   });
 }
 
+/*
+Find all devices for users in this notificationGroup.
+*/
+deviceController.getAllDevicesForNotificationGroup = function(notificationGroup, next) {
+  Device.find({
+    'user': { $in: notificationGroup.users }
+  }, function(err, devices) {
+    next(err, devices);
+  });
+}
+
 module.exports = deviceController;

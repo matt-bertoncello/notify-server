@@ -11,7 +11,7 @@ notificationGroupController.getAllNotificationGroupsForOrganisation = function(o
     'organisation': organisation_id,
   }, function(err, notificationGroups) {
     next(err, notificationGroups);
-  }).populate('organisation');
+  });
 };
 
 /*
@@ -34,7 +34,7 @@ notificationGroupController.getNotificationGroupById = function(user_id, notific
       }
       else { return next('not part of this organisation', null); }
     }
-  }).populate('organisation').populate('users');
+  }).populate('users');
 };
 
 notificationGroupController.createNotificationGroup = function(organisation_id, notificationGroupData, next) {
