@@ -2,7 +2,7 @@ var admin = require("firebase-admin");
 require('dotenv').config();
 var User = require("../../models/User");
 
-notifyController = {};
+clientController = {};
 
 admin.initializeApp({
   credential: admin.credential.cert({
@@ -25,7 +25,7 @@ console.log('[INFO] Connected Notify to Firebase');
 /*
 Send notification with title and body to token.
 */
-notifyController.send = function(data, next) {
+clientController.send = function(data, next) {
   var message = {
     notification: {
       title: data.title,
@@ -55,7 +55,7 @@ Add this firebase token to list of user's tokens.
 Each token refers to a unique mobile device.
 When Notify is triggered to send to this user, all tokens will be sent.
 */
-notifyController.allocateFirebaseTokenToUser = function(user, token, next) {
+clientController.allocateFirebaseTokenToUser = function(user, token, next) {
   // find all other users that contain this token and delete that token.
   User.find({
     'notify.firebaseInstances': token,
@@ -90,4 +90,4 @@ notifyController.allocateFirebaseTokenToUser = function(user, token, next) {
   });
 }
 
-module.exports = notifyController;
+module.exports = clientController;

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../../../partials/header.ejs %>
+  <title><%= process.env.TITLE %> - <%= notificationGroup.name %></title>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+  var socket = io.connect('/');
+
+  function addUser() {
+    var value = document.getElementById('email').value;
+    socket.emit('addEmailToNotificationGroup', {
+      'email': value,
+      'notificationGroup': '<%= notificationGroup._id %>',
+    });
+    document.getElementById('message').innerHTML = 'checking email...';
+    document.getElementById('message').style.color ='blue';
+  }
+
+  function removeUser(email) {
+    socket.emit('removeEmailFromNotificationGroup', {
+      'email': email,
+      'notificationGroup': '<%= notificationGroup._id %>',
+    });
+    document.getElementById('message').innerHTML = 'removing user...';
+    document.getElementById('message').style.color ='blue';
+  }
+
+  socket.on('add-success', function(data) {
+    var html = ''
+    html += "<div id='"+data.email+"'>"
+    html +=   "<div class='grid'>"+data.email+"</div>"
+    html +=   "<button class='grid card-link-red' onclick='removeUser(&#39;"+data.email+"&#39;)'>Remove</button>"
+    html += "</div>";
+    document.getElementById('user-emails').innerHTML += html;
+    document.getElementById('email').value = '';
+    document.getElementById('message').innerHTML = 'success';
+    document.getElementById('message').style.color = 'green';
+  });
+
+  socket.on('remove-success', function(data) {
+    var element = document.getElementById(data.email);
+    element.parentNode.removeChild(element);
+    document.getElementById('email').value = '';
+    document.getElementById('message').innerHTML = 'successfully removed user';
+    document.getElementById('message').style.color = 'green';
+  });
+
+  socket.on('failure', function(data) {
+    document.getElementById('message').innerHTML = data.message;
+    document.getElementById('message').style.color = 'red';
+  });
+
+  </script>
+</head>
+
+<body style="text-align:center;">
+
+  <% include ../../../partials/pre-nav.ejs %>
+    <li><a href='/developer'>Developer Dashboard</a></li>
+    <% if (notificationGroup.organisation.image) { %>
+      <li><a class='no-padding' href='/organisation/<%= notificationGroup.organisation._id %>'><img style="height:50px;" src='/image/<%= notificationGroup.organisation.image %>'></a></li>
+    <% } else { %>
+      <li><a href='/organisation/<%= notificationGroup.organisation._id %>'><%= notificationGroup.organisation.name %></a></li>
+    <% } %>
+  <% include ../../../partials/post-nav.ejs %>
+
+  <div class="card bordered shadowed">
+    <h2><%= notificationGroup.name %></h2>
+    <div><%= notificationGroup.description %></div>
+
+    <% if (notificationGroup.displayImage) { %>
+      <img style="height:50px;" src='/image/<%= notificationGroup.displayImage %>'>
+    <% } %>
+  </div>
+
+  <div class="card bordered shadowed wide">
+    <div>
+      <input style='width:330px;' class='form-control grid' placeholder='email' id='email'>
+      <button style='width:100px' type="button" class="card-link-inverted bordered grid" onclick="addUser();">Add User</button>
+    </div>
+    <div class='error' id='message'></div>
+
+    <div id='user-emails' style='padding:10px 0px;'>
+      <h2>Subscribed Emails</h2>
+      <% for (var i=0; i<notificationGroup.users.length;i++) { %>
+        <div id='<%= notificationGroup.users[i].email %>'>
+          <div class="grid"><%= notificationGroup.users[i].email %></div>
+          <button class="grid card-link-red" onclick="removeUser('<%= notificationGroup.users[i].email %>')">Remove</button>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+</body>
+</html>

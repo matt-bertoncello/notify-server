@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var imageController = require("../controllers/ImageController.js");
+var imageController = require("../../controllers/developer/ImageController.js");
 
 /* Retrieved image indexed by 'image' */
 router.get('/:image', (req,res) => {

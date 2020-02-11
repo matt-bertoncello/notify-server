@@ -2,12 +2,12 @@ var User = require("../../models/User");
 var Device = require("../../models/Device");
 require('dotenv').config();
 
-notifyDeviceController = {};
+deviceController = {};
 
 /*
 Create device with appropriate fields.
 */
-notifyDeviceController.createDevice = function(object, next) {
+deviceController.createDevice = function(object, next) {
   var device = new Device({
     name: object.name,
     user: object.user_id,
@@ -23,7 +23,7 @@ notifyDeviceController.createDevice = function(object, next) {
 /*
 Get device from authToken.
 */
-notifyDeviceController.getDeviceFromAuthToken = function(authToken, next) {
+deviceController.getDeviceFromAuthToken = function(authToken, next) {
   Device.findOne({ 'authToken': authToken}, function(err, device) {
     if (err) { return next(err, null) }
     if (!device) {
@@ -36,8 +36,8 @@ notifyDeviceController.getDeviceFromAuthToken = function(authToken, next) {
 /*
 Get user from the device referenced by authToken.
 */
-notifyDeviceController.getUserFromAuthToken = function(authToken, next) {
-  notifyDeviceController.getDeviceFromAuthToken(authToken, function(err, device) {
+deviceController.getUserFromAuthToken = function(authToken, next) {
+  deviceController.getDeviceFromAuthToken(authToken, function(err, device) {
     if (err) { next(err, null) }
     else { return next(err, device.user) }
   });
@@ -46,7 +46,7 @@ notifyDeviceController.getUserFromAuthToken = function(authToken, next) {
 /*
 Delete the device identified by authToken.
 */
-notifyDeviceController.deleteDeviceFromAuthToken = function(authToken, next) {
+deviceController.deleteDeviceFromAuthToken = function(authToken, next) {
   Device.deleteOne({ 'authToken': authToken }, function(err) {
     next(err)
   });
@@ -55,7 +55,7 @@ notifyDeviceController.deleteDeviceFromAuthToken = function(authToken, next) {
 /*
 Update the device name in the DB.
 */
-notifyDeviceController.updateDeviceName = function(device_id, name, next) {
+deviceController.updateDeviceName = function(device_id, name, next) {
   Device.findOneAndUpdate({'_id':device_id}, {$set: {'name': name}}, {'returnNewDocument': true}, function(err, device) {
     next(err, device);
   });
@@ -64,13 +64,13 @@ notifyDeviceController.updateDeviceName = function(device_id, name, next) {
 /*
 Find all devices for this user.
 */
-notifyDeviceController.getAllDevicesForUser = function(user_id, next) {
+deviceController.getAllDevicesForUser = function(user_id, next) {
   Device.find({ 'user': user_id }, function(err, devices) {
     next(err, devices);
   });
 }
 
-notifyDeviceController.getDeviceFromId = function(user_id, device_id, next) {
+deviceController.getDeviceFromId = function(user_id, device_id, next) {
   Device.findOne({
     'user': user_id,
     '_id': device_id,
@@ -79,4 +79,15 @@ notifyDeviceController.getDeviceFromId = function(user_id, device_id, next) {
   });
 }
 
-module.exports = notifyDeviceController;
+/*
+Find all devices for users in this notificationGroup.
+*/
+deviceController.getAllDevicesForNotificationGroup = function(notificationGroup, next) {
+  Device.find({
+    'user': { $in: notificationGroup.users }
+  }, function(err, devices) {
+    next(err, devices);
+  });
+}
+
+module.exports = deviceController;

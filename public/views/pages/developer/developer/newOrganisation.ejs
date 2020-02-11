@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <% include ../../partials/header.ejs %>
-  <title><%= process.env.TITLE %> - developer</title>
+  <% include ../../../partials/header.ejs %>
+  <title><%= process.env.TITLE %> - new organisation</title>
 
   <script>
   function setMainColour(colour) {
@@ -35,22 +35,21 @@
     reader.readAsDataURL(f);
   }
 
-
   </script>
 
 </head>
 <body>
 
-  <% include ../../partials/pre-nav.ejs %>
+  <% include ../../../partials/pre-nav.ejs %>
     <li><a href='/developer'>Developer Dashboard</a></li>
-  <% include ../../partials/post-nav.ejs %>
+  <% include ../../../partials/post-nav.ejs %>
 
   <div class="jumbotron">
     <h1>New Organisation</h1>
   </div>
 
   <div class='card bordered shadowed grid'>
-    <form class='form-signin' role='form' action='/developer/new/organisation' method='post' enctype="multipart/form-data">
+    <form class='form-signin' role='form' action='/developer/new-organisation/submit' method='post' enctype="multipart/form-data">
       <div>
         <input class='form-control' type='text' name='name' id='name' placeholder='organisation name' required autofocus oninput="setTitle()">
       </div>
@@ -75,9 +74,10 @@
     </div>
   </div>
 
-  <script>
-    document.getElementById('file').addEventListener('change', handleFileSelect, false);
-  </script>
-
 </body>
+
+<script>
+  document.getElementById('file').addEventListener('change', handleFileSelect, false);
+</script>
+
 </html>
