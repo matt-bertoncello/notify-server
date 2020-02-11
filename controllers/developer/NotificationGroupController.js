@@ -34,7 +34,7 @@ notificationGroupController.getNotificationGroupById = function(user_id, notific
       }
       else { return next('not part of this organisation', null); }
     }
-  }).populate('organisation');
+  }).populate('organisation').populate('users');
 };
 
 notificationGroupController.createNotificationGroup = function(organisation_id, notificationGroupData, next) {

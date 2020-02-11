@@ -304,3 +304,16 @@ div[alt]:hover:before {
   opacity: 75%;
   margin: 10px 20px;
 }
+
+.card-link-red {
+  transition-duration: 0.2s;
+  color: #ffffff;
+  background-color: red;
+  border-radius: 10px;
+}
+
+.card-link-red:hover {
+  background-color: #ffffff;
+  text-decoration: none;
+  color: red;
+}

@@ -27,6 +27,7 @@ var apiServerV1 = require('./routes/api/v1');
 /* Define sockets */
 var user_sock = require('./sockets/auth/user');
 var device_sock = require('./sockets/client/device');
+var notificationGroup_sock = require('./sockets/developer/notificationGroup');
 
 /* Remove deprecated settings from mongoose */
 mongoose.set('useNewUrlParser', true);
@@ -86,6 +87,7 @@ io.on('connection', function(socket){
   // Load socket configuration from external files.
   user_sock.sock(socket, io);
   device_sock.sock(socket, io);
+  notificationGroup_sock.sock(socket, io);
 
   socket.on('disconnect', function() {
   });

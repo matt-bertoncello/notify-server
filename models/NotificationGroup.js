@@ -42,11 +42,14 @@ NotificationGroupSchema.post('init', function(doc) {
 Add user to notification group then run next(err);
 */
 NotificationGroupSchema.methods.addUser = function(user_id, next) {
-  if (this.users.includes(user_id)) {
-    continue;
-  } else {
-    this.users.push(user_id);
+
+  for (var i=0; i<this.users.length; i++) {
+    if (this.users[i]._id.toString().trim() === user_id.toString().trim()) {
+      return next('user is already subscribed to this notification group.');
+    }
   }
+
+  this.users.push(user_id);
 
   this.save(function(err){
     return next(err);
@@ -56,16 +59,20 @@ NotificationGroupSchema.methods.addUser = function(user_id, next) {
 /*
 Remove user to notification group then run next(err);
 */
-NotificationGroupSchema.methods.addUser = function(user_id, next) {
-  if (this.users.includes(user_id)) {
-    this.users.splice(this.users.indexOf(user_id), 1);
-
-    this.save(function(err){
-      return next(err);
-    });
-  } else {
-    return next(null);
+NotificationGroupSchema.methods.removeUser = function(user_id, next) {
+  // iterate over each user.
+  for (var i=0; i<this.users.length; i++) {
+    // if this is the user
+    if (this.users[i]._id.toString().trim() === user_id.toString().trim()) {
+      // remove user and save.
+      this.users.splice(i, 1);
+      this.save(function(err){
+        return next(err);
+      });
+    }
   }
+
+  return next(null);
 };
 
 /*
@@ -82,7 +89,7 @@ NotificationGroupSchema.methods.rename = function(name, next) {
 /*
 Remove image from this notification group. next(err).
 */
-NotificationGroupSchema.methods.rename = function(name, next) {
+NotificationGroupSchema.methods.deleteImage = function(name, next) {
   delete this.image;
 
   this.save(function(err){
