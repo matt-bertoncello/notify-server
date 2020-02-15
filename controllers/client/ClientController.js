@@ -31,14 +31,14 @@ clientController.send = function(data, next) {
       title: data.title,
       body: data.body,
     },
-    token: data.token
+    tokens: data.tokens
   };
 
   console.log(message);
 
   // Send a message to the device corresponding to the provided
   // registration token.
-  admin.messaging().send(message)
+  admin.messaging().sendMulticast(message)
     .then((response) => {
       // Response is a message ID string.
       console.log('Successfully sent message:', response);

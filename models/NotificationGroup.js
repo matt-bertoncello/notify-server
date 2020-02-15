@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var uuid = require('uuid/v4');
 var passportLocalMongoose = require('passport-local-mongoose');
 var deviceController = require('../controllers/client/DeviceController');
 
@@ -8,6 +9,7 @@ var NotificationGroupSchema = new mongoose.Schema({
   organisation: {type:mongoose.Schema.Types.ObjectId, required:true, ref:'Organisation'},
   users: [{type:mongoose.Schema.Types.ObjectId, required:true, ref:'User'}],
   image: {type:String, ref:'Image'},
+  token: {type: String, unique:true, default: uuid},
   created: {type: Date, default: Date.now},
   updated: {type: Date, default: Date.now},
 });

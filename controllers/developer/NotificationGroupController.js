@@ -69,4 +69,18 @@ notificationGroupController.createNotificationGroup = function(organisation_id, 
   }
 };
 
+/*
+Return the notification group from the organisation and notification group tokens.
+This will be called after a send-notificaiton post request.
+*/
+notificationGroupController.getNotificationGroupFromIssuerTokens = function(organisationToken, notificationGroupToken, next) {
+  NotificationGroup.findOne({
+    'token': notificationGroupToken,
+  }, function(err, notificationGroup) {
+    if (err) { return next(err,null); }
+    else if (notificationGroup.organisation.token === organisationToken) { return next(null, notificationGroup); }
+    else { return next(null,null); }
+  }).populate('users');
+};
+
 module.exports = notificationGroupController;

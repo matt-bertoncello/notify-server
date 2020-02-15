@@ -22,7 +22,8 @@ var image = require('./routes/developer/image');
 var notificationGroup = require('./routes/developer/notificationGroup');
 var developer = require('./routes/developer/developer');
 var organisation = require('./routes/developer/organisation');
-var apiServerV1 = require('./routes/api/v1');
+var clientAPIv1 = require('./routes/api/client-v1');
+var issuerAPIv1 = require('./routes/api/issuer-v1');
 
 /* Define sockets */
 var user_sock = require('./sockets/auth/user');
@@ -66,8 +67,8 @@ app.use(express.static(path.join(__dirname, 'public')))
   .use(mongooseSession)
   .use(passport.initialize())
   .use(passport.session())
-  .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
+  .use(bodyParser.json())
   .use('/', index)
   .use('/auth', auth)
   .use('/client', client)
@@ -75,7 +76,8 @@ app.use(express.static(path.join(__dirname, 'public')))
   .use('/organisation', organisation)
   .use('/developer', developer)
   .use('/notification-group', notificationGroup)
-  .use('/api/v1', apiServerV1)
+  .use('/api/client-v1', clientAPIv1)
+  .use('/api/v1', issuerAPIv1)
   .set('views', path.join(__dirname, 'public/views/pages'))
   .set('view engine', 'ejs');
 

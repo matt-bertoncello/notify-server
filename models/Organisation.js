@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var User = require('./User');
+var uuid = require('uuid/v4');
 
 var OrganisationSchema = new mongoose.Schema({
   name: {type:String, required:true},
@@ -9,6 +10,7 @@ var OrganisationSchema = new mongoose.Schema({
   email: {type:String, required:true},
   mainColour: {type:String, required:true},
   secondaryColour: {type:String, required:true},
+  token: {type: String, unique:true, default: uuid},
   created: {type: Date, default: Date.now},
   updated: {type: Date, default: Date.now},
 });
