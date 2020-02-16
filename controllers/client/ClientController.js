@@ -30,7 +30,6 @@ clientController.send = function(data, next) {
     notification: {
       title: data.title,
       body: data.message,
-      image: data.image,
     },
     data: {
       organisation: data.organisation.toString(),
@@ -44,7 +43,11 @@ clientController.send = function(data, next) {
     message.data.extendedMessage = data.extendedMessage;
   }
 
-  console.log(data);
+  // if there is an image, attach the ROOT_URL so it can be loaded by each device.
+  if (data.image) {
+    message.notification.image = process.env.ROOT_URL+'/image/'+data.image
+  }
+
   console.log(message);
 
   // Send a message to the device corresponding to the provided

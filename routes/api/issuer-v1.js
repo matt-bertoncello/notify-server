@@ -25,8 +25,6 @@ provide the following items in the body:
 */
 router.post('/send-notification', cors(), (req,res) => {
   // check if headers are provided.
-  console.log(req.body);
-
   if (!req.headers['organisation'] || !req.headers['notification-group']) {
     var json = { 'message': 'incorrect headers provided - see docs' }; // incorrect headers provided
     apiResponse(400, json, res);
@@ -64,7 +62,7 @@ router.post('/send-notification', cors(), (req,res) => {
 
           // if req.body['image'] === true, display the image with the notification.
           if (req.body['image'] === true) {
-            data.image = req.protocol+"://"+req.headers.host+"/image/"+notificationGroup.displayImage;
+            data.image = notificationGroup.displayImage;
           }
 
           notificationController.createNotification(data, function(err, notification) {
