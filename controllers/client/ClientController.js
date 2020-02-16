@@ -43,6 +43,11 @@ clientController.send = function(data, next) {
     message.data.extendedMessage = data.extendedMessage;
   }
 
+  // if there is an image, attach the ROOT_URL so it can be loaded by each device.
+  if (data.image) {
+    message.notification.image = process.env.ROOT_URL+'/image/'+data.image
+  }
+
   console.log(message);
 
   // Send a message to the device corresponding to the provided
@@ -50,53 +55,13 @@ clientController.send = function(data, next) {
   admin.messaging().sendMulticast(message)
     .then((response) => {
       // Response is a message ID string.
-      console.log('Successfully sent message:', response);
+      console.log('Successfully sent message');
       next(null, response);
     })
     .catch((error) => {
-      console.log('Error sending message:', error);
+      console.log('Error sending message');
       next(error, null);
     });
-}
-
-/*
-Add this firebase token to list of user's tokens.
-Each token refers to a unique mobile device.
-When Notify is triggered to send to this user, all tokens will be sent.
-*/
-clientController.allocateFirebaseTokenToUser = function(user, token, next) {
-  // find all other users that contain this token and delete that token.
-  User.find({
-    'notify.firebaseInstances': token,
-    '_id': {$ne: user._id}
-  }, function(err, returned_users) {
-    if (err) {
-      next(err, false);
-    }
-    for (var i=0; i<returned_users.length; i++) {
-      returned_users[i].notify.firebaseInstances = returned_users[i].notify.firebaseInstances.filter(function(value, index, arr){
-        return value != token;
-      });
-      returned_users[i].save(function(err) {
-        if (err) {return next(err, false);}
-      });
-    }
-
-    // if token is not already saved in array, push to array.
-    if (!user.notify.firebaseInstances.includes(token)) {
-      user.notify.firebaseInstances.push(token);
-
-      user.save(function(err) {
-        if (err) {return next(err, false);}
-        else {
-          console.log("added firebase instance: "+token);
-          return next(null, true);
-        }
-      });
-    } else {
-      return next(null, true);
-    }
-  });
 }
 
 module.exports = clientController;

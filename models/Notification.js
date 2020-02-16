@@ -4,10 +4,12 @@ var clientController = require('../controllers/client/ClientController');
 var NotificationSchema = new mongoose.Schema({
   title: {type:String, required:true},
   message: {type:String, required:true},
+  image: {type:String, ref:'Image'},
   extendedMessage: {type:String},
   organisation: {type:mongoose.Schema.Types.ObjectId, required:true, ref:'Organisation'},
   notificationGroup: {type:mongoose.Schema.Types.ObjectId, required:true, ref:'NotificationGroup'},
   firebaseTokens: [ {type:String, required:true} ],
+  response: {type:Object},
   created: {type: Date, default: Date.now},
   updated: {type: Date, default: Date.now},
 });
@@ -20,18 +22,27 @@ NotificationSchema.pre('save', function(next) {
 
 // send this notification.
 NotificationSchema.methods.send = function(next) {
+  doc = this;
+
   var data = {
-    'title': this.title,
-    'message': this.message,
-    'firebaseTokens': this.firebaseTokens,
-    'organisation': this.organisation,
-    'notificationGroup': this.notificationGroup,
-    'extendedMessage': this.extendedMessage,
+    'title': doc.title,
+    'message': doc.message,
+    'firebaseTokens': doc.firebaseTokens,
+    'organisation': doc.organisation,
+    'notificationGroup': doc.notificationGroup,
+    'extendedMessage': doc.extendedMessage,
+    'image': doc.image,
   };
 
   // send message.
   clientController.send(data, function(err, response) {
-    next(err, response);
+    // save response.
+    doc.response = response;
+
+    doc.save(function(err) {
+      if (err) { console.log('internal server error: 405'); }
+      next(null, response);
+    });
   });
 };
 
