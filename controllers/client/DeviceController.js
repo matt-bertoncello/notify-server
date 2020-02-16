@@ -86,6 +86,22 @@ deviceController.getAllDevicesForNotificationGroup = function(notificationGroup,
   Device.find({
     'user': { $in: notificationGroup.users }
   }, function(err, devices) {
+    // remove duplicate devices (should never appear. better to be safe than sorry).
+    var indexes = []
+    for (var i=0; i<devices.length; i++) {
+      for (var j=i+1; j<devices.length; j++) {
+        if (i !== j && devices[i]._id === devices[j]._id) {
+          indexes.push(j);  // found a duplicate.
+        }
+      }
+    }
+
+    // remove the duplicates.
+    // https://stackoverflow.com/questions/9425009/remove-multiple-elements-from-array-in-javascript-jquery
+    while(indexes.length) {
+      devices.splice(indexes.pop(), 1);
+    }
+
     next(err, devices);
   });
 }

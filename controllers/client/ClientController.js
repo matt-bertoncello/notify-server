@@ -29,16 +29,25 @@ clientController.send = function(data, next) {
   var message = {
     notification: {
       title: data.title,
-      body: data.body,
+      body: data.message,
     },
-    token: data.token
+    data: {
+      organisation: data.organisation.toString(),
+      notificationGroup: data.notificationGroup.toString(),
+    },
+    tokens: data.firebaseTokens,
   };
+
+  // if there is an extended message, add it to message data.
+  if (data.extendedMessage) {
+    message.data.extendedMessage = data.extendedMessage;
+  }
 
   console.log(message);
 
   // Send a message to the device corresponding to the provided
   // registration token.
-  admin.messaging().send(message)
+  admin.messaging().sendMulticast(message)
     .then((response) => {
       // Response is a message ID string.
       console.log('Successfully sent message:', response);
