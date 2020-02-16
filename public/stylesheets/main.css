@@ -317,3 +317,7 @@ div[alt]:hover:before {
   text-decoration: none;
   color: red;
 }
+
+.rounded {
+  border-radius: 20px;
+}

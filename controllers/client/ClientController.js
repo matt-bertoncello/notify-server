@@ -31,16 +31,19 @@ clientController.send = function(data, next) {
       title: data.title,
       body: data.message,
     },
-    data: {
-      organisation: data.organisation.toString(),
-      notificationGroup: data.notificationGroup.toString(),
-    },
+    data: {},
     tokens: data.firebaseTokens,
   };
 
   // if there is an extended message, add it to message data.
   if (data.extendedMessage) {
     message.data.extendedMessage = data.extendedMessage;
+  }
+
+  // if there is an organisation and notification group. add it to data.
+  if (data.organisation && data.notificationGroup) {
+    message.data.organisation = data.organisation.toString(),
+    message.data.notificationGroup = data.notificationGroup.toString();
   }
 
   // if there is an image, attach the ROOT_URL so it can be loaded by each device.
@@ -59,7 +62,7 @@ clientController.send = function(data, next) {
       next(null, response);
     })
     .catch((error) => {
-      console.log('Error sending message');
+      console.log('Error sending message: '+error);
       next(error, null);
     });
 }

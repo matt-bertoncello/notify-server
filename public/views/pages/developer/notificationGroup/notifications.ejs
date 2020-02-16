@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+  <% include ../../../partials/header.ejs %>
+  <title><%= process.env.TITLE %> - <%= notificationGroup.name %></title>
+</head>
+
+<body style="text-align:center">
+
+  <% include ../../../partials/pre-nav.ejs %>
+    <li><a href='/developer'>Developer Dashboard</a></li>
+    <% if (notificationGroup.organisation.image) { %>
+      <li><a class='no-padding' href='/organisation/<%= notificationGroup.organisation._id %>'><img style="height:50px;" src='/image/<%= notificationGroup.organisation.image %>'></a></li>
+    <% } else { %>
+      <li><a href='/organisation/<%= notificationGroup.organisation._id %>'><%= notificationGroup.organisation.name %></a></li>
+    <% } %>
+  <% include ../../../partials/post-nav.ejs %>
+
+  <div id='notifications-list' class="two-column grid" style="width:49%">
+    <% for (var i=0; i<notifications.length; i++) { %>
+      <div class="card shadowed rounded" style="height:75px;padding:5px 20px;font-family:'Roboto';font-size:12px;text-align:left;">
+        <div class="grid">
+          <div style='padding-bottom:5px;'>
+            <img class="grid" style="height:15px;" src='/images/notify-badge.png'>
+            <div class="grid" style="height:15px;color:#CCCC00;vertical-align:middle;padding:0px 5px;">Notify</div>
+            <% var time = new Date(notifications[i].created); %>
+            <% if (new Date() - new Date(notifications[i].created) < 86400000) { %>
+              <p class="grid no-padding" style="height:15px;vertical-align:middle;"><%= time.toLocaleString('en-GB', { hour: 'numeric',minute:'numeric', hour12: true }) %></p>
+            <% } else { %>
+              <p class="grid no-padding" style="height:15px;vertical-align:middle;"><%= time.getDate() %>/<%= time.getMonth()+1 %>/<%= time.getYear()-100 %> <%= time.toLocaleString('en-GB', { hour: 'numeric',minute:'numeric', hour12: true }) %></p>
+            <% } %>
+          </div>
+          <b><%= notifications[i].title %></b>
+          <p><%= notifications[i].message %></p>
+        </div>
+
+        <% if (notifications[i].image) { %>
+          <img class="grid" style="height:50px;float:right;margin-top:15px;" src="/image/<%= notifications[i].image %>">
+        <% } %>
+      </div>
+    <% } %>
+  </div>
+
+  <div class="two-column grid" style="width:49%;">
+    test
+  </div>
+
+</body>
+</html>

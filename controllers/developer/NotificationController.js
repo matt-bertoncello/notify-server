@@ -33,4 +33,13 @@ notificationController.createNotification = function(data, next) {
   }
 };
 
+// retrieve all notifications sent successfully to this user group.
+notificationController.getAllNotificationsForNotificationGroup = function(notificationGroup_id, next) {
+  Notification.find({
+    'notificationGroup': notificationGroup_id,
+  }, function(err, notifications) {
+    next(err, notifications);
+  }).sort({ created : 'descending'});
+};
+
 module.exports = notificationController;
