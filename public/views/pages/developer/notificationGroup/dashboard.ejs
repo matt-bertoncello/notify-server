@@ -66,13 +66,26 @@
     <% } %>
   <% include ../../../partials/post-nav.ejs %>
 
-  <div class="card bordered shadowed">
-    <h2><%= notificationGroup.name %></h2>
-    <div><%= notificationGroup.description %></div>
+  <div>
+    <div class="card bordered shadowed" style="height:135px;vertical-align:middle;">
+      <h2><%= notificationGroup.name %></h2>
+      <div><%= notificationGroup.description %></div>
 
-    <% if (notificationGroup.displayImage) { %>
-      <img style="height:50px;" src='/image/<%= notificationGroup.displayImage %>'>
-    <% } %>
+      <% if (notificationGroup.displayImage) { %>
+        <img style="height:50px;" src='/image/<%= notificationGroup.displayImage %>'>
+      <% } %>
+    </div>
+
+    <div class="card bordered shadowed" style="height:135px;vertical-align:middle;">
+      <div class="grid">
+        <b>organisation token</b>
+        <p><%= notificationGroup.organisation.token %><p>
+      </div>
+      <div class="grid">
+        <b>notification group token</b>
+        <p><%= notificationGroup.token %><p>
+      </div>
+    </div>
   </div>
 
   <div class="card bordered shadowed wide">

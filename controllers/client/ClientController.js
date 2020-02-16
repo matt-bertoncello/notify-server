@@ -43,18 +43,16 @@ clientController.send = function(data, next) {
     message.data.extendedMessage = data.extendedMessage;
   }
 
-  console.log(message);
-
   // Send a message to the device corresponding to the provided
   // registration token.
   admin.messaging().sendMulticast(message)
     .then((response) => {
       // Response is a message ID string.
-      console.log('Successfully sent message:', response);
+      console.log('Successfully sent message');
       next(null, response);
     })
     .catch((error) => {
-      console.log('Error sending message:', error);
+      console.log('Error sending message');
       next(error, null);
     });
 }

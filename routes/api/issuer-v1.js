@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var cors = require('cors')
 var notificationGroupController = require("../../controllers/developer/NotificationGroupController.js");
 var notificationController = require("../../controllers/developer/NotificationController.js");
 
@@ -22,8 +23,7 @@ provide the following items in the body:
   title:
   body:
 */
-router.post('/send-notification', (req,res) => {
-
+router.post('/send-notification', cors(), (req,res) => {
   // check if headers are provided.
   if (!req.headers['organisation'] || !req.headers['notification-group']) {
     var json = { 'message': 'incorrect headers provided - see docs' }; // incorrect headers provided
@@ -73,7 +73,14 @@ router.post('/send-notification', (req,res) => {
                   var json = { 'message': 'internal error code: 404' }; // internal server error.
                   apiResponse(500, json, res);
                 } else {
-                  var json = { 'message': 'success' }; // internal server error.
+                  var json = {
+                    'message': 'success',
+                    'notification': notification._id,
+                    'response': {
+                      successCount: response.successCount,
+                      failureCount: response.failureCount,
+                    },
+                  };
                   apiResponse(200, json, res);
                 }
               });
