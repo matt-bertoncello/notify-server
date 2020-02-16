@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var notificationGroupController = require("../../controllers/developer/NotificationGroupController.js");
-var clientController = require("../../controllers/client/ClientController.js");
+var notificationController = require("../../controllers/developer/NotificationController.js");
 
 /*
 Send response to issuer.
@@ -52,18 +52,31 @@ router.post('/send-notification', (req,res) => {
       else {
         notificationGroup.getAllFirebaseTokens(function(err, firebaseTokens) {
           var data = {
-            'tokens': firebaseTokens,
+            'firebaseTokens': firebaseTokens,
             'title': req.body['title'],
-            'body': req.body['message'],
+            'message': req.body['message'],
+            'extendedMessage': req.body['extendedMessage'],
+            'organisation': notificationGroup.organisation._id,
+            'notificationGroup': notificationGroup._id,
           };
 
-          clientController.send(data, function(err, response) {
+          notificationController.createNotification(data, function(err, notification) {
             if (err) {
-              var json = { 'message': 'internal server error: 402' }; // internal server error.
+              var json = { 'message': err }; // internal server error.
               apiResponse(500, json, res);
-            } else {
-              var json = { 'message': 'success' }; // internal server error.
-              apiResponse(200, json, res);
+            }
+
+            // if notification was created successfully.
+            else {
+              notification.send(function(err, response){
+                if (err) {
+                  var json = { 'message': 'internal error code: 404' }; // internal server error.
+                  apiResponse(500, json, res);
+                } else {
+                  var json = { 'message': 'success' }; // internal server error.
+                  apiResponse(200, json, res);
+                }
+              });
             }
           });
         });
