@@ -22,6 +22,7 @@ notificationController.createNotification = function(data, next) {
       'organisation': data.organisation,
       'notificationGroup': data.notificationGroup,
       'extendedMessage': data.extendedMessage,
+      'image': data.image,
     });
 
     // save notification.

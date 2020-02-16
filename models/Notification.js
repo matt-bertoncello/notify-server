@@ -4,6 +4,7 @@ var clientController = require('../controllers/client/ClientController');
 var NotificationSchema = new mongoose.Schema({
   title: {type:String, required:true},
   message: {type:String, required:true},
+  image: {type:String, ref:'Image'},
   extendedMessage: {type:String},
   organisation: {type:mongoose.Schema.Types.ObjectId, required:true, ref:'Organisation'},
   notificationGroup: {type:mongoose.Schema.Types.ObjectId, required:true, ref:'NotificationGroup'},
@@ -30,6 +31,7 @@ NotificationSchema.methods.send = function(next) {
     'organisation': doc.organisation,
     'notificationGroup': doc.notificationGroup,
     'extendedMessage': doc.extendedMessage,
+    'image': doc.image,
   };
 
   // send message.
