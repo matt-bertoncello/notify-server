@@ -4,6 +4,27 @@
   <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
   <% include ../../../partials/header.ejs %>
   <title><%= process.env.TITLE %> - <%= notificationGroup.name %></title>
+
+  <script>
+  function display(id) {
+    document.getElementById('title').innerHTML = data[id].title;
+    document.getElementById('message').innerHTML = data[id].message;
+    document.getElementById('time').innerHTML = data[id].time;
+
+    if (data[id].extendedMessage) {
+      document.getElementById('extendedMessage').innerHTML = data[id].extendedMessage;
+    } else {
+      document.getElementById('extendedMessage').innerHTML = '';
+    }
+
+    if (data[id].image) {
+      document.getElementById('image').src = '/image/'+data[id].image;
+    } else {
+      document.getElementById('image').src = '';
+    }
+  }
+  </script>
+
 </head>
 
 <body style="text-align:center">
@@ -19,7 +40,7 @@
 
   <div id='notifications-list' class="two-column grid" style="width:49%">
     <% for (var i=0; i<notifications.length; i++) { %>
-      <div class="card shadowed rounded notification-container">
+      <div class="card shadowed rounded notification-container" onclick="display('<%= notifications[i]._id %>')">
         <div class="grid">
           <div>
             <img class="grid" src='/images/notify-badge.png'>
@@ -54,13 +75,41 @@
   </div>
 
   <div class="two-column grid" style="width:49%;">
-    <div class="card rounded shadowed" style='margin:0px auto;width:80%;height:85vh'>
-      test
+    <div class="card shadowed rounded notification-container" style='margin:0px auto;width:80%;height:85vh;cursor:auto;overflow-y:auto;'>
+      <div class="grid">
+        <div>
+          <img class="grid" src='/images/notify-badge.png'>
+          <div class="grid">Notify</div>
+          <p id='time' class="grid no-padding" style=""></p>
+        </div>
+        <b id='title' style='max-width:unset;'>no notification selected</b>
+        <p id='message' style='max-width:unset;'></p>
+        <p id='extendedMessage' style='max-width:unset;'></p>
+      </div>
+      <img id='image' class="grid">
     </div>
   </div>
 
 </body>
 <script>
-console.log(document.getElementsByTagName('body')[0].clientHeight)
+var data = {}
+
+<% for (var i=0; i<notifications.length; i++) { %>
+  data['<%= notifications[i]._id %>'] = {
+    title: '<%= notifications[i].title %>',
+    message: '<%= notifications[i].message %>',
+    time: "<%= time.getDate() %>/<%= time.getMonth()+1 %>/<%= time.getYear()-100 %> <%= time.toLocaleString('en-GB', { hour: 'numeric',minute:'numeric', hour12: true }) %>",
+  }
+
+  <% if (notifications[i].image) { %>
+    data['<%= notifications[i]._id %>'].image = '<%= notifications[i].image %>';
+  <% } %>
+
+  <% if (notifications[i].extendedMessage) { %>
+    data['<%= notifications[i]._id %>'].extendedMessage = '<%= notifications[i].extendedMessage %>';
+  <% } %>
+
+<% } %>
+console.log(data);
 </script>
 </html>
