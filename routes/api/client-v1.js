@@ -96,7 +96,7 @@ Log-out user. Remove token from user list.
 */
 router.post('/logout', function(req, res) {
   // retrieve user from authToken.
-  deviceController.deleteDeviceFromAuthToken(req.headers['auth-token'], function(err) {
+  deviceController.makeDeviceInactiveFromAuthToken(req.headers['auth-token'], function(err) {
     // If there was a login error:
     if (err) {
       clientController.apiError(401, err, res) // unauthorized.

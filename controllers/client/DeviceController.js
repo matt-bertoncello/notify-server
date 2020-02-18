@@ -6,17 +6,38 @@ deviceController = {};
 
 /*
 Create device with appropriate fields.
+If device already exists, make it active. next(err, device);
 */
 deviceController.createDevice = function(object, next) {
-  var device = new Device({
-    name: object.name,
-    user: object.user_id,
-    firebaseInstance: object.firebaseInstance,
-  });
+  // find device with same firebase token and user_id.
+  Device.findOne({
+    'firebaseInstance': object.firebaseInstance,
+    'user': object.user_id,
+  }, function(err, device) {
+    if (err) { return next(err, null); }
 
-  // if there is an error saving, pass-through error.
-  device.save(function(err) {
-    next(err, device);
+    // if device exists, update name and make it active.
+    else if (device) {
+      device.makeActive(function(err) {
+        device.updateDeviceName(object.name, function(err) {
+          next(null, device);
+        })
+      })
+    }
+
+    // else if device doesn't exist.
+    else {
+      var device = new Device({
+        name: object.name,
+        user: object.user_id,
+        firebaseInstance: object.firebaseInstance,
+      });
+
+      // if there is an error saving, pass-through error.
+      device.save(function(err) {
+        next(err, device);
+      });
+    }
   });
 }
 
@@ -24,7 +45,10 @@ deviceController.createDevice = function(object, next) {
 Get device from authToken.
 */
 deviceController.getDeviceFromAuthToken = function(authToken, next) {
-  Device.findOne({ 'authToken': authToken}, function(err, device) {
+  Device.findOne({
+    'authToken': authToken,
+    'active': true,
+  }, function(err, device) {
     if (err) { return next(err, null) }
     if (!device) {
       err = "[ERROR] no device found with authToken: "+authToken;
@@ -44,20 +68,27 @@ deviceController.getUserFromAuthToken = function(authToken, next) {
 }
 
 /*
-Delete the device identified by authToken.
+Make device inactive from auth token.
 */
-deviceController.deleteDeviceFromAuthToken = function(authToken, next) {
-  Device.deleteOne({ 'authToken': authToken }, function(err) {
-    next(err)
+deviceController.makeDeviceInactiveFromAuthToken = function(authToken, next) {
+  deviceController.getDeviceFromAuthToken(authToken, function(err, device) {
+    if (err) { next(err, null) }
+    else {
+      device.makeInactive(function(err) {
+        return next(err);
+      });
+    }
   });
 }
 
 /*
-Update the device name in the DB.
+Update the device name in the DB, from id.
 */
 deviceController.updateDeviceName = function(device_id, name, next) {
-  Device.findOneAndUpdate({'_id':device_id}, {$set: {'name': name}}, {'returnNewDocument': true}, function(err, device) {
-    next(err, device);
+  Device.findOne({'_id':device_id}, function(err, device) {
+    device.updateDeviceName(name, function(err) {
+      next(err, device);
+    });
   });
 };
 
@@ -65,7 +96,10 @@ deviceController.updateDeviceName = function(device_id, name, next) {
 Find all devices for this user.
 */
 deviceController.getAllDevicesForUser = function(user_id, next) {
-  Device.find({ 'user': user_id }, function(err, devices) {
+  Device.find({
+    'user': user_id ,
+    'active': true,
+  }, function(err, devices) {
     next(err, devices);
   });
 }
@@ -74,6 +108,7 @@ deviceController.getDeviceFromId = function(user_id, device_id, next) {
   Device.findOne({
     'user': user_id,
     '_id': device_id,
+    'active': true,
   }, function(err, device) {
     next(err, device);
   });
@@ -84,7 +119,8 @@ Find all devices for users in this notificationGroup.
 */
 deviceController.getAllDevicesForNotificationGroup = function(notificationGroup, next) {
   Device.find({
-    'user': { $in: notificationGroup.users }
+    'user': { $in: notificationGroup.users },
+    'active': true,
   }, function(err, devices) {
     // remove duplicate devices (should never appear. better to be safe than sorry).
     var indexes = []
