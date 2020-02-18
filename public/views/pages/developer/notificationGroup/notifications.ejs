@@ -75,7 +75,7 @@
   </div>
 
   <div class="two-column grid" style="width:49%;">
-    <div class="card shadowed rounded notification-container" style='margin:0px auto;width:80%;height:85vh;cursor:auto;overflow-y:auto;'>
+    <div class="card shadowed rounded notification-container" style='margin:0px auto;width:80%;height:85vh;cursor:auto;overflow-y:auto;position:relative;'>
       <div class="grid">
         <div>
           <img class="grid" src='/images/notify-badge.png'>
@@ -86,7 +86,7 @@
         <p id='message' style='max-width:unset;'></p>
         <p id='extendedMessage' style='max-width:unset;'></p>
       </div>
-      <img id='image' class="grid">
+      <img id='image' class="grid" style='position:absolute;right:4%;bottom:2%;'>
     </div>
   </div>
 
@@ -98,7 +98,7 @@ var data = {}
   data['<%= notifications[i]._id %>'] = {
     title: '<%= notifications[i].title %>',
     message: '<%= notifications[i].message %>',
-    time: "<%= time.getDate() %>/<%= time.getMonth()+1 %>/<%= time.getYear()-100 %> <%= time.toLocaleString('en-GB', { hour: 'numeric',minute:'numeric', hour12: true }) %>",
+    time: "<%= notifications[i].created.getDate() %>/<%= notifications[i].created.getMonth()+1 %>/<%= notifications[i].created.getYear()-100 %> <%= notifications[i].created.toLocaleString('en-GB', { hour: 'numeric',minute:'numeric', hour12: true }) %>",
   }
 
   <% if (notifications[i].image) { %>
