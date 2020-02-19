@@ -1,19 +1,110 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
   <% include ../../partials/header.ejs %>
   <title><%= process.env.TITLE %> - notifications</title>
+
+  <script>
+  function display(id) {
+    document.getElementById('title').innerHTML = data[id].title;
+    document.getElementById('message').innerHTML = data[id].message;
+    document.getElementById('time').innerHTML = data[id].time;
+
+    if (data[id].extendedMessage) {
+      document.getElementById('extendedMessage').innerHTML = data[id].extendedMessage;
+    } else {
+      document.getElementById('extendedMessage').innerHTML = '';
+    }
+
+    if (data[id].image) {
+      document.getElementById('image').src = '/image/'+data[id].image;
+    } else {
+      document.getElementById('image').src = '';
+    }
+  }
+  </script>
+
 </head>
 
-<body style="text-align:center;">
+<body style="text-align:center">
 
   <% include ../../partials/pre-nav.ejs %>
     <li><a href='/client'>Client Dashboard</a></li>
   <% include ../../partials/post-nav.ejs %>
 
-  <h1>Notifications</h1>
+  <div id='notifications-list' class="two-column grid" style="width:49%">
+    <% for (var i=0; i<notifications.length; i++) { %>
+      <div class="card shadowed rounded notification-container" onclick="display('<%= notifications[i]._id %>')">
+        <div class="grid">
+          <div>
+            <img class="grid" src='/images/notify-badge.png'>
+            <div class="grid">Notify</div>
+            <% var time = new Date(notifications[i].created); %>
+            <% if (new Date() - new Date(notifications[i].created) < 86400000) { %>
+              <p class="grid no-padding" style=""><%= time.toLocaleString('en-GB', { hour: 'numeric',minute:'numeric', hour12: true }) %></p>
+            <% } else { %>
+              <p class="grid no-padding"><%= time.getDate() %>/<%= time.getMonth()+1 %>/<%= time.getYear()-100 %> <%= time.toLocaleString('en-GB', { hour: 'numeric',minute:'numeric', hour12: true }) %></p>
+            <% } %>
+          </div>
 
+          <% if (notifications[i].title.length < 40) { %>
+            <b><%= notifications[i].title %></b>
+          <% } else { %>
+            <b><%= notifications[i].title.match(/(.{1,40}\w)\s/)[1]%>...</b>
+          <% } %>
 
+          <% if (notifications[i].message.length < 80) { %>
+            <p><%= notifications[i].message %></p>
+          <% } else { %>
+            <p><%= notifications[i].message.match(/(.{1,80}\w)\s/)[1]%>...</p>
+          <% } %>
+
+        </div>
+
+        <% if (notifications[i].image) { %>
+          <img class="grid" src="/image/<%= notifications[i].image %>">
+        <% } %>
+      </div>
+    <% } %>
+  </div>
+
+  <div class="two-column grid" style="width:49%;">
+    <div class="card shadowed rounded notification-container" style='margin:0px auto;width:80%;height:85vh;cursor:auto;overflow-y:auto;position:relative;'>
+      <div class="grid">
+        <div>
+          <img class="grid" src='/images/notify-badge.png'>
+          <div class="grid">Notify</div>
+          <p id='time' class="grid no-padding" style=""></p>
+        </div>
+        <b id='title' style='max-width:unset;'>no notification selected</b>
+        <p id='message' style='max-width:unset;'></p>
+        <p id='extendedMessage' style='max-width:unset;'></p>
+      </div>
+      <img id='image' class="grid" style='position:absolute;right:4%;bottom:2%;'>
+    </div>
+  </div>
 
 </body>
+<script>
+var data = {}
+
+<% for (var i=0; i<notifications.length; i++) { %>
+  data['<%= notifications[i]._id %>'] = {
+    title: '<%= notifications[i].title %>',
+    message: '<%= notifications[i].message %>',
+    time: "<%= notifications[i].created.getDate() %>/<%= notifications[i].created.getMonth()+1 %>/<%= notifications[i].created.getYear()-100 %> <%= notifications[i].created.toLocaleString('en-GB', { hour: 'numeric',minute:'numeric', hour12: true }) %>",
+  }
+
+  <% if (notifications[i].image) { %>
+    data['<%= notifications[i]._id %>'].image = '<%= notifications[i].image %>';
+  <% } %>
+
+  <% if (notifications[i].extendedMessage) { %>
+    data['<%= notifications[i]._id %>'].extendedMessage = '<%= notifications[i].extendedMessage %>';
+  <% } %>
+
+<% } %>
+console.log(data);
+</script>
 </html>

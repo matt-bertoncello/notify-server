@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var authController = require("../../controllers/AuthController.js");
 var deviceController = require("../../controllers/client/DeviceController.js");
+var notificationController = require("../../controllers/developer/NotificationController.js");
 
 /* Dashboard */
 router.get('/', authController.checkAuthentication, (req,res) => {
@@ -40,7 +41,13 @@ router.get('/devices/:device', authController.checkAuthentication, (req,res) => 
 
 /* Notifications */
 router.get('/notifications', authController.checkAuthentication, (req,res) => {
-  res.render('client/notifications', {req: req});
+  // get all notifications sent to this user.
+  notificationController.getAllNotificationsForUser(req.session.passport.user._id, function(err, notifications) {
+    if (err) { res.redirect('/client'); }
+    else {
+      res.render('client/notifications', {req: req, notifications: notifications});
+    }
+  });
 });
 
 module.exports = router;

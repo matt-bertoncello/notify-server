@@ -51,8 +51,6 @@ clientController.send = function(data, next) {
     message.notification.image = process.env.ROOT_URL+'/image/'+data.image
   }
 
-  console.log(message);
-
   // Send a message to the device corresponding to the provided
   // registration token.
   admin.messaging().sendMulticast(message)

@@ -34,4 +34,13 @@ notificationController.getAllNotificationsForNotificationGroup = function(notifi
   }).sort({ created : 'descending'});
 };
 
+// retrieve all notifications sent to this user.
+notificationController.getAllNotificationsForUser = function(user_id, next) {
+  Notification.find({
+    'users': user_id,
+  }, function(err, notifications) {
+    next(err, notifications);
+  }).populate('organisation').sort({ created : 'descending'});
+};
+
 module.exports = notificationController;
