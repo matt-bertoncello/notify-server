@@ -33,7 +33,7 @@
     <li><a href='/client'>Client Dashboard</a></li>
   <% include ../../partials/post-nav.ejs %>
 
-  <div id='notifications-list' class="two-column grid" style="width:49%">
+  <div id='notifications-list' class="grid" style="width:49%">
     <% for (var i=0; i<notifications.length; i++) { %>
       <div class="card shadowed rounded notification-container" onclick="display('<%= notifications[i]._id %>')">
         <div class="grid">
@@ -69,19 +69,24 @@
     <% } %>
   </div>
 
-  <div class="two-column grid" style="width:49%;">
-    <div class="card shadowed rounded notification-container" style='margin:0px auto;width:80%;height:85vh;cursor:auto;overflow-y:auto;position:relative;'>
-      <div class="grid">
-        <div>
+  <div class="grid" style="width:49%;">
+    <div class="card shadowed rounded notification-container" style='margin:0px auto;width:80%;height:85vh;cursor:auto;position:relative;'>
+      <div style='height:90%;display:table;'>
+        <div style='height:21px;display:table-row'>
           <img class="grid" src='/images/notify-badge.png'>
           <div class="grid">Notify</div>
           <p id='time' class="grid no-padding" style=""></p>
         </div>
-        <b id='title' style='max-width:unset;'>no notification selected</b>
-        <p id='message' style='max-width:unset;'></p>
-        <p id='extendedMessage' style='max-width:unset;'></p>
+        <div style='overflow-y:auto;display:table-row'>
+          <b id='title' style='max-width:unset;'>no notification selected</b>
+          <p id='message' style='max-width:unset;'></p>
+          <p id='extendedMessage' style='max-width:unset;'></p>
+        </div>
       </div>
-      <img id='image' class="grid" style='position:absolute;right:4%;bottom:2%;'>
+      <div style='height:10%;display:flex;'>
+        <div>Test organisation</div>
+        <img id='image' style='margin:auto 0px auto auto;height:100%;display:block;'
+      <div>
     </div>
   </div>
 
