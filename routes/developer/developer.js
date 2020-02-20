@@ -49,6 +49,7 @@ router.post('/new-organisation/submit', authController.checkAuthentication, (req
         } else {
           // when file is uploaded, create new organisation with this file.
           organisationController.createOrganisation(newPath,
+            files.file.type,
             req.session.passport.user,
             fields.name,
             fields.mainColour,
