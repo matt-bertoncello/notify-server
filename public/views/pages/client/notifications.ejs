@@ -10,6 +10,8 @@
     document.getElementById('title').innerHTML = data[id].title;
     document.getElementById('message').innerHTML = data[id].message;
     document.getElementById('time').innerHTML = data[id].time;
+    document.getElementById('organisation-name').innerHTML = data[id].organisationName;
+    document.getElementById('organisation-name').style.color = data[id].organsiationMainColour;
 
     if (data[id].extendedMessage) {
       document.getElementById('extendedMessage').innerHTML = data[id].extendedMessage;
@@ -84,9 +86,9 @@
         </div>
       </div>
       <div style='height:10%;display:flex;'>
-        <div>Test organisation</div>
-        <img id='image' style='margin:auto 0px auto auto;height:100%;display:block;'
-      <div>
+        <div id='organisation-name' style='margin:auto 0px auto auto;padding:unset;'></div>
+        <img id='image' style='height:100%;display:block;'>
+      </div>
     </div>
   </div>
 
@@ -99,6 +101,8 @@ var data = {}
     title: '<%= notifications[i].title %>',
     message: '<%= notifications[i].message %>',
     time: "<%= notifications[i].created.getDate() %>/<%= notifications[i].created.getMonth()+1 %>/<%= notifications[i].created.getYear()-100 %> <%= notifications[i].created.toLocaleString('en-GB', { hour: 'numeric',minute:'numeric', hour12: true }) %>",
+    organisationName:'<%= notifications[i].organisation.name %>',
+    organsiationMainColour: '<%= notifications[i].organisation.mainColour %>',
   }
 
   <% if (notifications[i].image) { %>
@@ -110,6 +114,5 @@ var data = {}
   <% } %>
 
 <% } %>
-console.log(data);
 </script>
 </html>

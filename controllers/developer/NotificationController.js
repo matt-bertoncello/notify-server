@@ -31,7 +31,7 @@ notificationController.getAllNotificationsForNotificationGroup = function(notifi
     'notificationGroup': notificationGroup_id,
   }, function(err, notifications) {
     next(err, notifications);
-  }).sort({ created : 'descending'});
+  }).populate('organisation').sort({ created : 'descending'});
 };
 
 // retrieve all notifications sent to this user.
