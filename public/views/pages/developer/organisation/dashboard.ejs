@@ -14,8 +14,8 @@
   <div class='banner'>About</div>
 
   <div class="card bordered shadowed"
-    style="background-color:<%= organisation.mainColour %>;">
-    <h2 style="color:<%= organisation.secondaryColour %>;"><%= organisation.name %></h2>
+    style="background-color:<%= organisation.secondaryColour %>;">
+    <h2 style="color:<%= organisation.mainColour %>;"><%= organisation.name %></h2>
     <div>
       <% if (organisation.image) { %>
         <img class='sub-image' src='/image/<%= organisation.image %>'>
@@ -23,7 +23,7 @@
         <img class='sub-image' src='/images/placeholder.png'>
       <% } %>
     </div>
-    <div style='text-align:right;color:<%= organisation.secondaryColour %>;'><%= organisation.getUserRole(user._id) %></div>
+    <div style='text-align:right;color:<%= organisation.mainColour %>;'><%= organisation.getUserRole(user._id) %></div>
   </div>
 
   <div class='banner'>Notification Groups

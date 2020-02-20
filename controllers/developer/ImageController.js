@@ -7,7 +7,7 @@ var imageController = {};
 /*
 Create new Image document in DB if the file can be loaded successfully.
 */
-imageController.saveImage = function(localPath, organisation_id, next) {
+imageController.saveImage = function(localPath, contentType, organisation_id, next) {
   var name = localPath.replace(/^.*[\\\/]/, ''); // get filename from path. Include the extension.
 
   // Load file and then save in DB.
@@ -24,7 +24,7 @@ imageController.saveImage = function(localPath, organisation_id, next) {
           'name': name,
           'data': bufferData,
           'organisation': organisation_id,
-          'contentType': localPath.substring(localPath.lastIndexOf('.')+1, localPath.length) || localPath,
+          'contentType': contentType,
         });
 
         image.save(function(err) {

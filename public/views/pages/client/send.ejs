@@ -12,11 +12,11 @@
       socket.emit('send', {
         '_id': "<%= device._id %>",
         'title': document.getElementById('notification-title').value,
-        'body':document.getElementById('notification-body').value,
+        'message':document.getElementById('notification-message').value,
       });
 
       document.getElementById('notification-title').value = '';
-      document.getElementById('notification-body').value = '';
+      document.getElementById('notification-message').value = '';
     }
 
     socket.on('err', function(err){
@@ -53,7 +53,7 @@
     </div>
     <div>
       <h3>Notification Message</h3>
-      <input class='text-input wide' id='notification-body'>
+      <input class='text-input wide' id='notification-message'>
     </div>
     <button type='button' class="card-link-inverted bordered" style='width:100px; margin-bottom:10px' onclick="send()">Send</button>
     <div class='error' id='send_error'></div>

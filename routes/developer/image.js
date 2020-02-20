@@ -12,6 +12,8 @@ router.get('/:image', (req,res) => {
       res.send('No image found with path: '+encodeURI(req.params.image));
     }
     else {
+      res.setHeader('content-type', image.contentType); // tell browser this is an image.
+      res.set('Cache-Control', 'public, max-age=31557600'); // set max-age so browser won't check for an updated file.
       res.send(image.data);
     }
   });
