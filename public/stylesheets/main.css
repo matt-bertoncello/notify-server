@@ -335,6 +335,7 @@ div[alt]:hover:before {
   text-align:left;
   cursor: pointer;
   margin: 15px auto;
+  white-space: normal;
 }
 
 .notification-container > div > div {
@@ -366,4 +367,17 @@ div[alt]:hover:before {
   color:#CCCC00;
   vertical-align:middle;
   padding:0px 5px;
+}
+
+
+.organisation-notification-container {
+  width: 100px;
+  display: inline-table;
+  vertical-align: bottom;
+  height:85px;
+  padding:5px 10px;
+  font-family:'Roboto';
+  font-size:12px;
+  margin: 15px auto;
+  white-space: normal;
 }
