@@ -6,11 +6,11 @@
 
   <script>
   function setMainColour(colour) {
-    document.getElementById('example-organisation').style['background-color'] = document.getElementById('mainColour').value;
+    document.getElementById('example-title').style.color = document.getElementById('mainColour').value;
   }
 
   function setSecondaryColour(colour) {
-    document.getElementById('example-title').style.color = document.getElementById('secondaryColour').value;
+    document.getElementById('example-organisation').style['background-color'] = document.getElementById('secondaryColour').value;
   }
 
   function setTitle(title) {
@@ -54,10 +54,10 @@
         <input class='form-control' type='text' name='name' id='name' placeholder='organisation name' required autofocus oninput="setTitle()">
       </div>
       <div>
-        <input class='form-control' style='height:50px;' type='color' name='mainColour' id='mainColour' placeholder='main colour' required oninput="setMainColour()" value="#ffffff">
+        <input class='form-control' style='height:50px;' type='color' name='mainColour' id='mainColour' placeholder='main colour' required oninput="setMainColour()" value="#000000">
       </div>
       <div>
-        <input class='form-control' style='height:50px;' type='color' name='secondaryColour' id='secondaryColour' placeholder='secondary colour' required oninput="setSecondaryColour()" value="#000000">
+        <input class='form-control' style='height:50px;' type='color' name='secondaryColour' id='secondaryColour' placeholder='secondary colour' required oninput="setSecondaryColour()" value="#ffffff">
       </div>
       <div>
         <input class='form-control' type='file' name='file' id='file' required>
