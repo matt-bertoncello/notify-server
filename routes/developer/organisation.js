@@ -78,6 +78,7 @@ router.post('/:organisation/new-notification-group/submit', authController.check
                 'name': fields.name,
                 'description': fields.description,
                 'imagePath': newPath,
+                'imageContent': files.file.type,
               };
               innerCreateNotificationGroup(notificationGroupData);
             }

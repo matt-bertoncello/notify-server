@@ -7,7 +7,7 @@ var organisationController = {};
 /*
 Create new organisation with this user as the sole admin.
 */
-organisationController.createOrganisation = function(imageLocalPath, user, organisationName, mainColour, secondaryColour, next) {
+organisationController.createOrganisation = function(imageLocalPath, contentType, user, organisationName, mainColour, secondaryColour, next) {
   // Create organisation.
   organisation = new Organisation({
     'name': organisationName,
@@ -19,7 +19,7 @@ organisationController.createOrganisation = function(imageLocalPath, user, organ
 
 
   // upload image to DB, then link it to organisation if it was created successfully.
-  imageController.saveImage(imageLocalPath, organisation._id, function(err, image){
+  imageController.saveImage(imageLocalPath, contentType, organisation._id, function(err, image){
     // if the image was uploaded successfully, allocate it to this organisation.
     if (image) {
       organisation.image = image;

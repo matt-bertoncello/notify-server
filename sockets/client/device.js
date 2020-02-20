@@ -18,9 +18,9 @@ socket_router.sock = function(socket, io) {
       } else {
         // if device was found successfully, send message.
         clientController.send({
-          'tokens': [device.firebaseInstance],
+          'firebaseTokens': [device.firebaseInstance],
           'title': data.title,
-          'body': data.body,
+          'message': data.message,
         }, function(err, message_id) {
           if (err) { socket.emit('err', {id: 'send_error', text: err}); }
           else { socket.emit('err', {id: 'send_success', text: 'success'}); }

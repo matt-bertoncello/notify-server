@@ -8,6 +8,7 @@ var NotificationSchema = new mongoose.Schema({
   extendedMessage: {type:String},
   organisation: {type:mongoose.Schema.Types.ObjectId, required:true, ref:'Organisation'},
   notificationGroup: {type:mongoose.Schema.Types.ObjectId, required:true, ref:'NotificationGroup'},
+  users: [ {type:mongoose.Schema.Types.ObjectId, required:true, ref:'User'} ],
   firebaseTokens: [ {type:String, required:true} ],
   response: {type:Object},
   created: {type: Date, default: Date.now},

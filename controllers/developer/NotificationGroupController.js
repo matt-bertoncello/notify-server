@@ -48,7 +48,7 @@ notificationGroupController.createNotificationGroup = function(organisation_id, 
 
   // if image exists, upload image to DB, then link it to organisation if it was created successfully.
   if (notificationGroupData.imagePath) {
-    imageController.saveImage(notificationGroupData.imagePath, organisation_id, function(err, image){
+    imageController.saveImage(notificationGroupData.imagePath, notificationGroupData.contentType, organisation_id, function(err, image){
       // if the image was uploaded successfully, allocate it to this organisation.
       if (image) {
         notificationGroup.image = image._id;

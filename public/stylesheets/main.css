@@ -317,3 +317,67 @@ div[alt]:hover:before {
   text-decoration: none;
   color: red;
 }
+
+.rounded {
+  border-radius: 20px;
+}
+
+#notifications-list {
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.notification-container {
+  height:85px;
+  padding:5px 20px;
+  font-family:'Roboto';
+  font-size:12px;
+  text-align:left;
+  cursor: pointer;
+  margin: 15px auto;
+  white-space: normal;
+}
+
+.notification-container > div > div {
+  padding-bottom:8px;
+  max-width:230px;
+}
+
+.notification-container > img {
+  height:60px;
+  float:right;
+  margin-top:15px;
+}
+
+.notification-container > div > div > img {
+  height:15px;
+}
+
+.notification-container > div > p, .notification-container > div > p {
+  max-width:220px;
+}
+
+.notification-container > div > div > p {
+  height:15px;
+  vertical-align:middle;
+}
+
+.notification-container > div > div > div {
+  height:15px;
+  color:#CCCC00;
+  vertical-align:middle;
+  padding:0px 5px;
+}
+
+
+.organisation-notification-container {
+  width: 100px;
+  display: inline-table;
+  vertical-align: bottom;
+  height:85px;
+  padding:5px 10px;
+  font-family:'Roboto';
+  font-size:12px;
+  margin: 15px auto;
+  white-space: normal;
+}
