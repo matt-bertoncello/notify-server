@@ -57,17 +57,8 @@
               <% } %>
             </div>
 
-            <% if (notifications[i].title.length < 40) { %>
-              <b><%= notifications[i].title %></b>
-            <% } else { %>
-              <b><%= notifications[i].title.match(/(.{1,40}\w)\s/)[1]%>...</b>
-            <% } %>
-
-            <% if (notifications[i].message.length < 80) { %>
-              <p><%= notifications[i].message %></p>
-            <% } else { %>
-              <p><%= notifications[i].message.match(/(.{1,80}\w)\s/)[1]%>...</p>
-            <% } %>
+            <b><%= notifications[i].title %></b>
+            <p><%= notifications[i].message %></p>
 
           </div>
 

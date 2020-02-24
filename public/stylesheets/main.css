@@ -353,8 +353,18 @@ div[alt]:hover:before {
   height:15px;
 }
 
-.notification-container > div > p, .notification-container > div > p {
+.notification-container > div > p, .notification-container > div > b {
   max-width:220px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.notification-container > div > p {
+  -webkit-line-clamp: 2;
+}
+
+.notification-container > div > b {
+  -webkit-line-clamp: 1;
 }
 
 .notification-container > div > div > p {
