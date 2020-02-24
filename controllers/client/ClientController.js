@@ -26,6 +26,15 @@ console.log('[INFO] Connected Notify to Firebase');
 Send notification with title and body to token.
 */
 clientController.send = function(data, next) {
+  // if data.firebaseTokens is empty, there is no one to send message to.
+  if (data.firebaseTokens.length == 0) {
+    return next(null, {
+      'responses': [],
+      'successCount': 0,
+      'failureCount': 0,
+    });  
+  }
+
   var message = {
     notification: {
       title: data.title,
