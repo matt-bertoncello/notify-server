@@ -14,9 +14,9 @@
     document.getElementById('organisation-name').style.color = data[id].organsiationMainColour;
 
     if (data[id].extendedMessage) {
-      document.getElementById('extendedMessage').innerHTML = data[id].extendedMessage;
+      document.getElementById('extended-message').innerHTML = data[id].extendedMessage;
     } else {
-      document.getElementById('extendedMessage').innerHTML = '';
+      document.getElementById('extended-message').innerHTML = '';
     }
 
     if (data[id].image) {
@@ -55,17 +55,8 @@
             <% } %>
           </div>
 
-          <% if (notifications[i].title.length < 40) { %>
-            <b><%= notifications[i].title %></b>
-          <% } else { %>
-            <b><%= notifications[i].title.match(/(.{1,40}\w)\s/)[1]%>...</b>
-          <% } %>
-
-          <% if (notifications[i].message.length < 80) { %>
-            <p><%= notifications[i].message %></p>
-          <% } else { %>
-            <p><%= notifications[i].message.match(/(.{1,80}\w)\s/)[1]%>...</p>
-          <% } %>
+          <b><%= notifications[i].title %></b>
+          <p><%= notifications[i].message %></p>
 
         </div>
 
@@ -85,9 +76,9 @@
           <p id='time' class="grid no-padding" style=""></p>
         </div>
         <div style='overflow-y:auto;display:table-row'>
-          <b id='title' style='max-width:unset;'>no notification selected</b>
-          <p id='message' style='max-width:unset;'></p>
-          <p id='extendedMessage' style='max-width:unset;'></p>
+          <b id='title' style='max-width:unset;height:unset;'>no notification selected</b>
+          <p id='message' style='max-width:unset;height:unset;'></p>
+          <p id='extended-message' style='max-width:unset;height:unset;'></p>
         </div>
       </div>
       <div style='height:10%;display:flex;'>

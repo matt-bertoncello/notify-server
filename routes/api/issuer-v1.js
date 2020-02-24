@@ -53,10 +53,10 @@ router.post('/send-notification', cors(), (req,res) => {
         notificationGroup.getAllFirebaseTokens(function(err, firebaseTokens) {
           var data = {
             'firebaseTokens': firebaseTokens,
-            'title': req.body['title'],
-            'message': req.body['message'],
+            'title': req.body['title'].replace(/\r?\n|\r/g, " ").trim(),
+            'message': req.body['message'].replace(/\r?\n|\r/g, " ").trim(),
             'users': notificationGroup.users,
-            'extendedMessage': req.body['extendedMessage'],
+
             'organisation': notificationGroup.organisation._id,
             'notificationGroup': notificationGroup._id,
           };
@@ -64,6 +64,11 @@ router.post('/send-notification', cors(), (req,res) => {
           // if req.body['image'] === true, display the image with the notification.
           if (req.body['image'] === true) {
             data.image = notificationGroup.displayImage;
+          }
+
+          // if req.body['extended-message'] is present, serialise and add to notification.
+          if (req.body['extended-message']) {
+            data.extendedMessage = req.body['extended-message'].replace(/\r?\n|\r/g, " ").trim();
           }
 
           notificationController.createNotification(data, function(err, notification) {
