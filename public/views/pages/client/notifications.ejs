@@ -52,7 +52,7 @@
           <div class="grid">
             <div>
               <img class="grid" src='/images/notify-badge.png'>
-              <div class="grid">Notify</div>
+              <div class="grid notify-text">Notify</div>
               <% var time = new Date(notifications[i].created); %>
               <% if (new Date() - new Date(notifications[i].created) < 86400000) { %>
                 <p class="grid no-padding" style=""><%= time.toLocaleString('en-GB', { hour: 'numeric',minute:'numeric', hour12: true }) %></p>
@@ -79,7 +79,7 @@
       <div style='height:90%;display:table;'>
         <div style='height:21px;display:table-row'>
           <img class="grid" src='/images/notify-badge.png'>
-          <div class="grid">Notify</div>
+          <div class="grid notify-text">Notify</div>
           <p id='time' class="grid no-padding" style=""></p>
         </div>
         <div style='overflow-y:auto;display:table-row'>
