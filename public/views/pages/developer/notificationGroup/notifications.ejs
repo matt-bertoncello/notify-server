@@ -42,6 +42,10 @@
 
   <div id='notifications-list' class="grid" style="width:49%">
     <% for (var i=0; i<notifications.length; i++) { %>
+      <% var maxWidth = 330 %>
+      <% if (notifications[i].image) { %>
+        <% var maxWidth = 220 %>
+      <% } %>
       <div class="card shadowed rounded notification-container" onclick="display('<%= notifications[i]._id %>')">
         <div class="grid">
           <div>
@@ -55,8 +59,8 @@
             <% } %>
           </div>
 
-          <b><%= notifications[i].title %></b>
-          <p><%= notifications[i].message %></p>
+          <b style='max-width:<%= maxWidth %>px;'><%= notifications[i].title %></b>
+          <p style='max-width:<%= maxWidth %>px;'><%= notifications[i].message %></p>
 
         </div>
 
