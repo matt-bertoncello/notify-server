@@ -37,6 +37,10 @@
 
   <div id='notifications-list' class="grid" style="width:49%">
     <% for (var i=0; i<notifications.length; i++) { %>
+      <% var maxWidth = 330 %>
+      <% if (notifications[i].image) { %>
+        <% var maxWidth = 220 %>
+      <% } %>
       <div style='white-space:nowrap;'>
         <div class="shadowed rounded organisation-notification-container" style='background-color:<%= notifications[i].organisation.secondaryColour %>'>
           <div class='organisation-text-small' style='color:<%= notifications[i].organisation.mainColour %>'><%= notifications[i].organisation.name %></div>
@@ -48,7 +52,7 @@
           <div class="grid">
             <div>
               <img class="grid" src='/images/notify-badge.png'>
-              <div class="grid">Notify</div>
+              <div class="grid notify-text">Notify</div>
               <% var time = new Date(notifications[i].created); %>
               <% if (new Date() - new Date(notifications[i].created) < 86400000) { %>
                 <p class="grid no-padding" style=""><%= time.toLocaleString('en-GB', { hour: 'numeric',minute:'numeric', hour12: true }) %></p>
@@ -57,8 +61,8 @@
               <% } %>
             </div>
 
-            <b><%= notifications[i].title %></b>
-            <p><%= notifications[i].message %></p>
+            <b style='max-width:<%= maxWidth %>px;'><%= notifications[i].title %></b>
+            <p style='max-width:<%= maxWidth %>px;'><%= notifications[i].message %></p>
 
           </div>
 
@@ -75,7 +79,7 @@
       <div style='height:90%;display:table;'>
         <div style='height:21px;display:table-row'>
           <img class="grid" src='/images/notify-badge.png'>
-          <div class="grid">Notify</div>
+          <div class="grid notify-text">Notify</div>
           <p id='time' class="grid no-padding" style=""></p>
         </div>
         <div style='overflow-y:auto;display:table-row'>

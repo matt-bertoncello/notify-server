@@ -354,7 +354,6 @@ div[alt]:hover:before {
 }
 
 .notification-container > div > p, .notification-container > div > b {
-  max-width:220px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -372,7 +371,7 @@ div[alt]:hover:before {
   vertical-align:middle;
 }
 
-.notification-container > div > div > div {
+.notify-text {
   height:15px;
   color:#CCCC00;
   vertical-align:middle;
