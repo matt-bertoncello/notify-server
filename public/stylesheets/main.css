@@ -391,3 +391,15 @@ div[alt]:hover:before {
   margin: 15px auto;
   white-space: normal;
 }
+
+.organisation-text-small {
+  margin:auto;
+  display:table-cell;
+  vertical-align:middle;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  word-wrap: break-word;
+  max-width: 80px;
+}
