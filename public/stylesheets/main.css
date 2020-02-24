@@ -353,8 +353,17 @@ div[alt]:hover:before {
   height:15px;
 }
 
-.notification-container > div > p, .notification-container > div > p {
-  max-width:220px;
+.notification-container > div > p, .notification-container > div > b {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.notification-container > div > p {
+  -webkit-line-clamp: 2;
+}
+
+.notification-container > div > b {
+  -webkit-line-clamp: 1;
 }
 
 .notification-container > div > div > p {
@@ -362,7 +371,7 @@ div[alt]:hover:before {
   vertical-align:middle;
 }
 
-.notification-container > div > div > div {
+.notify-text {
   height:15px;
   color:#CCCC00;
   vertical-align:middle;
@@ -380,4 +389,16 @@ div[alt]:hover:before {
   font-size:12px;
   margin: 15px auto;
   white-space: normal;
+}
+
+.organisation-text-small {
+  margin:auto;
+  display:table-cell;
+  vertical-align:middle;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  word-wrap: break-word;
+  max-width: 80px;
 }

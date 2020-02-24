@@ -10,13 +10,19 @@
     document.getElementById('title').innerHTML = data[id].title;
     document.getElementById('message').innerHTML = data[id].message;
     document.getElementById('time').innerHTML = data[id].time;
+    document.getElementById('notification-id').innerHTML = 'id: '+data[id].notificationId;
     document.getElementById('organisation-name').innerHTML = data[id].organisationName;
     document.getElementById('organisation-name').style.color = data[id].organsiationMainColour;
 
     if (data[id].extendedMessage) {
-      document.getElementById('extendedMessage').innerHTML = data[id].extendedMessage;
+      document.getElementById('extended-message').innerHTML = data[id].extendedMessage;
     } else {
-      document.getElementById('extendedMessage').innerHTML = '';
+      document.getElementById('extended-message').innerHTML = '';
+    }
+
+    if (data[id].notificationSuccessCount && data[id].notificationFailureCount) {
+      document.getElementById('success-count').innerHTML = 'successes: '+data[id].notificationSuccessCount;
+      document.getElementById('failure-count').innerHTML = 'failures: '+data[id].notificationFailureCount;
     }
 
     if (data[id].image) {
@@ -42,11 +48,15 @@
 
   <div id='notifications-list' class="grid" style="width:49%">
     <% for (var i=0; i<notifications.length; i++) { %>
+      <% var maxWidth = 330 %>
+      <% if (notifications[i].image) { %>
+        <% var maxWidth = 220 %>
+      <% } %>
       <div class="card shadowed rounded notification-container" onclick="display('<%= notifications[i]._id %>')">
         <div class="grid">
           <div>
             <img class="grid" src='/images/notify-badge.png'>
-            <div class="grid">Notify</div>
+            <div class="grid notify-text">Notify</div>
             <% var time = new Date(notifications[i].created); %>
             <% if (new Date() - new Date(notifications[i].created) < 86400000) { %>
               <p class="grid no-padding" style=""><%= time.toLocaleString('en-GB', { hour: 'numeric',minute:'numeric', hour12: true }) %></p>
@@ -55,17 +65,8 @@
             <% } %>
           </div>
 
-          <% if (notifications[i].title.length < 40) { %>
-            <b><%= notifications[i].title %></b>
-          <% } else { %>
-            <b><%= notifications[i].title.match(/(.{1,40}\w)\s/)[1]%>...</b>
-          <% } %>
-
-          <% if (notifications[i].message.length < 80) { %>
-            <p><%= notifications[i].message %></p>
-          <% } else { %>
-            <p><%= notifications[i].message.match(/(.{1,80}\w)\s/)[1]%>...</p>
-          <% } %>
+          <b style='max-width:<%= maxWidth %>px;'><%= notifications[i].title %></b>
+          <p style='max-width:<%= maxWidth %>px;'><%= notifications[i].message %></p>
 
         </div>
 
@@ -81,16 +82,21 @@
       <div style='height:90%;display:table;'>
         <div style='height:21px;display:table-row'>
           <img class="grid" src='/images/notify-badge.png'>
-          <div class="grid">Notify</div>
+          <div class="grid notify-text">Notify</div>
           <p id='time' class="grid no-padding" style=""></p>
         </div>
         <div style='overflow-y:auto;display:table-row'>
-          <b id='title' style='max-width:unset;'>no notification selected</b>
-          <p id='message' style='max-width:unset;'></p>
-          <p id='extendedMessage' style='max-width:unset;'></p>
+          <b id='title' style='max-width:unset;height:unset;'>no notification selected</b>
+          <p id='message' style='max-width:unset;height:unset;'></p>
+          <p id='extended-message' style='max-width:unset;height:unset;'></p>
         </div>
       </div>
       <div style='height:10%;display:flex;'>
+        <div style='color:darkgrey'>
+          <div id='notification-id'></div>
+          <div id='success-count'></div>
+          <div id='failure-count'></div>
+        </div>
         <div id='organisation-name' style='margin:auto 0px auto auto;padding:unset;'></div>
         <img id='image' style='height:100%;display:block;'>
       <div>
@@ -108,10 +114,16 @@ var data = {}
     time: "<%= notifications[i].created.getDate() %>/<%= notifications[i].created.getMonth()+1 %>/<%= notifications[i].created.getYear()-100 %> <%= notifications[i].created.toLocaleString('en-GB', { hour: 'numeric',minute:'numeric', hour12: true }) %>",
     organisationName:'<%= notifications[i].organisation.name %>',
     organsiationMainColour: '<%= notifications[i].organisation.mainColour %>',
+    notificationId: '<%= notifications[i]._id %>',
   }
 
   <% if (notifications[i].image) { %>
     data['<%= notifications[i]._id %>'].image = '<%= notifications[i].image %>';
+  <% } %>
+
+  <% if (notifications[i].response) { %>
+    data['<%= notifications[i]._id %>'].notificationSuccessCount = '<%= notifications[i].response.successCount %>';
+    data['<%= notifications[i]._id %>'].notificationFailureCount = '<%= notifications[i].response.failureCount %>';
   <% } %>
 
   <% if (notifications[i].extendedMessage) { %>
