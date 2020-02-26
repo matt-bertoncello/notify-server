@@ -25,39 +25,41 @@ console.log('[INFO] Connected Notify to Firebase');
 /*
 Send notification with title and body to token.
 */
-clientController.send = function(data, next) {
+clientController.send = function(notification, next) {
   // if data.firebaseTokens is empty, there is no one to send message to.
-  if (data.firebaseTokens.length == 0) {
+  if (notification.firebaseTokens.length == 0) {
     return next(null, {
       'responses': [],
       'successCount': 0,
       'failureCount': 0,
-    });  
+    });
   }
 
   var message = {
     notification: {
-      title: data.title,
-      body: data.message,
+      title: notification.title,
+      body: notification.message,
     },
-    data: {},
-    tokens: data.firebaseTokens,
+    data: {
+      notificationId: notification._id.toString(),
+    },
+    tokens: notification.firebaseTokens,
   };
 
   // if there is an extended message, add it to message data.
-  if (data.extendedMessage) {
-    message.data.extendedMessage = data.extendedMessage;
+  if (notification.extendedMessage) {
+    message.data.extendedMessage = notification.extendedMessage;
   }
 
   // if there is an organisation and notification group. add it to data.
-  if (data.organisation && data.notificationGroup) {
-    message.data.organisation = data.organisation.toString(),
-    message.data.notificationGroup = data.notificationGroup.toString();
+  if (notification.organisation && notification.notificationGroup) {
+    message.data.organisation = notification.organisation.toString(),
+    message.data.notificationGroup = notification.notificationGroup.toString();
   }
 
   // if there is an image, attach the ROOT_URL so it can be loaded by each device.
-  if (data.image) {
-    message.notification.image = process.env.ROOT_URL+'/image/'+data.image
+  if (notification.image) {
+    message.notification.image = process.env.ROOT_URL+'/image/'+notification.image
   }
 
   // Send a message to the device corresponding to the provided
