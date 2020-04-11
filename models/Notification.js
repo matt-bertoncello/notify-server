@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var clientController = require('../controllers/client/ClientController');
+var clonedeep = require('clonedeep');
 
 var NotificationSchema = new mongoose.Schema({
   title: {type:String, required:true},
@@ -25,18 +26,8 @@ NotificationSchema.pre('save', function(next) {
 NotificationSchema.methods.send = function(next) {
   doc = this;
 
-  var data = {
-    'title': doc.title,
-    'message': doc.message,
-    'firebaseTokens': doc.firebaseTokens,
-    'organisation': doc.organisation,
-    'notificationGroup': doc.notificationGroup,
-    'extendedMessage': doc.extendedMessage,
-    'image': doc.image,
-  };
-
   // send message.
-  clientController.send(data, function(err, response) {
+  clientController.send(clonedeep(doc), function(err, response) {
     // save response.
     doc.response = response;
 
