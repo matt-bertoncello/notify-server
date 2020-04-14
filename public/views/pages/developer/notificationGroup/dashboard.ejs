@@ -8,7 +8,7 @@
   <script>
   var socket = io.connect('/');
 
-  function addUser() {
+  function addAccount() {
     var value = document.getElementById('email').value;
     socket.emit('addEmailToNotificationGroup', {
       'email': value,
@@ -18,7 +18,7 @@
     document.getElementById('message').style.color ='blue';
   }
 
-  function removeUser(email) {
+  function removeAccount(email) {
     socket.emit('removeEmailFromNotificationGroup', {
       'email': email,
       'notificationGroup': '<%= notificationGroup._id %>',
@@ -31,7 +31,7 @@
     var html = ''
     html += "<div id='"+data.email+"'>"
     html +=   "<div class='grid'>"+data.email+"</div>"
-    html +=   "<button class='grid card-link-red' onclick='removeUser(&#39;"+data.email+"&#39;)'>Remove</button>"
+    html +=   "<button class='grid card-link-red' onclick='removeAccount(&#39;"+data.email+"&#39;)'>Remove</button>"
     html += "</div>";
     document.getElementById('account-emails').innerHTML += html;
     document.getElementById('email').value = '';
@@ -91,7 +91,7 @@
   <div class="card bordered shadowed wide">
     <div>
       <input style='width:330px;' class='form-control grid' placeholder='email' id='email'>
-      <button style='width:100px' type="button" class="card-link-inverted bordered grid" onclick="addUser();">Add User</button>
+      <button style='width:100px' type="button" class="card-link-inverted bordered grid" onclick="addAccount();">Add Account</button>
     </div>
     <div class='error' id='message'></div>
 
@@ -100,7 +100,7 @@
       <% for (var i=0; i<notificationGroup.accounts.length;i++) { %>
         <div id='<%= notificationGroup.accounts[i].email %>'>
           <div class="grid"><%= notificationGroup.accounts[i].email %></div>
-          <button class="grid card-link-red" onclick="removeUser('<%= notificationGroup.accounts[i].email %>')">Remove</button>
+          <button class="grid card-link-red" onclick="removeAccount('<%= notificationGroup.accounts[i].email %>')">Remove</button>
         </div>
       <% } %>
     </div>

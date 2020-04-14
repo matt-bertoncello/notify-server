@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../../partials/header.ejs %>
+  <title><%= process.env.TITLE %> - client</title>
+</head>
+<body>
+
+  <% include ../../partials/pre-nav.ejs %>
+  <% include ../../partials/post-nav.ejs %>
+
+  <div class="jumbotron">
+    <h1>Client Dashboard</h1>
+  </div>
+
+  <div class="card grid bordered shadowed">
+    <a type='button' class='card-link' href="/user/devices">Devices</a>
+  </div>
+
+  <div class="card grid bordered shadowed">
+    <a type='button' class='card-link' href="/user/notifications">Notifications</a>
+  </div>
+
+
+</body>
+</html>

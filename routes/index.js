@@ -6,7 +6,7 @@ require('dotenv').config();
 
 router.get('/', accountController.updateAccount, function(req,res) {
   req.session.host = process.env.APPLICATION_NAME;
-  res.render('index', {req: req});
+  res.redirect('/developer');
 });
 
 router.get('/session', accountController.updateAccount, function(req,res) { res.render('auth/session', {req: req}); });

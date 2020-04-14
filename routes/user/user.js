@@ -4,9 +4,14 @@ var authController = require("../../controllers/AuthController.js");
 var deviceController = require("../../controllers/client/DeviceController.js");
 var notificationController = require("../../controllers/developer/NotificationController.js");
 
-/* Dashboard */
+/* Title page */
 router.get('/', authController.checkAuthentication, (req,res) => {
-  res.render('client/dashboard', {req: req});
+  res.render('user/title', {req: req});
+});
+
+/* Dashboard */
+router.get('/dashboard', authController.checkAuthentication, (req,res) => {
+  res.render('user/dashboard', {req: req});
 });
 
 /*
@@ -16,9 +21,9 @@ router.get('/devices',authController.checkAuthentication, (req,res) => {
   deviceController.getAllDevicesForAccount(req.session.passport.user._id, function(err, devices) {
     if (err) {
       console.log(err);
-      res.redirect('/client');
+      res.redirect('/user');
     } else {
-      res.render('client/devices', {req: req, devices: devices});
+      res.render('user/devices', {req: req, devices: devices});
     }
   })
 });
@@ -29,12 +34,12 @@ Send manual notification to account's device.
 router.get('/devices/:device', authController.checkAuthentication, (req,res) => {
   deviceController.getDeviceFromId(req.session.passport.user._id, req.params.device, function(err, device) {
     if (err) {
-      res.redirect('/client/devices');
+      res.redirect('/user/devices');
     } else if (!device) {
       console.log('[ERROR] no device found');
-      res.redirect('/client/devices');
+      res.redirect('/user/devices');
     } else {
-      res.render('client/send', {req: req, device: device});
+      res.render('user/send', {req: req, device: device});
     }
   })
 });
@@ -43,9 +48,9 @@ router.get('/devices/:device', authController.checkAuthentication, (req,res) => 
 router.get('/notifications', authController.checkAuthentication, (req,res) => {
   // get all notifications sent to this account.
   notificationController.getAllNotificationsForAccount(req.session.passport.user._id, function(err, notifications) {
-    if (err) { res.redirect('/client'); }
+    if (err) { res.redirect('/user'); }
     else {
-      res.render('client/notifications', {req: req, notifications: notifications});
+      res.render('user/notifications', {req: req, notifications: notifications});
     }
   });
 });

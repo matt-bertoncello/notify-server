@@ -2,7 +2,7 @@
 <html>
 <head>
   <% include ../../partials/header.ejs %>
-  <title><%= process.env.TITLE %> - client</title>
+  <title><%= process.env.TITLE %> - developer</title>
 </head>
 <body>
 
@@ -10,17 +10,16 @@
   <% include ../../partials/post-nav.ejs %>
 
   <div class="jumbotron">
-    <h1>Client Dashboard</h1>
+    <h1><%= process.env.APPLICATION_NAME %></h1>
   </div>
 
   <div class="card grid bordered shadowed">
-    <a type='button' class='card-link' href="/client/devices">Devices</a>
+    <a type='button' class='card-link' href="/user/dashboard">User</a>
   </div>
 
   <div class="card grid bordered shadowed">
-    <a type='button' class='card-link' href="/client/notifications">Notifications</a>
+    <a type='button' class='card-link' href="/developer/dashboard">Developer</a>
   </div>
-
 
 </body>
 </html>

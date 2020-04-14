@@ -17,7 +17,7 @@ require('dotenv').config();
 /* Define routes */
 var auth = require('./routes/auth');
 var index = require('./routes/index');
-var client = require('./routes/client/client');
+var user = require('./routes/user/user');
 var image = require('./routes/developer/image');
 var notificationGroup = require('./routes/developer/notificationGroup');
 var developer = require('./routes/developer/developer');
@@ -27,7 +27,7 @@ var issuerAPIv1 = require('./routes/api/issuer-v1');
 
 /* Define sockets */
 var account_sock = require('./sockets/auth/account');
-var device_sock = require('./sockets/client/device');
+var device_sock = require('./sockets/user/device');
 var notificationGroup_sock = require('./sockets/developer/notificationGroup');
 
 /* Remove deprecated settings from mongoose */
@@ -71,7 +71,7 @@ app.use(express.static(path.join(__dirname, 'public')))
   .use(bodyParser.json())
   .use('/', index)
   .use('/auth', auth)
-  .use('/client', client)
+  .use('/user', user)
   .use('/image', image)
   .use('/organisation', organisation)
   .use('/developer', developer)
