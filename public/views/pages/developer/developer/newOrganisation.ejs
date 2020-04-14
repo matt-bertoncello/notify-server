@@ -42,37 +42,39 @@
 
   <% include ../../../partials/pre-nav-dev.ejs %>
   <% include ../../../partials/post-nav.ejs %>
+  <div class='content'>
 
-  <div class="jumbotron">
-    <h1>New Organisation</h1>
-  </div>
-
-  <div class='card bordered shadowed grid'>
-    <form class='form-signin' role='form' action='/developer/new-organisation/submit' method='post' enctype="multipart/form-data">
-      <div>
-        <input class='form-control' type='text' name='name' id='name' placeholder='organisation name' required autofocus oninput="setTitle()">
-      </div>
-      <div>
-        <input class='form-control' style='height:50px;' type='color' name='mainColour' id='mainColour' placeholder='main colour' required oninput="setMainColour()" value="#000000">
-      </div>
-      <div>
-        <input class='form-control' style='height:50px;' type='color' name='secondaryColour' id='secondaryColour' placeholder='secondary colour' required oninput="setSecondaryColour()" value="#ffffff">
-      </div>
-      <div>
-        <input class='form-control' type='file' name='file' id='file' required>
-      </div>
-
-      <button class='card-link-inverted bordered' type='submit'>Create Organisation</button>
-    </form>
-  </div>
-
-  <div class='card bordered shadowed grid' id='example-organisation'>
-    <h2 id="example-title">new organisation</h2>
-    <div id='example-image' style="height:200px;">
-      <img class='sub-image' title='placeholder' src='/images/placeholder.png'>
+    <div class="jumbotron">
+      <h1>New Organisation</h1>
     </div>
-  </div>
 
+    <div class='card bordered shadowed grid'>
+      <form class='form-signin' role='form' action='/developer/new-organisation/submit' method='post' enctype="multipart/form-data">
+        <div>
+          <input class='form-control' type='text' name='name' id='name' placeholder='organisation name' required autofocus oninput="setTitle()">
+        </div>
+        <div>
+          <input class='form-control' style='height:50px;' type='color' name='mainColour' id='mainColour' placeholder='main colour' required oninput="setMainColour()" value="#000000">
+        </div>
+        <div>
+          <input class='form-control' style='height:50px;' type='color' name='secondaryColour' id='secondaryColour' placeholder='secondary colour' required oninput="setSecondaryColour()" value="#ffffff">
+        </div>
+        <div>
+          <input class='form-control' type='file' name='file' id='file' required>
+        </div>
+
+        <button class='card-link-inverted bordered' type='submit'>Create Organisation</button>
+      </form>
+    </div>
+
+    <div class='card bordered shadowed grid' id='example-organisation'>
+      <h2 id="example-title">new organisation</h2>
+      <div id='example-image' style="height:200px;">
+        <img class='sub-image' title='placeholder' src='/images/placeholder.png'>
+      </div>
+    </div>
+
+</div>
 </body>
 
 <script>

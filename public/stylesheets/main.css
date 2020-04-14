@@ -12,27 +12,43 @@ body {
     color: var(--main-text-colour);
 }
 
+.content {
+  padding-top: 50px;
+}
+
+.collapse::before {
+  content: "test";
+}
+
 .notify-container {
   margin-left: auto;
   margin-right: auto;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
 }
 
-@media only screen (max-width: 767px) {
-}
-
-@media only screen (min-width: 768px) {
-  .notify-container {
-      width: 750px;
+@media only screen and (max-width: 767px) {
+  .hide-mobile {
+    display: none;
   }
 }
 
-@media only screen (min-width: 992px) {
+@media only screen and (min-width: 768px) {
+  .notify-container {
+      width: 750px;
+  }
+  .hide-desktop {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 992px) {
   .notify-container {
       width: 970px;
   }
 }
 
-@media only screen (min-width: 1200px) {
+@media only screen and (min-width: 1200px) {
   .notify-container {
       width: 1170px;
   }
@@ -42,6 +58,7 @@ body {
   background-color: var(--main-nav-colour);
   border: none;
   width: 100%;
+  position: fixed;
 }
 
 .navbar-notify a {
@@ -514,4 +531,24 @@ div[alt]:hover:before {
   -webkit-line-clamp: 2;
   word-wrap: break-word;
   max-width: 80px;
+}
+
+#collapse-button {
+  position: fixed;
+  top:10px;
+  right: 10px;
+  z-index: 1000;
+  border: 1px solid #000000;
+  border-radius: 100%;
+  width: 30px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.flip-image {
+  -webkit-transform:rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
 }

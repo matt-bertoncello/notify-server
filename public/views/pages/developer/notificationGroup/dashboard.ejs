@@ -64,50 +64,52 @@
       <li class='nav-fancy'><a href='/organisation/<%= notificationGroup.organisation._id %>'><%= notificationGroup.organisation.name %></a></li>
     <% } %>
   <% include ../../../partials/post-nav.ejs %>
+  <div class='content'>
 
-  <div>
-    <div class="card bordered shadowed" style="width:50%;min-width:330px;vertical-align:middle;">
-      <h2><%= notificationGroup.name %></h2>
-      <div><%= notificationGroup.description %></div>
-
-      <% if (notificationGroup.displayImage) { %>
-        <img style="height:50px;" src='/image/<%= notificationGroup.displayImage %>'>
-      <% } %>
-    </div>
-
-    <div class="card bordered shadowed" style="height:135px;vertical-align:middle;">
-      <div class="grid">
-        <b>organisation token</b>
-        <p><%= notificationGroup.organisation.token %><p>
-      </div>
-      <div class="grid">
-        <b>notification group token</b>
-        <p><%= notificationGroup.token %><p>
-      </div>
-    </div>
-  </div>
-
-  <div class="card bordered shadowed wide">
     <div>
-      <input style='width:330px;' class='form-control grid' placeholder='email' id='email'>
-      <button style='width:100px' type="button" class="card-link-inverted bordered grid" onclick="addAccount();">Add Account</button>
-    </div>
-    <div class='error' id='message'></div>
+      <div class="card bordered shadowed" style="width:50%;min-width:330px;vertical-align:middle;">
+        <h2><%= notificationGroup.name %></h2>
+        <div><%= notificationGroup.description %></div>
 
-    <div id='account-emails' style='padding:10px 0px;'>
-      <h2>Subscribed Emails</h2>
-      <% for (var i=0; i<notificationGroup.accounts.length;i++) { %>
-        <div id='<%= notificationGroup.accounts[i].email %>'>
-          <div class="grid"><%= notificationGroup.accounts[i].email %></div>
-          <button class="grid card-link-red" onclick="removeAccount('<%= notificationGroup.accounts[i].email %>')">Remove</button>
+        <% if (notificationGroup.displayImage) { %>
+          <img style="height:50px;" src='/image/<%= notificationGroup.displayImage %>'>
+        <% } %>
+      </div>
+
+      <div class="card bordered shadowed" style="height:135px;vertical-align:middle;">
+        <div class="grid">
+          <b>organisation token</b>
+          <p><%= notificationGroup.organisation.token %><p>
         </div>
-      <% } %>
+        <div class="grid">
+          <b>notification group token</b>
+          <p><%= notificationGroup.token %><p>
+        </div>
+      </div>
     </div>
+
+    <div class="card bordered shadowed wide">
+      <div>
+        <input style='width:330px;' class='form-control grid' placeholder='email' id='email'>
+        <button style='width:100px' type="button" class="card-link-inverted bordered grid" onclick="addAccount();">Add Account</button>
+      </div>
+      <div class='error' id='message'></div>
+
+      <div id='account-emails' style='padding:10px 0px;'>
+        <h2>Subscribed Emails</h2>
+        <% for (var i=0; i<notificationGroup.accounts.length;i++) { %>
+          <div id='<%= notificationGroup.accounts[i].email %>'>
+            <div class="grid"><%= notificationGroup.accounts[i].email %></div>
+            <button class="grid card-link-red" onclick="removeAccount('<%= notificationGroup.accounts[i].email %>')">Remove</button>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+    <a class="card bordered shadowed no-decoration" href="/notification-group/<%= notificationGroup._id %>/notifications">
+      <h2>Notifications</h2>
+    </a>
+
   </div>
-
-  <a class="card bordered shadowed no-decoration" href="/notification-group/<%= notificationGroup._id %>/notifications">
-    <h2>Notifications</h2>
-  </a>
-
 </body>
 </html>

@@ -26,3 +26,9 @@
   </div>
 </nav>
 <div id="flash" class="alert"></div>
+<img id='collapse-button' class='hide-desktop' src="/images/collapse-arrow.svg">
+
+<script>
+var header_collapse = new CollapseManager('nav-container');
+header_collapse.setTrigger('collapse-button');
+</script>

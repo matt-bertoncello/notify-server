@@ -9,15 +9,17 @@
 
   <% include ../../partials/pre-nav-user.ejs %>
   <% include ../../partials/post-nav.ejs %>
+  <div class='content'>
 
-  <h1>Devices</h1>
+    <h1>Devices</h1>
 
-  <% for (var i=0; i<devices.length; i++) { %>
-    <a class="card bordered shadowed no-decoration" href="/user/devices/<%= devices[i]._id %>">
-      <h2><%= devices[i].name %></h2>
-      <p>Samsung Galaxy S9</p>
-    </a>
-  <% } %>
+    <% for (var i=0; i<devices.length; i++) { %>
+      <a class="card bordered shadowed no-decoration" href="/user/devices/<%= devices[i]._id %>">
+        <h2><%= devices[i].name %></h2>
+        <p>Samsung Galaxy S9</p>
+      </a>
+    <% } %>
 
+  </div>
 </body>
 </html>

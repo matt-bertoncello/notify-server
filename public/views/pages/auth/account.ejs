@@ -45,48 +45,50 @@
 
   <% include ../../partials/pre-nav-dev-user.ejs %>
   <% include ../../partials/post-nav.ejs %>
+  <div class='content'>
 
-  <div>
-    <% if (!account.password) { %>
-      <div style="color:red; font-size:30px">You have not set a password for this account.</div>
-    <% } else if (req.updatedPassword) { %>
-      <div style="color:blue; font-size:30px">Updated password.</div>
-    <% } %>
-  </div>
-
-  <div class='content-container'>
-    <div class="content-centered">
-      <h1>User ID: <%= account._id %></h1>
-      <h1>Email: <%= account.email %></h1>
-    </div>
-  </div>
-
-  <div class='content-container'>
-    <div class="card bordered shadowed">
+    <div>
       <% if (!account.password) { %>
-        <div class="card-header">Set Password</div>
-        <div class = "card-body">
-          <div class='error' id='password_error'></div>
-      <% } else { %>
-        <div class="card-header">Change Password</div>
-        <div class = "card-body">
-          <div class='error' id='password_error'></div>
-          <input class='form-control' type='password' id='oldPassword' placeholder="current password">
+        <div style="color:red; font-size:30px">You have not set a password for this account.</div>
+      <% } else if (req.updatedPassword) { %>
+        <div style="color:blue; font-size:30px">Updated password.</div>
       <% } %>
-          <input class='form-control' type='password' id='newPassword1' placeholder="new password">
-          <input class='form-control' type='password' id='newPassword2' placeholder="new password">
-          <% if (!account.password) { %>
-            <button class='card-link-inverted bordered' onclick="set_password()">Set Password</button>
-          <% } else { %>
-            <button class='card-link-inverted bordered' onclick="update_password()">Update Password</button>
-          <% } %>
+    </div>
+
+    <div class='content-container'>
+      <div class="content-centered">
+        <h1>User ID: <%= account._id %></h1>
+        <h1>Email: <%= account.email %></h1>
       </div>
     </div>
-  </div>
 
-  <div class='content-container'>
-      <button style='width:100px' type="button" class="card-link-inverted bordered" onclick="window.location.href = '/auth/logout';">Logout</button>
-  </div>
+    <div class='content-container'>
+      <div class="card bordered shadowed">
+        <% if (!account.password) { %>
+          <div class="card-header">Set Password</div>
+          <div class = "card-body">
+            <div class='error' id='password_error'></div>
+        <% } else { %>
+          <div class="card-header">Change Password</div>
+          <div class = "card-body">
+            <div class='error' id='password_error'></div>
+            <input class='form-control' type='password' id='oldPassword' placeholder="current password">
+        <% } %>
+            <input class='form-control' type='password' id='newPassword1' placeholder="new password">
+            <input class='form-control' type='password' id='newPassword2' placeholder="new password">
+            <% if (!account.password) { %>
+              <button class='card-link-inverted bordered' onclick="set_password()">Set Password</button>
+            <% } else { %>
+              <button class='card-link-inverted bordered' onclick="update_password()">Update Password</button>
+            <% } %>
+        </div>
+      </div>
+    </div>
 
+    <div class='content-container'>
+        <button style='width:100px' type="button" class="card-link-inverted bordered" onclick="window.location.href = '/auth/logout';">Logout</button>
+    </div>
+
+</div>
 </body>
 </html>
