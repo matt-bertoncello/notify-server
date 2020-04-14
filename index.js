@@ -26,7 +26,7 @@ var clientAPIv1 = require('./routes/api/client-v1');
 var issuerAPIv1 = require('./routes/api/issuer-v1');
 
 /* Define sockets */
-var user_sock = require('./sockets/auth/user');
+var account_sock = require('./sockets/auth/account');
 var device_sock = require('./sockets/client/device');
 var notificationGroup_sock = require('./sockets/developer/notificationGroup');
 
@@ -87,7 +87,7 @@ io.use(sharedsession(mongooseSession)); // can access session from within 'io' w
 io.on('connection', function(socket){
 
   // Load socket configuration from external files.
-  user_sock.sock(socket, io);
+  account_sock.sock(socket, io);
   device_sock.sock(socket, io);
   notificationGroup_sock.sock(socket, io);
 

@@ -82,7 +82,7 @@ authController.postAuthentication = function(req, res) {
     console.log("[REDIRECT] redirected to: "+redirect)
     res.redirect(redirect);
   } else {
-    res.redirect('/user');
+    res.redirect('/account');
   }
 }
 

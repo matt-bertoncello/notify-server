@@ -12,11 +12,11 @@ router.get('/', updateUser, function(req,res) {
 
 router.get('/session', updateUser, function(req,res) { res.render('auth/session', {req: req}); });
 
-router.get('/user', authController.checkAuthentication, function(req,res) {
+router.get('/account', authController.checkAuthentication, function(req,res) {
   // If the password has been updated, provide it to the ejs file, and change updatePassword to false for next load.
   req.updatedPassword = authController.updatedPassword;
   authController.updatedPassword = false;
-  res.render('auth/user', {req: req});
+  res.render('auth/account', {req: req});
 });
 
 router.get('/loginerror', (req, res, next) => {
@@ -27,7 +27,7 @@ router.get('/loginerror', (req, res, next) => {
 router.get('/login', (req, res, next) => {
   if(req.session.passport && req.session.passport.user) {
     console.log('[ERROR] '+req.session.passport.user._id+" is already logged in");
-    res.redirect('/user');
+    res.redirect('/account');
   } else {
     var comment = authController.loginComment;
     delete authController.loginComment;
@@ -38,7 +38,7 @@ router.get('/login', (req, res, next) => {
 router.get('/register', (req, res, next) => {
   if(req.session.passport && req.session.passport.user) {
     console.log('[ERROR] '+req.session.passport.user._id+" is already logged in");
-    res.redirect('/user');
+    res.redirect('/account');
   } else {
     var comment = authController.registerComment;
     authController.registerComment = { email: null, password1: null, password2: null };

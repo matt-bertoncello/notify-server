@@ -123,7 +123,7 @@ router.post('/local/register', (req, res) => {
           else {
             req.login(user, function(err) {
               if (err) { console.log(err); }
-              return res.redirect('/user');
+              return res.redirect('/account');
             });
           }
         });
