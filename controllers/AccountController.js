@@ -1,23 +1,23 @@
 var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
-var User = require("../models/User");
+var Account = require("../models/Account");
 
 var PASSWORD_LENGTH = 8;
 var NUMBER_MINUMUM = 3;
 var SPECIALTY_MINIMUM = 3;
 
-var userController = {};
+var accountController = {};
 
-userController.postLoginRedirect = null;
+accountController.postLoginRedirect = null;
 
 /*
-Updates the User in req
+Updates the Account in req
 */
-userController.updateUser = function(req,res,next) {
+accountController.updateAccount = function(req,res,next) {
   if (req.session.passport && req.session.passport.user) {
-    userController.getUser(req.session.passport.user._id, function(err, user) {
+    accountController.getAccount(req.session.passport.user._id, function(err, account) {
       if (err) { throw err; }
-      req.user = user;
+      req.account = account;
       next();
     });
   } else {
@@ -25,35 +25,35 @@ userController.updateUser = function(req,res,next) {
   }
 }
 
-// Get user by ID.
-userController.getUser = function(id, next) {
-  User.findOne({
+// Get account by ID.
+accountController.getAccount = function(id, next) {
+  Account.findOne({
     _id: id
-  }, function(err, user) {
+  }, function(err, account) {
     if (err) {
       throw err;
     }
-    if (!user) {
-      err = "[ERROR] no user found with _id: "+id;
+    if (!account) {
+      err = "[ERROR] no account found with _id: "+id;
     }
-    next(err, user);
+    next(err, account);
   });
 }
 
 /*
-Get user from email
+Get account from email
 */
-userController.getUserFromEmail = function(email, next) {
-  User.findOne({ email: email}, function(err, user) {
+accountController.getAccountFromEmail = function(email, next) {
+  Account.findOne({ email: email}, function(err, account) {
     if (err) { throw err; }
-    if (!user) {
-      err = "[ERROR] no user found with email: "+email;
+    if (!account) {
+      err = "[ERROR] no account found with email: "+email;
     }
-    next(err, user);
+    next(err, account);
   });
 }
 
-userController.checkPasswordStrength = function(password, next) {
+accountController.checkPasswordStrength = function(password, next) {
   if (!password) {
     err = "[ERROR] no password provided.";
     return next(err, false);
@@ -72,23 +72,23 @@ userController.checkPasswordStrength = function(password, next) {
 }
 
 /*
-Create user with email  and password.
+Create account with email  and password.
 Assume email is uniqu and valid. This method will check password strength.
 */
-userController.createUser = function(email, password, next) {
-  userController.checkPasswordStrength(password, function(err, successful) {
+accountController.createAccount = function(email, password, next) {
+  accountController.checkPasswordStrength(password, function(err, successful) {
     if (err) { return next(err, null); }
     else {
-      // Generate new user object.
-      user = new User({
+      // Generate new account object.
+      account = new Account({
         email: email,
         provider: 'local'
       });
 
       // set password and save.
-      user.updatePassword(password, function(err, successful) {
-        user.save(function(err) {
-          return next(err, user);
+      account.updatePassword(password, function(err, successful) {
+        account.save(function(err) {
+          return next(err, account);
         });
       });
     }
@@ -96,4 +96,4 @@ userController.createUser = function(email, password, next) {
 
 }
 
-module.exports = userController;
+module.exports = accountController;

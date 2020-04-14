@@ -5,14 +5,14 @@ var imageController = require("./ImageController.js");
 var organisationController = {};
 
 /*
-Create new organisation with this user as the sole admin.
+Create new organisation with this account as the sole admin.
 */
-organisationController.createOrganisation = function(imageLocalPath, contentType, user, organisationName, mainColour, secondaryColour, next) {
+organisationController.createOrganisation = function(imageLocalPath, contentType, account, organisationName, mainColour, secondaryColour, next) {
   // Create organisation.
   organisation = new Organisation({
     'name': organisationName,
-    'admin': [user._id],  // make this original user an admin.
-    'email': user.email,  // main contact email.
+    'admin': [account._id],  // make this original account an admin.
+    'email': account.email,  // main contact email.
     'mainColour': mainColour,
     'secondaryColour': secondaryColour,
   });
@@ -34,14 +34,14 @@ organisationController.createOrganisation = function(imageLocalPath, contentType
 };
 
 /*
-Return the organisation with the organisation_id if this user is an admin or a developer. Populate image path.
+Return the organisation with the organisation_id if this account is an admin or a developer. Populate image path.
 */
-organisationController.getOrganisationFromId = function(user_id, organisation_id, next) {
+organisationController.getOrganisationFromId = function(account_id, organisation_id, next) {
   Organisation.findOne({
     '_id': organisation_id,
     $or: [
-      {'admin': user_id},
-      {'developer': user_id},
+      {'admin': account_id},
+      {'developer': account_id},
     ],
   }, function(err, organisation) {
     next(err, organisation);
@@ -49,13 +49,13 @@ organisationController.getOrganisationFromId = function(user_id, organisation_id
 };
 
 /*
-Return all organisations for this user. populate image path.
+Return all organisations for this account. populate image path.
 */
-organisationController.getAllOrganisationsForUser = function(user_id, next) {
+organisationController.getAllOrganisationsForAccount = function(account_id, next) {
   Organisation.find({
     $or: [
-      {'admin': user_id}, // either an admin or developer.
-      {'developer': user_id},
+      {'admin': account_id}, // either an admin or developer.
+      {'developer': account_id},
     ],
   }, function(err, organisations) {
     next(err, organisations);

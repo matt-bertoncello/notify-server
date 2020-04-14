@@ -1,6 +1,6 @@
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-var User = require('../../models/User');
+var Account = require('../../models/Account');
 require('dotenv').config();
 
 passport.use(new GoogleStrategy({
@@ -10,53 +10,53 @@ passport.use(new GoogleStrategy({
     passReqToCallback: true
   },
   function(req, accessToken, refreshToken, profile, done) {
-        //check user table for anyone with a google ID of profile.id
-        User.findOne({
+        //check account table for anyone with a google ID of profile.id
+        Account.findOne({
             'google.id': profile.id
-        }, function(err, user) {
+        }, function(err, account) {
             if (err) {
                 return done(err);
             }
-            if (user) {
-              //found user. Return
-              return done(err, user._id);
+            if (account) {
+              //found account. Return
+              return done(err, account._id);
             }
-            if (!user) {
-              // No user was found, if email already exists, add this google_id to the account.
-              User.findOne({
+            if (!account) {
+              // No account was found, if email already exists, add this google_id to the account.
+              Account.findOne({
                   'email': profile.emails[0].value
-              }, function(err, user) {
+              }, function(err, account) {
                   if (err) {
                       return done(err);
                   }
-                  if (user) {
-                    user.google = {
+                  if (account) {
+                    account.google = {
                       id: profile.id,
                       displayName: profile.displayName
                     }
-                    user.save(function(err) {
+                    account.save(function(err) {
                       if (err) {
                         return done(err)
                       } else {
-                        //found user. Return
-                        return done(err, user._id);
+                        //found account. Return
+                        return done(err, account._id);
                       }
                     });
                   } else {
-                    // No email was found... so create a new user with values from Google (all the profile. stuff)
-                    user = new User({
+                    // No email was found... so create a new account with values from Google (all the profile. stuff)
+                    account = new Account({
                       name: profile.displayName,
                       email: profile.emails[0].value,
-                      //now in the future searching on User.findOne({'google.id': profile.id } will match because of this next line
+                      //now in the future searching on Account.findOne({'google.id': profile.id } will match because of this next line
                       google: {
                         id: profile.id,
                         displayName: profile.displayName
                       },
                       provider: 'google'
                     });
-                    user.save(function(err) {
+                    account.save(function(err) {
                       if (err) console.log(err);
-                      return done(err, user._id);
+                      return done(err, account._id);
                     });
                   }
                 });

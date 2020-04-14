@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var User = require('./User');
+var Account = require('./Account');
 
 var ImageSchema = new mongoose.Schema({
   _id: {type:String},

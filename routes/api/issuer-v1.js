@@ -55,7 +55,7 @@ router.post('/send-notification', cors(), (req,res) => {
             'firebaseTokens': firebaseTokens,
             'title': req.body['title'].replace(/\r?\n|\r/g, " ").trim(),
             'message': req.body['message'].replace(/\r?\n|\r/g, " ").trim(),
-            'users': notificationGroup.users,
+            'accounts': notificationGroup.accounts,
 
             'organisation': notificationGroup.organisation._id,
             'notificationGroup': notificationGroup._id,

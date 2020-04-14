@@ -8,7 +8,7 @@ Data is an object containing title, message, firebaseTokens
 */
 notificationController.createNotification = function(data, next) {
   // check necessary data.
-  if (!data.title || !data.message || !data.firebaseTokens || !data.organisation || !data.notificationGroup || !data.users) {
+  if (!data.title || !data.message || !data.firebaseTokens || !data.organisation || !data.notificationGroup || !data.accounts) {
     return next('internal error 403', null);
   }
 
@@ -25,7 +25,7 @@ notificationController.createNotification = function(data, next) {
   }
 };
 
-// retrieve all notifications sent to this user group.
+// retrieve all notifications sent to this account group.
 notificationController.getAllNotificationsForNotificationGroup = function(notificationGroup_id, next) {
   Notification.find({
     'notificationGroup': notificationGroup_id,
@@ -34,10 +34,10 @@ notificationController.getAllNotificationsForNotificationGroup = function(notifi
   }).populate('organisation').sort({ created : 'descending'});
 };
 
-// retrieve all notifications sent to this user.
-notificationController.getAllNotificationsForUser = function(user_id, next) {
+// retrieve all notifications sent to this account.
+notificationController.getAllNotificationsForAccount = function(account_id, next) {
   Notification.find({
-    'users': user_id,
+    'accounts': account_id,
   }, function(err, notifications) {
     next(err, notifications);
   }).populate('organisation').sort({ created : 'descending'});

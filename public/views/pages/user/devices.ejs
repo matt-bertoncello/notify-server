@@ -8,13 +8,13 @@
 <body style="text-align:center;">
 
   <% include ../../partials/pre-nav.ejs %>
-    <li><a href='/client'>Client Dashboard</a></li>
+    <li><a href='/user/dashboard'>Client Dashboard</a></li>
   <% include ../../partials/post-nav.ejs %>
 
   <h1>Devices</h1>
 
   <% for (var i=0; i<devices.length; i++) { %>
-    <a class="card bordered shadowed no-decoration" href="/client/devices/<%= devices[i]._id %>">
+    <a class="card bordered shadowed no-decoration" href="/user/devices/<%= devices[i]._id %>">
       <h2><%= devices[i].name %></h2>
       <p>Samsung Galaxy S9</p>
     </a>

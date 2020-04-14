@@ -5,7 +5,7 @@ var uuid = require('uuid/v4');
 var DeviceSchema = new mongoose.Schema({
   name: String,
   firebaseInstance: {type:String, required:true},
-  user: {type:mongoose.Schema.Types.ObjectId, required:true, ref:'User'},
+  account: {type:mongoose.Schema.Types.ObjectId, required:true, ref:'Account'},
   authToken: {type:String, unique:true, default:uuid},
   secret: {type:String, default:uuid}, // keep private.
   active: {type:Boolean, default:true},

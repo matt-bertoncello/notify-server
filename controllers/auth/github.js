@@ -1,6 +1,6 @@
 var passport = require('passport')
   , GitHubStrategy = require('passport-github').Strategy;
-var User = require('../../models/User');
+var Account = require('../../models/Account');
 require('dotenv').config();
 
 passport.use(new GitHubStrategy({
@@ -8,58 +8,58 @@ passport.use(new GitHubStrategy({
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
     callbackURL: "/auth/github/callback",
     passReqToCallback: true,
-    scope: ['user:email'],
+    scope: ['account:email'],
     proxy: true
   },
   function(req, accessToken, refreshToken, profile, done) {
-    //check user table for anyone with a github ID of profile.id
-    User.findOne({
+    //check account table for anyone with a github ID of profile.id
+    Account.findOne({
         'github.id': profile.id
-    }, function(err, user) {
+    }, function(err, account) {
         if (err) {
             return done(err);
         }
-        if (user) {
-          return done(err, user._id);
+        if (account) {
+          return done(err, account._id);
         }
-        if (!user) {
-          // No user was found, if email already exists, add this github_id to the account.
-          User.findOne({
+        if (!account) {
+          // No account was found, if email already exists, add this github_id to the account.
+          Account.findOne({
               'email': profile.emails[0].value
-          }, function(err, user) {
+          }, function(err, account) {
               if (err) {
                   return done(err);
               }
-              if (user) {
-                user.github = {
+              if (account) {
+                account.github = {
                   id: profile.id,
-                  username: profile.username,
+                  accountname: profile.accountname,
                   displayName: profile.displayName
                 }
-                user.save(function(err) {
+                account.save(function(err) {
                   if (err) {
                     return done(err)
                   } else {
-                    //found user. Return
-                    return done(err, user._id);
+                    //found account. Return
+                    return done(err, account._id);
                   }
                 });
               } else {
-                // No email was found... so create a new user with values from github (all the profile. stuff)
-                user = new User({
+                // No email was found... so create a new account with values from github (all the profile. stuff)
+                account = new Account({
                   name: profile.displayName,
                   email: profile.emails[0].value,
-                  //now in the future searching on User.findOne({'github.id': profile.id } will match because of this next line
+                  //now in the future searching on Account.findOne({'github.id': profile.id } will match because of this next line
                   github: {
                     id: profile.id,
-                    username: profile.username,
+                    accountname: profile.accountname,
                     displayName: profile.displayName
                   },
                   provider: 'github'
                 });
-                user.save(function(err) {
+                account.save(function(err) {
                   if (err) console.log(err);
-                  return done(err, user._id);
+                  return done(err, account._id);
                 });
               }
             });
