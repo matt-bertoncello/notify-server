@@ -1,0 +1,117 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 580 210"
+    id="vector">
+    <g
+        id="group"
+        transform="translate(0 69)">
+        <path
+            id="path"
+            d="M 0 0 L 31 0 L 0 31 Z"
+            fill="#000000"/>
+        <path
+            id="path_1"
+            d="M 0 70 L 0 37 L 31 37 L 31 100 L 26 100 Z"
+            fill="#000000"/>
+        <path
+            id="path_2"
+            d="M 10 31 L 41 0 L 69 0 L 100 31"
+            fill="#000000"/>
+        <path
+            id="path_3"
+            d="M 69 69 L 69 38 L 100 38 L 100 100 L 95 100 Z"
+            fill="#000000"/>
+    </g>
+    <g
+        id="group_1"
+        transform="translate(130 69)">
+        <path
+            id="path_4"
+            d="M 31 0 L 63 0 L 64 31 L 0 31 Z"
+            fill="#000000"/>
+        <path
+            id="path_5"
+            d="M 69 0 L 100 31 L 100 62 L 69 62 Z"
+            fill="#000000"/>
+        <path
+            id="path_6"
+            d="M 100 69 L 69 100 L 38 100 L 38 69 Z"
+            fill="#000000"/>
+        <path
+            id="path_7"
+            d="M 0 38 L 31 38 L 31 100 L 0 69 Z"
+            fill="#000000"/>
+    </g>
+    <g
+        id="group_2"
+        transform="translate(260 69)">
+        <path
+            id="path_8"
+            d="M 0 -10 L 31 -10 L 31 0 L 0 31 Z"
+            fill="#000000"/>
+        <path
+            id="path_9"
+            d="M 0 38 L 31 38 L 31 100 L 26 100 L 0 67 Z"
+            fill="#000000"/>
+        <path
+            id="path_10"
+            d="M 41 0 L 65 0 L 65 31 L 10 31 Z"
+            fill="#000000"/>
+    </g>
+    <g
+        id="group_3"
+        transform="translate(350 69)">
+        <path
+            id="path_11"
+            d="M 0 0 L 31 0 L 31 31 L 0 31 Z"
+            fill="#000000"/>
+        <path
+            id="path_12"
+            d="M 0 38 L 31 38 L 31 100 L 26 100 L 0 69 Z"
+            fill="#000000"/>
+    </g>
+    <g
+        id="group_4"
+        transform="translate(410 69)">
+        <path
+            id="path_13"
+            d="M 0 31 L 31 31 L 31 69 L 31 141 L 0 110 Z"
+            fill="#000000"/>
+        <path
+            id="path_14"
+            d="M 0 24 L 31 24 L 31 -69 L 0 -38 Z"
+            fill="#000000"/>
+        <path
+            id="path_15"
+            d="M 38 -69 L 69 -69 L 100 -38 L 38 -38 Z"
+            fill="#000000"/>
+        <path
+            id="path_16"
+            d="M 38 -7 L 65 -7 L 65 24 L 38 24 Z"
+            fill="#000000"/>
+    </g>
+    <g
+        id="group_5"
+        transform="translate(480 69)">
+        <path
+            id="path_17"
+            d="M 0 0 L 31 0 L 65 72 L 34 72 Z"
+            fill="#000000"/>
+        <path
+            id="path_18"
+            d="M 69 0 L 100 0 L 64 52 L 51 23 Z"
+            fill="#000000"/>
+        <path
+            id="path_19"
+            d="M 34 79 L 65 79 L 65 110 L 34 141 Z"
+            fill="#000000"/>
+        <path
+            id="path_20"
+            d="M -32 110 L 27 110 L 27 141 L -32 141 Z"
+            fill="#000000"/>
+        <path
+            id="path_21"
+            d="M -490 110 L -80 110 L -49 141 L -490 141 Z"
+            fill="#000000"/>
+    </g>
+</svg>

@@ -38,7 +38,7 @@
 <body style="text-align:center">
 
   <% include ../../../partials/pre-nav.ejs %>
-    <li><a href='/developer'>Developer Dashboard</a></li>
+    <li><a href='/developer/dashboard'>Developer Dashboard</a></li>
     <% if (notificationGroup.organisation.image) { %>
       <li><a class='no-padding' href='/organisation/<%= notificationGroup.organisation._id %>'><img style="height:50px;" src='/image/<%= notificationGroup.organisation.image %>'></a></li>
     <% } else { %>
