@@ -10,10 +10,10 @@ router.get('/', authController.checkAuthentication, (req,res) => {
 });
 
 /*
-Display all of user's devices. If error, redirect to dashboard.
+Display all of account's devices. If error, redirect to dashboard.
 */
 router.get('/devices',authController.checkAuthentication, (req,res) => {
-  deviceController.getAllDevicesForUser(req.session.passport.user._id, function(err, devices) {
+  deviceController.getAllDevicesForAccount(req.session.passport.user._id, function(err, devices) {
     if (err) {
       console.log(err);
       res.redirect('/client');
@@ -24,7 +24,7 @@ router.get('/devices',authController.checkAuthentication, (req,res) => {
 });
 
 /*
-Send manual notification to user's device.
+Send manual notification to account's device.
 */
 router.get('/devices/:device', authController.checkAuthentication, (req,res) => {
   deviceController.getDeviceFromId(req.session.passport.user._id, req.params.device, function(err, device) {
@@ -41,8 +41,8 @@ router.get('/devices/:device', authController.checkAuthentication, (req,res) => 
 
 /* Notifications */
 router.get('/notifications', authController.checkAuthentication, (req,res) => {
-  // get all notifications sent to this user.
-  notificationController.getAllNotificationsForUser(req.session.passport.user._id, function(err, notifications) {
+  // get all notifications sent to this account.
+  notificationController.getAllNotificationsForAccount(req.session.passport.user._id, function(err, notifications) {
     if (err) { res.redirect('/client'); }
     else {
       res.render('client/notifications', {req: req, notifications: notifications});

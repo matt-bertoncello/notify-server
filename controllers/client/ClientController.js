@@ -1,6 +1,6 @@
 var admin = require("firebase-admin");
 require('dotenv').config();
-var User = require("../../models/User");
+var Account = require("../../models/Account");
 
 clientController = {};
 

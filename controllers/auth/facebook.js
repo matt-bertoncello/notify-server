@@ -1,6 +1,6 @@
 var passport = require('passport')
   , FacebookStrategy = require('passport-facebook').Strategy;
-var User = require('../../models/User');
+var Account = require('../../models/Account');
 require('dotenv').config();
 
 passport.use(new FacebookStrategy({
@@ -12,52 +12,52 @@ passport.use(new FacebookStrategy({
     proxy: true
   },
   function(req, accessToken, refreshToken, profile, done) {
-    User.findOne({
+    Account.findOne({
         'facbook.id': profile.id
-    }, function(err, user) {
+    }, function(err, account) {
         if (err) {
             return done(err);
         }
-        if (user) {
-          //found user. Return
-          user.facebook.displayName = profile.displayName;
-          user.save(function(err) {
+        if (account) {
+          //found account. Return
+          account.facebook.displayName = profile.displayName;
+          account.save(function(err) {
             if (err) console.log(err);
-            return done(err, user._id);
+            return done(err, account._id);
           });
         }
-        if (!user) {
-          // No user was found, if email already exists, add this facebook_id to the account.
-          User.findOne({
+        if (!account) {
+          // No account was found, if email already exists, add this facebook_id to the account.
+          Account.findOne({
               'email': profile.emails[0].value
-          }, function(err, user) {
+          }, function(err, account) {
               if (err) {
                   return done(err);
               }
-              if (user) {
-                user.facebook = {
+              if (account) {
+                account.facebook = {
                   id: profile.id,
                   displayName: profile.displayName
                 }
-                user.save(function(err) {
+                account.save(function(err) {
                   if (err) console.log(err);
-                  return done(err, user._id);
+                  return done(err, account._id);
                 });
               } else {
-                // No email was found... so create a new user with values from facebook (all the profile. stuff)
-                user = new User({
+                // No email was found... so create a new account with values from facebook (all the profile. stuff)
+                account = new Account({
                   name: profile.displayName,
                   email: profile.emails[0].value,
-                  //now in the future searching on User.findOne({'facebook.id': profile.id } will match because of this next line
+                  //now in the future searching on Account.findOne({'facebook.id': profile.id } will match because of this next line
                   facbook: {
                     id: profile.id,
                     displayName: profile.displayName
                   },
                   provider: 'facebook'
                 });
-                user.save(function(err) {
+                account.save(function(err) {
                   if (err) console.log(err);
-                  return done(err, user._id);
+                  return done(err, account._id);
                 });
               }
             });

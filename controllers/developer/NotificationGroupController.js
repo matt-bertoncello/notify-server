@@ -16,25 +16,25 @@ notificationGroupController.getAllNotificationGroupsForOrganisation = function(o
 
 /*
 Get the organisation this notificationGroup belongs to.
-If the user is a developer or admin of this organisation, return the notificationGroup.
+If the account is a developer or admin of this organisation, return the notificationGroup.
 Otherwise, return an error. next(err, notificationGroup);
 */
-notificationGroupController.getNotificationGroupById = function(user_id, notificationGroup_id, next) {
+notificationGroupController.getNotificationGroupById = function(account_id, notificationGroup_id, next) {
   NotificationGroup.findOne({
     '_id': notificationGroup_id,
   }, function(err, notificationGroup) {
     if (err) { return next(err,null); }
     else if (!notificationGroup) { return next('no notificationGroup found',null) }
     else {
-      // get the role of this user in the organisation.
-      var role = notificationGroup.organisation.getUserRole(user_id);
-      // if the user is authorised:
+      // get the role of this account in the organisation.
+      var role = notificationGroup.organisation.getAccountRole(account_id);
+      // if the account is authorised:
       if (role === 'admin' || role == 'developer') {
         return next(null, notificationGroup);
       }
       else { return next('not part of this organisation', null); }
     }
-  }).populate('users');
+  }).populate('accounts');
 };
 
 notificationGroupController.createNotificationGroup = function(organisation_id, notificationGroupData, next) {
@@ -43,7 +43,7 @@ notificationGroupController.createNotificationGroup = function(organisation_id, 
     'name': notificationGroupData.name,
     'description': notificationGroupData.description,
     'organisation': organisation_id,
-    'users': [],
+    'accounts': [],
   });
 
   // if image exists, upload image to DB, then link it to organisation if it was created successfully.
@@ -80,7 +80,7 @@ notificationGroupController.getNotificationGroupFromIssuerTokens = function(orga
     if (err) { return next(err,null); }
     else if (notificationGroup.organisation.token === organisationToken) { return next(null, notificationGroup); }
     else { return next(null,null); }
-  }).populate('users');
+  }).populate('accounts');
 };
 
 module.exports = notificationGroupController;

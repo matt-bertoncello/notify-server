@@ -1,4 +1,4 @@
-var User = require("../../models/User");
+var Account = require("../../models/Account");
 var Device = require("../../models/Device");
 require('dotenv').config();
 
@@ -9,10 +9,10 @@ Create device with appropriate fields.
 If device already exists, make it active. next(err, device);
 */
 deviceController.createDevice = function(object, next) {
-  // find device with same firebase token and user_id.
+  // find device with same firebase token and account_id.
   Device.findOne({
     'firebaseInstance': object.firebaseInstance,
-    'user': object.user_id,
+    'account': object.account_id,
   }, function(err, device) {
     if (err) { return next(err, null); }
 
@@ -29,7 +29,7 @@ deviceController.createDevice = function(object, next) {
     else {
       var device = new Device({
         name: object.name,
-        user: object.user_id,
+        account: object.account_id,
         firebaseInstance: object.firebaseInstance,
       });
 
@@ -54,16 +54,16 @@ deviceController.getDeviceFromAuthToken = function(authToken, next) {
       err = "[ERROR] no device found with authToken: "+authToken;
     }
     return next(err, device);
-  }).populate('user');
+  }).populate('account');
 }
 
 /*
-Get user from the device referenced by authToken.
+Get account from the device referenced by authToken.
 */
-deviceController.getUserFromAuthToken = function(authToken, next) {
+deviceController.getAccountFromAuthToken = function(authToken, next) {
   deviceController.getDeviceFromAuthToken(authToken, function(err, device) {
     if (err) { next(err, null) }
-    else { return next(err, device.user) }
+    else { return next(err, device.account) }
   });
 }
 
@@ -93,20 +93,20 @@ deviceController.updateDeviceName = function(device_id, name, next) {
 };
 
 /*
-Find all devices for this user.
+Find all devices for this account.
 */
-deviceController.getAllDevicesForUser = function(user_id, next) {
+deviceController.getAllDevicesForAccount = function(account_id, next) {
   Device.find({
-    'user': user_id ,
+    'account': account_id ,
     'active': true,
   }, function(err, devices) {
     next(err, devices);
   });
 }
 
-deviceController.getDeviceFromId = function(user_id, device_id, next) {
+deviceController.getDeviceFromId = function(account_id, device_id, next) {
   Device.findOne({
-    'user': user_id,
+    'account': account_id,
     '_id': device_id,
     'active': true,
   }, function(err, device) {
@@ -115,11 +115,11 @@ deviceController.getDeviceFromId = function(user_id, device_id, next) {
 }
 
 /*
-Find all devices for users in this notificationGroup.
+Find all devices for accounts in this notificationGroup.
 */
 deviceController.getAllDevicesForNotificationGroup = function(notificationGroup, next) {
   Device.find({
-    'user': { $in: notificationGroup.users },
+    'account': { $in: notificationGroup.accounts },
     'active': true,
   }, function(err, devices) {
     // remove duplicate devices (should never appear. better to be safe than sorry).

@@ -7,7 +7,7 @@ var NotificationGroupSchema = new mongoose.Schema({
   name: {type:String, required:true},
   description: {type:String, required:true},
   organisation: {type:mongoose.Schema.Types.ObjectId, required:true, ref:'Organisation'},
-  users: [{type:mongoose.Schema.Types.ObjectId, required:true, ref:'User'}],
+  accounts: [{type:mongoose.Schema.Types.ObjectId, required:true, ref:'Account'}],
   image: {type:String, ref:'Image'},
   token: {type: String, unique:true, default: uuid},
   created: {type: Date, default: Date.now},
@@ -53,17 +53,17 @@ NotificationGroupSchema.post('init', function(doc) {
 });
 
 /*
-Add user to notification group then run next(err);
+Add account to notification group then run next(err);
 */
-NotificationGroupSchema.methods.addUser = function(user_id, next) {
+NotificationGroupSchema.methods.addAccount = function(account_id, next) {
 
-  for (var i=0; i<this.users.length; i++) {
-    if (this.users[i]._id.toString().trim() === user_id.toString().trim()) {
-      return next('user is already subscribed to this notification group.');
+  for (var i=0; i<this.accounts.length; i++) {
+    if (this.accounts[i]._id.toString().trim() === account_id.toString().trim()) {
+      return next('account is already subscribed to this notification group.');
     }
   }
 
-  this.users.push(user_id);
+  this.accounts.push(account_id);
 
   this.save(function(err){
     return next(err);
@@ -71,15 +71,15 @@ NotificationGroupSchema.methods.addUser = function(user_id, next) {
 };
 
 /*
-Remove user to notification group then run next(err);
+Remove account to notification group then run next(err);
 */
-NotificationGroupSchema.methods.removeUser = function(user_id, next) {
-  // iterate over each user.
-  for (var i=0; i<this.users.length; i++) {
-    // if this is the user
-    if (this.users[i]._id.toString().trim() === user_id.toString().trim()) {
-      // remove user and save.
-      this.users.splice(i, 1);
+NotificationGroupSchema.methods.removeAccount = function(account_id, next) {
+  // iterate over each account.
+  for (var i=0; i<this.accounts.length; i++) {
+    // if this is the account
+    if (this.accounts[i]._id.toString().trim() === account_id.toString().trim()) {
+      // remove account and save.
+      this.accounts.splice(i, 1);
       this.save(function(err){
         return next(err);
       });
@@ -112,12 +112,12 @@ NotificationGroupSchema.methods.deleteImage = function(name, next) {
 };
 
 /*
-Get all firebase tokens of users in this notification group.
+Get all firebase tokens of accounts in this notification group.
 These firebase tokens will be used as notification endpoints.
 return next(err, firebaseTokens);
 */
 NotificationGroupSchema.methods.getAllFirebaseTokens = function(next) {
-  // get all devices from each user.
+  // get all devices from each account.
   deviceController.getAllDevicesForNotificationGroup(this, function(err, devices) {
     if (err) { return next(err, null); }
     else {

@@ -8,8 +8,8 @@ var organisationController = require("../../controllers/developer/OrganisationCo
 
 /* Dashboard */
 router.get('/', authController.checkAuthentication, (req,res) => {
-  // get all organisations that this user is a developer or an admin.
-  organisationController.getAllOrganisationsForUser(req.session.passport.user._id, function(err, organisations) {
+  // get all organisations that this account is a developer or an admin.
+  organisationController.getAllOrganisationsForAccount(req.session.passport.user._id, function(err, organisations) {
     if (err) {
       console.log(err);
       res.redirect('/');
@@ -21,8 +21,8 @@ router.get('/', authController.checkAuthentication, (req,res) => {
 
 /* Dashboard */
 router.get('/dashboard', authController.checkAuthentication, (req,res) => {
-  // get all organisations that this user is a developer or an admin.
-  organisationController.getAllOrganisationsForUser(req.session.passport.user._id, function(err, organisations) {
+  // get all organisations that this account is a developer or an admin.
+  organisationController.getAllOrganisationsForAccount(req.session.passport.user._id, function(err, organisations) {
     if (err) {
       console.log(err);
       res.redirect('/');

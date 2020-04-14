@@ -23,7 +23,7 @@
       'email': email,
       'notificationGroup': '<%= notificationGroup._id %>',
     });
-    document.getElementById('message').innerHTML = 'removing user...';
+    document.getElementById('message').innerHTML = 'removing account...';
     document.getElementById('message').style.color ='blue';
   }
 
@@ -33,7 +33,7 @@
     html +=   "<div class='grid'>"+data.email+"</div>"
     html +=   "<button class='grid card-link-red' onclick='removeUser(&#39;"+data.email+"&#39;)'>Remove</button>"
     html += "</div>";
-    document.getElementById('user-emails').innerHTML += html;
+    document.getElementById('account-emails').innerHTML += html;
     document.getElementById('email').value = '';
     document.getElementById('message').innerHTML = 'success';
     document.getElementById('message').style.color = 'green';
@@ -43,7 +43,7 @@
     var element = document.getElementById(data.email);
     element.parentNode.removeChild(element);
     document.getElementById('email').value = '';
-    document.getElementById('message').innerHTML = 'successfully removed user';
+    document.getElementById('message').innerHTML = 'successfully removed account';
     document.getElementById('message').style.color = 'green';
   });
 
@@ -95,12 +95,12 @@
     </div>
     <div class='error' id='message'></div>
 
-    <div id='user-emails' style='padding:10px 0px;'>
+    <div id='account-emails' style='padding:10px 0px;'>
       <h2>Subscribed Emails</h2>
-      <% for (var i=0; i<notificationGroup.users.length;i++) { %>
-        <div id='<%= notificationGroup.users[i].email %>'>
-          <div class="grid"><%= notificationGroup.users[i].email %></div>
-          <button class="grid card-link-red" onclick="removeUser('<%= notificationGroup.users[i].email %>')">Remove</button>
+      <% for (var i=0; i<notificationGroup.accounts.length;i++) { %>
+        <div id='<%= notificationGroup.accounts[i].email %>'>
+          <div class="grid"><%= notificationGroup.accounts[i].email %></div>
+          <button class="grid card-link-red" onclick="removeUser('<%= notificationGroup.accounts[i].email %>')">Remove</button>
         </div>
       <% } %>
     </div>
