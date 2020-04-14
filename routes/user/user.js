@@ -5,9 +5,14 @@ var authController = require("../../controllers/AuthController.js");
 var deviceController = require("../../controllers/client/DeviceController.js");
 var notificationController = require("../../controllers/developer/NotificationController.js");
 
-/* Title page */
+/* Title page. If already authenticated, direct to user dashboard */
 router.get('/', accountController.updateAccount, (req,res) => {
-  res.render('user/title', {req: req});
+  // if user is already logged in, redirect to user dashboard.
+  if (authController.isAuthenticated(req)) {
+    res.redirect('user/dashboard');
+  } else {
+    res.render('user/title', {req: req});
+  }
 });
 
 /* Dashboard */

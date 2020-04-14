@@ -25,12 +25,11 @@
 </head>
 <body>
 
-  <% include ../../../partials/pre-nav.ejs %>
-    <li><a href='/developer/dashboard'>Developer Dashboard</a></li>
+  <% include ../../../partials/pre-nav-dev.ejs %>
     <% if (organisation.image) { %>
       <li><a class='no-padding' href='/organisation/<%= organisation._id %>'><img style="height:50px;" src='/image/<%= organisation.image %>'></a></li>
     <% } else { %>
-      <li><a href='/organisation/<%= organisation._id %>'><%= organisation.name %></a></li>
+      <li class='nav-fancy'><a href='/organisation/<%= organisation._id %>'><%= organisation.name %></a></li>
     <% } %>
   <% include ../../../partials/post-nav.ejs %>
 
