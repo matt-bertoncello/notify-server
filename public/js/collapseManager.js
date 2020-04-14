@@ -1,7 +1,8 @@
 // define the collapse watchdog class
 class CollapseManager {
-  constructor(target_id) {
-    this.target = document.getElementById(target_id);
+  constructor(collapse_target_id, mobile_title_id) {
+    this.collapse_target = document.getElementById(collapse_target_id);
+    this.mobile_title = document.getElementById(mobile_title_id);
     this.trigger = null;
     this.state = 0; // closed state.
   }
@@ -15,19 +16,21 @@ class CollapseManager {
   }
 
   toggle() {
-    // if target is currently collapsed, uncollapse and add flip-image class from the trigger.
+    // if collapse_target is currently collapsed, uncollapse and add flip-image class from the trigger.
     if (this.state === 0) {
-      // remove hide-mobile class from target.
-      this.target.classList.remove('hide-mobile');
+      // remove hide-mobile class from collapse_target.
+      this.collapse_target.classList.remove('hide-mobile');
+      this.mobile_title.classList.add('hide-mobile');
 
       //add flip-image class to trigger.
       this.trigger.classList.add("flip-image");
       this.state = 1; // uncollapsed state.
     }
-    // if target is currently open, collapse and remove the flip-image class from the trigger.
+    // if collapse_target is currently open, collapse and remove the flip-image class from the trigger.
     else {
-      // add hide-mobile class to target.
-      this.target.classList.add('hide-mobile');
+      // add hide-mobile class to collapse_target.
+      this.collapse_target.classList.add('hide-mobile');
+      this.mobile_title.classList.remove('hide-mobile');
 
       // remove flip-image class from trigger.
       this.trigger.classList.remove('flip-image');

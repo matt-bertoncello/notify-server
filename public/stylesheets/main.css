@@ -12,6 +12,33 @@ body {
     color: var(--main-text-colour);
 }
 
+.invert-onhover {
+  color: var(--main-text-colour);
+}
+
+#mobile-header-title {
+  position: fixed;
+  top:5px;
+  height: 40px;
+  z-index: 1001;
+  left: 0px;
+  right: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+}
+
+.invert-onhover:hover,
+.invert-onhover:focus {
+  filter: invert();
+  color: inherit;
+  text-decoration: none;
+}
+
+#mobile-header-title  span {
+  vertical-align: middle;
+}
+
 .content {
   padding-top: 50px;
 }
@@ -23,7 +50,6 @@ body {
 .notify-container {
   margin-left: auto;
   margin-right: auto;
-  overflow: hidden;
   transition: max-height 0.2s ease-out;
 }
 
@@ -193,11 +219,18 @@ body {
 .nav-fancy {
   font-family: Puzzled;
   font-size: 48px;
+  line-height: 1px;
 }
 
 .home-link:hover {
   background-color: inherit !important;
   filter:invert();
+}
+
+.mobile-title-two {
+  color: var(--main-text-colour);
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .form-signin {
