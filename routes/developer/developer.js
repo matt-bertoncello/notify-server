@@ -4,17 +4,18 @@ var formidable = require("formidable");
 var fs = require("fs");
 var mv = require("mv");
 var authController = require("../../controllers/AuthController.js");
+var accountController = require("../../controllers/AccountController.js")
 var organisationController = require("../../controllers/developer/OrganisationController.js");
 
-/* Dashboard */
-router.get('/', authController.checkAuthentication, (req,res) => {
+/* Title page */
+router.get('/', accountController.updateAccount, (req,res) => {
   // get all organisations that this account is a developer or an admin.
   organisationController.getAllOrganisationsForAccount(req.session.passport.user._id, function(err, organisations) {
     if (err) {
       console.log(err);
       res.redirect('/');
     } else {
-      res.render('developer/developer/title', {req: req, organisations: organisations});
+      res.render('developer/title', {req: req, organisations: organisations});
     }
   });
 });

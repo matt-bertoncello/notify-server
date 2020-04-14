@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var accountController = require("../../controllers/AccountController.js")
 var authController = require("../../controllers/AuthController.js");
 var deviceController = require("../../controllers/client/DeviceController.js");
 var notificationController = require("../../controllers/developer/NotificationController.js");
 
 /* Title page */
-router.get('/', authController.checkAuthentication, (req,res) => {
+router.get('/', accountController.updateAccount, (req,res) => {
   res.render('user/title', {req: req});
 });
 

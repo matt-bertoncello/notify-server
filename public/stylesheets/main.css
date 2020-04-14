@@ -1,3 +1,67 @@
+:root {
+  --main-nav-colour: #ffce00;
+  --sec-nav-colour: #ffffff80;
+  --main-bg-colour: #ffffff;
+  --main-text-colour: #000000;
+  --main-border-radius: 20%;
+}
+
+body {
+    background-color: var(--main-bg-colour);
+    text-align: center;
+    color: var(--main-text-colour);
+}
+
+.navbar-notify {
+  background-color: var(--main-nav-colour);
+  border: none;
+}
+
+.navbar-notify a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav-soften a:hover,
+.nav-soften a:focus {
+  transition-duration: 0.5s;
+  background-color: var(--sec-nav-colour) !important;
+}
+
+.title-container {
+  display: flex;
+  padding-top: 10px;
+}
+
+.notify-title {
+  width: 20vw;
+  margin: auto 5px auto auto;
+}
+
+.text-title-fancy {
+  font-family: Puzzled;
+  margin: auto auto auto 5px;
+  font-size: 8vw;
+}
+
+.yellow-fill {
+  background-color: var(--main-nav-colour);
+  border: 0.2vw solid var(--main-bg-colour);
+  border-radius: var(--main-border-radius);
+}
+
+.yellow-border {
+  border: 0.2vw solid var(--main-nav-colour);
+  border-radius: var(--main-border-radius);
+  width:fit-content;
+}
+
+.black-border {
+  border: 0.2vw solid #000000;
+  border-radius: var(--main-border-radius);
+  width:fit-content;
+}
+
 .jumbotron {
   background: #532F8C;
   color: white;
@@ -65,9 +129,18 @@
   opacity: 1;
 }
 
-body {
-    background-color: #eee;
-    text-align: center;
+.home-link {
+  padding: 5px 0px!important;
+  height: 44px;
+  margin: auto;
+}
+
+.home-link:hover {
+  background-color: inherit !important;
+}
+
+.home-link > img:hover{
+  filter:invert();
 }
 
 .form-signin {
