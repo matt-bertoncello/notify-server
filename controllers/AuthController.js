@@ -102,4 +102,9 @@ authController.isEmail = function(string) {
   }
 }
 
+// return true of the user is authenitcated.
+authController.isAuthenticated = function(req) {
+  return (req.session.passport && req.session.passport.user);
+}
+
 module.exports = authController;

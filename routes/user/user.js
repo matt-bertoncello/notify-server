@@ -1,12 +1,18 @@
 var express = require('express');
 var router = express.Router();
+var accountController = require("../../controllers/AccountController.js")
 var authController = require("../../controllers/AuthController.js");
 var deviceController = require("../../controllers/client/DeviceController.js");
 var notificationController = require("../../controllers/developer/NotificationController.js");
 
-/* Title page */
-router.get('/', authController.checkAuthentication, (req,res) => {
-  res.render('user/title', {req: req});
+/* Title page. If already authenticated, direct to user dashboard */
+router.get('/', accountController.updateAccount, (req,res) => {
+  // if user is already logged in, redirect to user dashboard.
+  if (authController.isAuthenticated(req)) {
+    res.redirect('user/dashboard');
+  } else {
+    res.render('user/title', {req: req});
+  }
 });
 
 /* Dashboard */

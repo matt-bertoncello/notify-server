@@ -4,19 +4,17 @@ var formidable = require("formidable");
 var fs = require("fs");
 var mv = require("mv");
 var authController = require("../../controllers/AuthController.js");
+var accountController = require("../../controllers/AccountController.js")
 var organisationController = require("../../controllers/developer/OrganisationController.js");
 
-/* Dashboard */
-router.get('/', authController.checkAuthentication, (req,res) => {
-  // get all organisations that this account is a developer or an admin.
-  organisationController.getAllOrganisationsForAccount(req.session.passport.user._id, function(err, organisations) {
-    if (err) {
-      console.log(err);
-      res.redirect('/');
-    } else {
-      res.render('developer/developer/title', {req: req, organisations: organisations});
-    }
-  });
+/* Title page. If already authenticated, direct to developer dashboard */
+router.get('/', accountController.updateAccount, (req,res) => {
+  // if user is already logged in, redirect to developer dashboard.
+  if (authController.isAuthenticated(req)) {
+    res.redirect('developer/dashboard');
+  } else {
+    res.render('developer/title', {req: req});
+  }
 });
 
 /* Dashboard */

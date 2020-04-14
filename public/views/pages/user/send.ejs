@@ -38,27 +38,28 @@
 
 <body style="text-align:center;">
 
-  <% include ../../partials/pre-nav.ejs %>
-    <li><a href='/user/dashboard'>Client Dashboard</a></li>
-    <li><a href='/user/devices'>Devices</a></li>
+  <% include ../../partials/pre-nav-user.ejs %>
+    <li class='nav-fancy'><a href='/user/devices'>Devices</a></li>
   <% include ../../partials/post-nav.ejs %>
+  <div class='content'>
 
   <h1><%= device.name %></h1>
 
-  <div class='card wide bordered shadowed'>
-    <h2>Send Test Notification</h2>
-    <div>
-      <h3>Notification Title</h3>
-      <input class='text-input wide' id='notification-title'>
+    <div class='card wide bordered shadowed'>
+      <h2>Send Test Notification</h2>
+      <div>
+        <h3>Notification Title</h3>
+        <input class='text-input wide' id='notification-title'>
+      </div>
+      <div>
+        <h3>Notification Message</h3>
+        <input class='text-input wide' id='notification-message'>
+      </div>
+      <button type='button' class="card-link-inverted bordered" style='width:100px; margin-bottom:10px' onclick="send()">Send</button>
+      <div class='error' id='send_error'></div>
+      <div class='success' id='send_success'></div>
     </div>
-    <div>
-      <h3>Notification Message</h3>
-      <input class='text-input wide' id='notification-message'>
-    </div>
-    <button type='button' class="card-link-inverted bordered" style='width:100px; margin-bottom:10px' onclick="send()">Send</button>
-    <div class='error' id='send_error'></div>
-    <div class='success' id='send_success'></div>
-  </div>
 
+  </div>
 </body>
 </html>

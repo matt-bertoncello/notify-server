@@ -9,8 +9,6 @@ router.get('/', accountController.updateAccount, function(req,res) {
   res.redirect('/developer');
 });
 
-router.get('/session', accountController.updateAccount, function(req,res) { res.render('auth/session', {req: req}); });
-
 router.get('/account', authController.checkAuthentication, function(req,res) {
   // If the password has been updated, provide it to the ejs file, and change updatePassword to false for next load.
   req.updatedPassword = authController.updatedPassword;
