@@ -1,19 +1,22 @@
 :root {
   --main-nav-colour: #ffce00;
-  --sec-nav-colour: #ffffff80;
+  --com-nav-colour: #ffffff80;
+  --sec-nav-colour: #ffffff;
   --main-bg-colour: #ffffff;
   --main-black: #252525;
   --main-text-colour: #000000;
   --main-text-colour-hover-inverted: #000000;
   --main-text-colour-hover: #ffffff;
   --sec-text-colour: #ffce00;
-  --main-border-radius: 20%;
+  --main-border-radius: 3px;
+  --header-height: 50px;
 }
 
 body {
-    background-color: var(--main-bg-colour);
-    text-align: center;
-    color: var(--main-text-colour);
+  background-color: var(--main-bg-colour);
+  text-align: center;
+  color: var(--main-text-colour);
+  font-family: Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
 }
 
 #mobile-header-title {
@@ -65,7 +68,7 @@ body {
 .nav-soften a:hover,
 .nav-soften a:focus {
   transition-duration: 0.5s;
-  background-color: var(--sec-nav-colour) !important;
+  background-color: var(--com-nav-colour) !important;
 }
 
 .navbar-notify li {
@@ -76,7 +79,7 @@ body {
 
 .title-container {
   display: flex;
-  padding-top: 10px;
+  padding: 10px 0px;
 }
 
 .notify-title {
@@ -90,12 +93,24 @@ body {
   font-size: 8vw;
 }
 
-.yellow-fill {
+.main-fill {
   background-color: var(--main-nav-colour);
+  color: var(--main-text-colour);
 }
 
-.yellow-border {
+.sec-fill {
+  background-color: var(--sec-nav-colour);
+  color: var(--main-text-colour);
+}
+
+.main-border {
   border: 0.2vw solid var(--main-nav-colour);
+  border-radius: var(--main-border-radius);
+  width:fit-content;
+}
+
+.comp-border {
+  border: 0.2vw solid var(--com-nav-colour);
   border-radius: var(--main-border-radius);
   width:fit-content;
 }
@@ -146,8 +161,10 @@ body {
 }
 
 .form-signin {
-  max-width: 330px;
-  padding: 15px;
+  min-width: 300px;
+  max-width: 400px;
+  width: 38vw;
+  padding: 24px 16px;
   margin: 0 auto;
 }
 .form-signin .form-signin-heading,
@@ -495,5 +512,40 @@ div[alt]:hover:before {
 }
 
 .title-page-register {
-  float: right;
+  margin: auto;
+  width: fit-content;
+}
+
+.page-section {
+  background-color: bisque;
+}
+
+.page-height {
+  min-height: calc(100vh - var(--header-height));
+  height: 100%;
+  display: flex;
+}
+
+.column-container {
+  display: flex;
+}
+
+.form-note {
+  font-size: 12px;
+  text-align: left;
+  padding: 9px 0px 0px 0px;
+  margin: auto;
+}
+
+.form-label-notify {
+  float: left;
+  margin-left: 5px;
+}
+
+.marketing {
+  margin: 10px auto;
+  width: 40vw;
+  min-width: 300px;
+  font-size: 20px;
+  font-weight: 400;
 }

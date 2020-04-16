@@ -1,10 +1,20 @@
-@media only screen and (max-width: 768px) {
+/* mobile-nav */
+@media only screen and (max-width: 767px) {
   .hide-mobile-nav {
     display: none;
   }
+  .column-container {
+    display: block;
+    padding-bottom: 10px;
+  }
+  .marketing {
+    min-width: unset;
+    width: unset;
+  }
 }
 
-@media only screen and (max-width: 480px) {
+/* mobile */
+@media only screen and (max-width: 479px) {
   .hide-mobile {
     display: none;
   }
