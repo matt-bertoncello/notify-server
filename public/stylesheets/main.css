@@ -41,6 +41,7 @@ body {
 
 .content {
   padding-top: 50px;
+  margin: auto;
 }
 
 .collapse::before {
@@ -51,33 +52,6 @@ body {
   margin-left: auto;
   margin-right: auto;
   transition: max-height 0.2s ease-out;
-}
-
-@media only screen and (max-width: 767px) {
-  .hide-mobile {
-    display: none;
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  .notify-container {
-      width: 750px;
-  }
-  .hide-desktop {
-    display: none;
-  }
-}
-
-@media only screen and (min-width: 992px) {
-  .notify-container {
-      width: 970px;
-  }
-}
-
-@media only screen and (min-width: 1200px) {
-  .notify-container {
-      width: 1170px;
-  }
 }
 
 .navbar-notify {
@@ -121,8 +95,6 @@ body {
 
 .yellow-fill {
   background-color: var(--main-nav-colour);
-  border: 0.2vw solid var(--main-bg-colour);
-  border-radius: var(--main-border-radius);
 }
 
 .yellow-border {
@@ -580,4 +552,9 @@ div[alt]:hover:before {
   -ms-transform: rotate(180deg);
   -o-transform: rotate(180deg);
   transform: rotate(180deg);
+}
+
+.title-page-register {
+  margin-left: 2vw;
+  float: right;
 }
