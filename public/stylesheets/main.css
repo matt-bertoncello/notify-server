@@ -2,7 +2,11 @@
   --main-nav-colour: #ffce00;
   --sec-nav-colour: #ffffff80;
   --main-bg-colour: #ffffff;
+  --main-black: #252525;
   --main-text-colour: #000000;
+  --main-text-colour-hover-inverted: #000000;
+  --main-text-colour-hover: #ffffff;
+  --sec-text-colour: #ffce00;
   --main-border-radius: 20%;
 }
 
@@ -10,10 +14,6 @@ body {
     background-color: var(--main-bg-colour);
     text-align: center;
     color: var(--main-text-colour);
-}
-
-.invert-onhover {
-  color: var(--main-text-colour);
 }
 
 #mobile-header-title {
@@ -40,18 +40,13 @@ body {
 }
 
 .content {
-  padding-top: 50px;
+  padding-top: 0px;
   margin: auto;
-}
-
-.collapse::before {
-  content: "test";
 }
 
 .notify-container {
   margin-left: auto;
   margin-right: auto;
-  transition: max-height 0.2s ease-out;
 }
 
 .navbar-notify {
@@ -59,6 +54,7 @@ body {
   border: none;
   width: 100%;
   position: fixed;
+  margin-bottom: 0px;
 }
 
 .navbar-notify a {
@@ -75,6 +71,7 @@ body {
 .navbar-notify li {
   margin-left: 20px;
   margin-right: 20px;
+  text-align: center;
 }
 
 .title-container {
@@ -104,76 +101,17 @@ body {
 }
 
 .black-border {
-  border: 0.2vw solid #000000;
+  border: 0.2vw solid var(--main-black);
   border-radius: var(--main-border-radius);
   width:fit-content;
 }
 
-.jumbotron {
-  background: #532F8C;
-  color: white;
-  text-align: center;
-}
-.jumbotron .btn-primary {
-  background: #845ac7;
-  border-color: #845ac7; }
-.jumbotron .btn-primary:hover {
-  background: #7646c1; }
-.jumbotron p {
-  color: #d9ccee;
-  max-width: 75%;
-  margin: 1em auto 2em; }
-.navbar + .jumbotron {
-  margin-top: -20px; }
-.jumbotron .lang-logo {
-  display: block;
-  background: #B01302;
-  border-radius: 50%;
-  overflow: hidden;
-  width: 100px;
-  height: 100px;
+.jumbotron-notify {
+  padding-top: 2vw;
+  padding-bottom: 2vw;
   margin: auto;
-  border: 2px solid white; }
-.jumbotron .lang-logo img {
-  max-width: 100%; }
-
-.tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black;
-}
-
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -60px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.tooltip .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
+  background-color: var(--main-bg-colour);
+  color: var(--main-text-colour);
 }
 
 .home-link {
@@ -197,6 +135,8 @@ body {
 .home-link:hover {
   background-color: inherit !important;
   filter:invert();
+  color: var(--main-text-colour-hover-inverted);
+  text-decoration: none;
 }
 
 .mobile-title-two {
@@ -539,7 +479,7 @@ div[alt]:hover:before {
   top:10px;
   right: 10px;
   z-index: 1000;
-  border: 1px solid #000000;
+  border: 1px solid var(--main-text-colour);
   border-radius: 100%;
   width: 30px;
   padding: 5px;
@@ -555,6 +495,5 @@ div[alt]:hover:before {
 }
 
 .title-page-register {
-  margin-left: 2vw;
   float: right;
 }
