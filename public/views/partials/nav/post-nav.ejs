@@ -19,14 +19,18 @@
         </li>
       <% } else { %>
         <li class="active">
-          <a href="/login">Login</a>
+          <a href="/login">Sign in</a>
+        </li>
+        <li class="active">
+          <a href="/register">Sign up</a>
         </li>
       <% } %>
     </ul>
   </div>
 </nav>
 <div id="flash" class="alert"></div>
-<img id='collapse-button' class='hide-desktop' src="/images/collapse-arrow.svg">
+<div style="height:50px;"></div>
+<img id='collapse-button' class='hide-desktop-nav' src="/images/collapse-arrow.svg">
 
 <script>
 var header_collapse = new CollapseManager('nav-container', 'mobile-header-title');

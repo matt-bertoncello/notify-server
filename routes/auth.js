@@ -111,14 +111,14 @@ router.post('/local/register', (req, res) => {
 
       // if there was any error, reload page and render errors.
       if (error) {
-        res.redirect('/register');
+        res.redirect(req.get('referer'));
       } else {
         // if no error, createAccount.
         accountController.createAccount(req.body.email, req.body.password1, function(err, account) {
           if (err) {
             console.log(err);
             authController.registerComment.email = err; // comment is rendered on next load of /register. index.js delete's after being rendered once.
-            res.redirect('/register');
+            res.redirect(req.get('referer'));
           }
           else {
             req.login(account, function(err) {

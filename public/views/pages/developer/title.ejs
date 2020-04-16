@@ -7,15 +7,32 @@
 
 <body>
 
-  <% include ../../partials/pre-nav-dev-user.ejs %>
-  <% include ../../partials/post-nav.ejs %>
-  <div class='content'>
+  <% include ../../partials/nav/pre-nav-dev-user.ejs %>
+  <% include ../../partials/nav/post-nav.ejs %>
 
-    <div class='title-container'>
-      <img class='notify-title' src='/images/notify-title.svg'>
-      <h1 class='text-title-fancy'>Developer</h1>
+  <div class='page-section'>
+    <div class='content'>
+
+      <div class='column-container page-height'>
+        <div style='margin:auto;'>
+          <div class='title-container'>
+            <img class='notify-title' src='/images/notify-title.svg'>
+            <h1 class='text-title-fancy'>Developer</h1>
+          </div>
+          <p class='marketing'>
+            Notify provides developers and organisations with secure endpoints to send customisable notifications
+            to the companion mobile application. This means you no longer have to create your own application to have
+            complete control over your notification content, aethetics and tracking. Direct subscribers of your
+            notifications to the <a href='/user'>user</a> page.
+          </p>
+        </div>
+
+        <div class='sec-fill title-page-register'>
+          <% include ../../partials/auth/localRegister.ejs %>
+        </div>
+      </div>
     </div>
-
   </div>
+
 </body>
 </html>

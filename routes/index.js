@@ -26,9 +26,9 @@ router.get('/login', (req, res, next) => {
     console.log('[ERROR] '+req.session.passport.user._id+" is already logged in");
     res.redirect('/account');
   } else {
-    var comment = authController.loginComment;
+    req.loginComment = authController.loginComment;
     delete authController.loginComment;
-    res.render('auth/login', {req: req, loginComment: comment});
+    res.render('auth/login', {req: req});
   }
 });
 
@@ -37,9 +37,9 @@ router.get('/register', (req, res, next) => {
     console.log('[ERROR] '+req.session.passport.user._id+" is already logged in");
     res.redirect('/account');
   } else {
-    var comment = authController.registerComment;
+    req.registerComment = authController.registerComment;
     authController.registerComment = { email: null, password1: null, password2: null };
-    res.render('auth/register', {req: req, registerComment: comment});
+    res.render('auth/register', {req: req});
   }
 });
 

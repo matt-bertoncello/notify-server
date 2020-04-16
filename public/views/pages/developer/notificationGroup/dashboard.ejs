@@ -57,13 +57,13 @@
 
 <body style="text-align:center;">
 
-  <% include ../../../partials/pre-nav-dev.ejs %>
+  <% include ../../../partials/nav/pre-nav-dev.ejs %>
     <% if (notificationGroup.organisation.image) { %>
       <li><a class='no-padding' href='/organisation/<%= notificationGroup.organisation._id %>'><img style="height:50px;" src='/image/<%= notificationGroup.organisation.image %>'></a></li>
     <% } else { %>
       <li class='nav-fancy'><a href='/organisation/<%= notificationGroup.organisation._id %>'><%= notificationGroup.organisation.name %></a></li>
     <% } %>
-  <% include ../../../partials/post-nav.ejs %>
+  <% include ../../../partials/nav/post-nav.ejs %>
   <div class='content'>
 
     <div>
