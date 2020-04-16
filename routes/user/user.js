@@ -11,6 +11,8 @@ router.get('/', accountController.updateAccount, (req,res) => {
   if (authController.isAuthenticated(req)) {
     res.redirect('user/dashboard');
   } else {
+    req.registerComment = authController.registerComment;
+    authController.registerComment = { email: null, password1: null, password2: null };
     res.render('user/title', {req: req});
   }
 });

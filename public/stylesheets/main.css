@@ -285,10 +285,6 @@ body {
   position: fixed;
 }
 
-.navbar {
-  margin-bottom: unset;
-}
-
 /* The close button */
 .closebtn {
   margin-left: 15px;
