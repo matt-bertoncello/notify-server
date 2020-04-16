@@ -1,0 +1,18 @@
+<form class='form-signin' role='form' action='/auth/local/register' method='post'>
+  <h2 class='form-signin-heading'>Please register</h2>
+  <label class='sr-only' for='inputEmail'></label>
+  <div>
+    <input class='form-control' type='text' name='email' id='email' id='inputEmail' placeholder='email' required autofocus>
+    <p class="error-text"><%= req.registerComment.email %></p>
+  </div>
+  <div>
+    <input class='form-control' type='password' name='password1' id='password1' id='inputPassword1' placeholder='password' required>
+    <p class="error-text"><%= req.registerComment.password1 %></p>
+  </div>
+  <div>
+    <input class='form-control' type='password' name='password2' id='password2' id='inputPassword2' placeholder='password' required>
+    <p class="error-text"><%= req.registerComment.password2 %></p>
+  </div>
+  <button class='card-link-inverted bordered' type='submit'>REGISTER</button>
+  <button type="button" class="card-link-inverted bordered" onclick="window.location.href='/login'">LOGIN</button>
+</form>

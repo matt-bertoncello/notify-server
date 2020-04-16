@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var authController = require("../../controllers/AuthController.js");
-var userController = require("../../controllers/UserController.js");
+var accountController = require("../../controllers/AccountController.js");
 var clientController = require("../../controllers/client/ClientController.js");
 var deviceController = require("../../controllers/client/DeviceController.js");
 
@@ -21,14 +21,14 @@ If correct, reply with auth token.
 If error, handle and reply with error.
 */
 router.get('/login', function(req, res) {
-  authController.attempt_login(req.headers['email'], req.headers['password'], function(err, user, loginError) {
+  authController.attempt_login(req.headers['email'], req.headers['password'], function(err, account, loginError) {
 
     // If there was a login error:
     if (loginError && loginError.message) {
       console.log("[API LOGIN] "+loginError.message);
       var json = { 'message': loginError.message }; // unauthorized
       apiResponse(401, json, res);
-    } else if (err || !user) {
+    } else if (err || !account) {
       var json = { 'message': 'error code: 101' }; // server error
       apiResponse(500, json, res);
     }
@@ -37,7 +37,7 @@ router.get('/login', function(req, res) {
       // create device
       var deviceData ={
         name: req.headers['device-name'],
-        user_id: user._id,
+        account_id: account._id,
         firebaseInstance: req.headers['firebase-instance-id'],
         name: req.headers['device-name'],
       };
@@ -57,7 +57,7 @@ router.get('/login', function(req, res) {
           };
           apiResponse(200, json, res);
 
-          console.log('user logged-in via API: '+device.user);
+          console.log('account logged-in via API: '+device.account);
         }
       })
     }
@@ -65,9 +65,9 @@ router.get('/login', function(req, res) {
 });
 
 /*
-Retrieve user data from the authToken.
+Retrieve account data from the authToken.
 */
-router.get('/user', function(req, res) {
+router.get('/account', function(req, res) {
   deviceController.getDeviceFromAuthToken(req.headers['auth-token'], function(err, device) {
     // If there was a login error:
     if (err) {
@@ -81,21 +81,21 @@ router.get('/user', function(req, res) {
     else {
       // create response.
       var json = {
-        'email': device.user.email,
+        'email': device.account.email,
         'device-name': device.name,
       };
       apiResponse(200, json, res);
 
-      console.log('retrieved user data via API: '+device.user._id);
+      console.log('retrieved account data via API: '+device.account._id);
     }
   });
 });
 
 /*
-Log-out user. Remove token from user list.
+Log-out account. Remove token from account list.
 */
 router.post('/logout', function(req, res) {
-  // retrieve user from authToken.
+  // retrieve account from authToken.
   deviceController.makeDeviceInactiveFromAuthToken(req.headers['auth-token'], function(err) {
     // If there was a login error:
     if (err) {
@@ -105,7 +105,7 @@ router.post('/logout', function(req, res) {
       var json = {'message': 'logout successful'};
       apiResponse(200, json, res);
 
-      console.log('user logged-out with authToken: '+req.headers['auth-token']);
+      console.log('account logged-out with authToken: '+req.headers['auth-token']);
     }
   });
 });

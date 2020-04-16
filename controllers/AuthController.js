@@ -1,7 +1,7 @@
 var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
-var userController = require("./UserController");
-var User = require("../models/User");
+var accountController = require("./AccountController");
+var Account = require("../models/Account");
 
 var authController = {};
 
@@ -13,7 +13,7 @@ authController.registerComment = {
 };
 
 // Set serialize and deserialize functions;
-passport.serializeUser(function(user, done) { done(null, user); });
+passport.serializeUser(function(account, done) { done(null, account); });
 passport.deserializeUser(function(obj, done) { done(null, obj); });
 
 // Update the local login strategy.
@@ -29,9 +29,9 @@ authController.attempt_login = function(email, password, done) {
     return loginError(err, null, done);
   }
   if (authController.isEmail(email)) {  // If valid email
-    userController.getUserFromEmail(email, function(err, user) {
-      if (err) { return loginError(err, user, done); }
-      else { authenticate_user(user, password, done); }
+    accountController.getAccountFromEmail(email, function(err, account) {
+      if (err) { return loginError(err, account, done); }
+      else { authenticate_account(account, password, done); }
     });
   } else {  // If not a valid email
     err = '[ERROR] Not a valid email';
@@ -39,11 +39,11 @@ authController.attempt_login = function(email, password, done) {
   }
 }
 
-// Handle password comparison. Assume user is not null.
-function authenticate_user(user, password, done) {
-  user.comparePassword(password, function(err, match) {
-    if (err || !match) { if (err) { return loginError(err, user, done); } }
-    else { return done(null, user); }
+// Handle password comparison. Assume account is not null.
+function authenticate_account(account, password, done) {
+  account.comparePassword(password, function(err, match) {
+    if (err || !match) { if (err) { return loginError(err, account, done); } }
+    else { return done(null, account); }
   });
 }
 
@@ -51,44 +51,44 @@ function authenticate_user(user, password, done) {
 Called when there is an authorization error during login.
 Will save the error for the login screen to render.
 */
-function loginError(err, user, done) {
+function loginError(err, account, done) {
   authController.loginComment = err;
   return done(null, null, {message: err});  // null, null so passport loads failureRedirect.
 }
 
 /*
-Redirect to login page if user isn't logged in.
-Load User into req.user.
+Redirect to login page if account isn't logged in.
+Load Account into req.account.
 */
 authController.checkAuthentication = function(req,res,next){
   /* If session has never been initialised on client side, also redirect to login page */
   if (req.session.passport && req.session.passport.user) {
-    userController.updateUser(req, res, function() {
+    accountController.updateAccount(req, res, function() {
       next();
     })
   } else {
-    userController.postLoginRedirect = req.originalUrl;
-    console.log('[ERROR] user is not logged-in. Redirect to login page. Post-authentication redirect: '+userController.postLoginRedirect);
+    accountController.postLoginRedirect = req.originalUrl;
+    console.log('[ERROR] account is not logged-in. Redirect to login page. Post-authentication redirect: '+accountController.postLoginRedirect);
     res.redirect("/login");
   }
 }
 
-/* Once user has been authenticated, run this function */
+/* Once account has been authenticated, run this function */
 authController.postAuthentication = function(req, res) {
-  /* If user came from 'checkAuthentication' middleware, return to initial page */
-  if (userController.postLoginRedirect) {
-    redirect = userController.postLoginRedirect;
-    delete userController.postLoginRedirect;
+  /* If account came from 'checkAuthentication' middleware, return to initial page */
+  if (accountController.postLoginRedirect) {
+    redirect = accountController.postLoginRedirect;
+    delete accountController.postLoginRedirect;
     console.log("[REDIRECT] redirected to: "+redirect)
     res.redirect(redirect);
   } else {
-    res.redirect('/user');
+    res.redirect('/account');
   }
 }
 
 // logout
 authController.logout = function(req, res) {
-  console.log('[INFO] user logout')
+  console.log('[INFO] account logout')
   req.logout();
   res.redirect('/');
 };
@@ -100,6 +100,11 @@ authController.isEmail = function(string) {
   } else {
     return (false)
   }
+}
+
+// return true of the user is authenitcated.
+authController.isAuthenticated = function(req) {
+  return (req.session.passport && req.session.passport.user);
 }
 
 module.exports = authController;

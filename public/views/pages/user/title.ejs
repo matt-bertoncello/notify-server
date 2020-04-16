@@ -2,8 +2,7 @@
 <html>
 <head>
   <% include ../../partials/header.ejs %>
-  <title><%= process.env.TITLE %> - register</title>
-
+  <title><%= process.env.TITLE %> - user</title>
 </head>
 
 <body>
@@ -12,9 +11,10 @@
   <% include ../../partials/post-nav.ejs %>
   <div class='content'>
 
-    <% include ../../partials/auth/localRegister.ejs %>
-
-    <% include ../../partials/auth/socialLogin.ejs %>
+    <div class='title-container'>
+      <img class='notify-title' src='/images/notify-title.svg'>
+      <h1 class='text-title-fancy'>User</h1>
+    </div>
 
   </div>
 </body>

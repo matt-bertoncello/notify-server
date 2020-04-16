@@ -1,15 +1,15 @@
 var passport = require('passport')
   , TwitterStrategy = require('passport-twitter').Strategy;
-var User = require('../../models/User');
+var Account = require('../../models/Account');
 require('dotenv').config();
 
-passport.serializeUser(function (user, fn) {
-  fn(null, user);
+passport.serializeUser(function (account, fn) {
+  fn(null, account);
 });
 
 passport.deserializeUser(function (id, fn) {
-  User.findOne({twitter_id: id.doc}, function (err, user) {
-    fn(err, user);
+  Account.findOne({twitter_id: id.doc}, function (err, account) {
+    fn(err, account);
   });
 });
 
@@ -22,54 +22,54 @@ passport.use(new TwitterStrategy({
     proxy: true
   },
   function(req, accessToken, refreshToken, profile, done) {
-    User.findOne({
+    Account.findOne({
         'twitter.id': profile.id
-    }, function(err, user) {
+    }, function(err, account) {
         if (err) {
             return done(err);
         }
-        if (user) {
-          //found user. Return
-          return done(err, user._id);
+        if (account) {
+          //found account. Return
+          return done(err, account._id);
         }
-        if (!user) {
-          // No user was found, if email already exists, add this twitter_id to the account.
-          User.findOne({
+        if (!account) {
+          // No account was found, if email already exists, add this twitter_id to the account.
+          Account.findOne({
               'email': profile.emails[0].value
-          }, function(err, user) {
+          }, function(err, account) {
               if (err) {
                   return done(err);
               }
-              if (user) {
-                user.twitter = {
+              if (account) {
+                account.twitter = {
                   id: profile.id,
-                  username: profile.username,
+                  accountname: profile.accountname,
                   displayName: profile.displayName
                 }
-                user.save(function(err) {
+                account.save(function(err) {
                   if (err) {
                     return done(err)
                   } else {
-                    //found user. Return
-                    return done(err, user._id);
+                    //found account. Return
+                    return done(err, account._id);
                   }
                 });
               } else {
-                // No email was found... so create a new user with values from twitter (all the profile. stuff)
-                user = new User({
+                // No email was found... so create a new account with values from twitter (all the profile. stuff)
+                account = new Account({
                   name: profile.displayName,
                   email: profile.emails[0].value,
-                  //now in the future searching on User.findOne({'twitter.id': profile.id } will match because of this next line
+                  //now in the future searching on Account.findOne({'twitter.id': profile.id } will match because of this next line
                   twitter: {
                     id: profile.id,
-                    username: profile.username,
+                    accountname: profile.accountname,
                     displayName: profile.displayName
                   },
                   provider: 'twitter'
                 });
-                user.save(function(err) {
+                account.save(function(err) {
                   if (err) console.log(err);
-                  return done(err, user._id);
+                  return done(err, account._id);
                 });
               }
             });

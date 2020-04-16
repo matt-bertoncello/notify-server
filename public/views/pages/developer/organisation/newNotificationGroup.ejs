@@ -25,44 +25,45 @@
 </head>
 <body>
 
-  <% include ../../../partials/pre-nav.ejs %>
-    <li><a href='/developer'>Developer Dashboard</a></li>
+  <% include ../../../partials/pre-nav-dev.ejs %>
     <% if (organisation.image) { %>
       <li><a class='no-padding' href='/organisation/<%= organisation._id %>'><img style="height:50px;" src='/image/<%= organisation.image %>'></a></li>
     <% } else { %>
-      <li><a href='/organisation/<%= organisation._id %>'><%= organisation.name %></a></li>
+      <li class='nav-fancy'><a href='/organisation/<%= organisation._id %>'><%= organisation.name %></a></li>
     <% } %>
   <% include ../../../partials/post-nav.ejs %>
+  <div class='content'>
 
-  <div class="jumbotron">
-    <h1>
-      <% if (organisation.image) { %>
-        <img style="height:100px;" src='/image/<%= organisation.image %>'>
-      <% } %>
-      New Notification Group
-    </h1>
-  </div>
+    <div class="jumbotron">
+      <h1>
+        <% if (organisation.image) { %>
+          <img style="height:100px;" src='/image/<%= organisation.image %>'>
+        <% } %>
+        New Notification Group
+      </h1>
+    </div>
 
-  <div class='card wide bordered shadowed grid'>
-    <form class='form-signin wide' role='form' action='/organisation/<%= organisation._id %>/new-notification-group/submit' method='post' enctype="multipart/form-data">
-      <div>
-        <input style='width:75%;max-width:330px;display:inline-block;' class='form-control' type='text' name='name' id='name' placeholder='notification group name' required autofocus>
-        <div id='image-container' style='display:inline-block;'>
-          <% if (organisation.image) { %>
-            <img style="height:45px;" src='/image/<%= organisation.image %>'>
-          <% } %>
+    <div class='card wide bordered shadowed grid'>
+      <form class='form-signin wide' role='form' action='/organisation/<%= organisation._id %>/new-notification-group/submit' method='post' enctype="multipart/form-data">
+        <div>
+          <input style='width:75%;max-width:330px;display:inline-block;' class='form-control' type='text' name='name' id='name' placeholder='notification group name' required autofocus>
+          <div id='image-container' style='display:inline-block;'>
+            <% if (organisation.image) { %>
+              <img style="height:45px;" src='/image/<%= organisation.image %>'>
+            <% } %>
+          </div>
         </div>
-      </div>
-      <textarea class='form-control text-input' placeholder='description.' type='text' name='description' id='description' required></textarea>
-      <div>
-        <p style="display:inline-grid;width:45%">Upload image. Otherwise Organisation's image will be used.</p>
-        <input style="display:inline-grid;width:45%" class='form-control grid' type='file' name='file' id='file'>
-      </div>
+        <textarea class='form-control text-input' placeholder='description.' type='text' name='description' id='description' required></textarea>
+        <div>
+          <p style="display:inline-grid;width:45%">Upload image. Otherwise Organisation's image will be used.</p>
+          <input style="display:inline-grid;width:45%" class='form-control grid' type='file' name='file' id='file'>
+        </div>
 
-      <button class='card-link-inverted bordered' type='submit'>Create Notification Group</button>
-    </form>
+        <button class='card-link-inverted bordered' type='submit'>Create Notification Group</button>
+      </form>
+    </div>
+
   </div>
-
 </body>
 
 <script>

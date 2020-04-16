@@ -7,8 +7,8 @@ var authController = require("../../controllers/AuthController.js");
 var organisationController = require("../../controllers/developer/OrganisationController.js");
 var notificationGroupController = require("../../controllers/developer/NotificationGroupController.js");
 
-function auth_organisation(res, user_id, organisation_id, next) {
-  organisationController.getOrganisationFromId(user_id, organisation_id, function(err, organisation) {
+function auth_organisation(res, account_id, organisation_id, next) {
+  organisationController.getOrganisationFromId(account_id, organisation_id, function(err, organisation) {
     if (err) {
       res.redirect('/developer');
     } else if (!organisation) {
@@ -28,7 +28,7 @@ If there are any errors, print to screen and redirect to developer page.
 */
 router.get('/:organisation', authController.checkAuthentication, (req,res) => {
   auth_organisation(res, req.session.passport.user._id, req.params.organisation, function(organisation) {
-    // if user is authorised to control the organisation, get all notificationGroups controlled by this organisation/
+    // if account is authorised to control the organisation, get all notificationGroups controlled by this organisation/
     notificationGroupController.getAllNotificationGroupsForOrganisation(organisation._id, function(err, notificationGroups) {
       res.render('developer/organisation/dashboard', {req: req, organisation: organisation, notificationGroups:notificationGroups});
     });
@@ -40,7 +40,7 @@ Display page to create new notification group for this organisation.
 */
 router.get('/:organisation/new-notification-group', authController.checkAuthentication, (req,res) => {
   auth_organisation(res, req.session.passport.user._id, req.params.organisation, function(organisation) {
-    // if user is authorised to control the organisation:
+    // if account is authorised to control the organisation:
     res.render('developer/organisation/newNotificationGroup', {req: req, organisation: organisation});
   });
 });
@@ -50,7 +50,7 @@ Handle the creation of a new notification group to this organisation.
 */
 router.post('/:organisation/new-notification-group/submit', authController.checkAuthentication, (req,res) => {
   auth_organisation(res, req.session.passport.user._id, req.params.organisation, function(organisation) {
-    // if user is authorised to control the organisation:
+    // if account is authorised to control the organisation:
 
     var form = new formidable.IncomingForm()
     form.uploadDir = "temp";

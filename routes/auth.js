@@ -6,13 +6,13 @@ var passportTwitter = require('../controllers/auth/twitter');
 var passportGoogle = require('../controllers/auth/google');
 var passportGitHub = require('../controllers/auth/github');
 var authController = require("../controllers/AuthController.js");
-var userController = require("../controllers/UserController.js");
+var accountController = require("../controllers/AccountController.js");
 
 /* LOGOUT ROUTER */
 router.get('/logout', function(req, res){
   req.logout();
-  delete req.session.passport;  // stores user._id
-  delete req.user;  // stores user
+  delete req.session.passport;  // stores account._id
+  delete req.account;  // stores account
   res.redirect('/');
 });
 
@@ -23,7 +23,7 @@ router.get('/facebook',
 router.get('/facebook/callback',
   passportFacebook.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
-    console.log('[INFO] user logged-in via facebook: '+req.session.passport.user._id);
+    console.log('[INFO] account logged-in via facebook: '+req.session.passport.user._id);
     req.session.passport.loginProvider = "facebook";
     authController.postAuthentication(req, res);
   });
@@ -35,31 +35,31 @@ router.get('/twitter',
 router.get('/twitter/callback',
   passportTwitter.authenticate('twitter', { failureRedirect: '/login' }),
   function(req, res) {
-    console.log('[INFO] user logged-in via twitter: '+req.session.passport.user._id);
+    console.log('[INFO] account logged-in via twitter: '+req.session.passport.user._id);
     req.session.passport.loginProvider = "twitter";
     authController.postAuthentication(req, res);
   });
 
 /* GOOGLE ROUTER */
 router.get('/google',
-  passportGoogle.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/userinfo.email'] }));
+  passportGoogle.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/accountinfo.email'] }));
 
 router.get('/google/callback',
   passportGoogle.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
-    console.log('[INFO] user logged-in via google: '+req.session.passport.user._id);
+    console.log('[INFO] account logged-in via google: '+req.session.passport.user._id);
     req.session.passport.loginProvider = "google";
     authController.postAuthentication(req, res);
   });
 
 /* GITHUB ROUTER */
 router.get('/github',
-  passportGitHub.authenticate('github', { scope: [ 'user:email' ] }));
+  passportGitHub.authenticate('github', { scope: [ 'account:email' ] }));
 
 router.get('/github/callback',
   passportGitHub.authenticate('github', { failureRedirect: '/login' }),
   function(req, res) {
-    console.log('[INFO] user logged-in via github: '+req.session.passport.user._id);
+    console.log('[INFO] account logged-in via github: '+req.session.passport.user._id);
     req.session.passport.loginProvider = "github";
     authController.postAuthentication(req, res);
   });
@@ -70,7 +70,7 @@ router.get('/github/callback',
 router.post('/local/login',
   passport.authenticate('local', { failureRedirect: '/login'}),
   function(req, res, next) {
-    console.log('[INFO] user logged-in via local: '+req.session.passport.user._id);
+    console.log('[INFO] account logged-in via local: '+req.session.passport.user._id);
     req.session.passport.loginProvider = "local";
     authController.postAuthentication(req, res);
   });
@@ -80,8 +80,8 @@ Called when registration form is sent.
 1. confirm email is valid and unique.
 2. confirm password1 is the same as password2.
 3. confirm the password is strong enough.
-4. create and save user with.
-5. login user.
+4. create and save account with.
+5. login account.
 */
 router.post('/local/register', (req, res) => {
   error = false;
@@ -92,13 +92,13 @@ router.post('/local/register', (req, res) => {
     authController.registerComment.email = "[ERROR] Not a valid email.";
   }
   // confirm email is unique.
-  userController.getUserFromEmail(req.body.email, function(err, user) {
-    if (user) {
+  accountController.getAccountFromEmail(req.body.email, function(err, account) {
+    if (account) {
       error = true;
       authController.registerComment.email = "[ERROR] Email is already used.";
     }
     // confirm password is strong enough.
-    userController.checkPasswordStrength(req.body.password1, function(err, successful) {
+    accountController.checkPasswordStrength(req.body.password1, function(err, successful) {
       if (err) {
         error = true;
         authController.registerComment.password1 = err;
@@ -113,17 +113,17 @@ router.post('/local/register', (req, res) => {
       if (error) {
         res.redirect('/register');
       } else {
-        // if no error, createUser.
-        userController.createUser(req.body.email, req.body.password1, function(err, user) {
+        // if no error, createAccount.
+        accountController.createAccount(req.body.email, req.body.password1, function(err, account) {
           if (err) {
             console.log(err);
             authController.registerComment.email = err; // comment is rendered on next load of /register. index.js delete's after being rendered once.
             res.redirect('/register');
           }
           else {
-            req.login(user, function(err) {
+            req.login(account, function(err) {
               if (err) { console.log(err); }
-              return res.redirect('/user');
+              return res.redirect('/account');
             });
           }
         });

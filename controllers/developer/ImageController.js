@@ -43,7 +43,7 @@ imageController.saveImage = function(localPath, contentType, organisation_id, ne
 };
 
 /*
-Return the organisation with the organisation_id if this user is an admin or a developer.
+Return the organisation with the organisation_id if this account is an admin or a developer.
 */
 imageController.getImageFromPath = function(path, next) {
   Image.findOne({

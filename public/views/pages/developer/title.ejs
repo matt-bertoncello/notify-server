@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../../partials/header.ejs %>
+  <title><%= process.env.TITLE %> - developer</title>
+</head>
+
+<body>
+
+  <% include ../../partials/pre-nav-dev-user.ejs %>
+  <% include ../../partials/post-nav.ejs %>
+  <div class='content'>
+
+    <div class='title-container'>
+      <img class='notify-title' src='/images/notify-title.svg'>
+      <h1 class='text-title-fancy'>Developer</h1>
+    </div>
+
+    <div>
+      <% include ../../partials/auth/localRegister.ejs %>
+    </div>
+
+  </div>
+</body>
+</html>

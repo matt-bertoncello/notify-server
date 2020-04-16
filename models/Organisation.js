@@ -1,12 +1,12 @@
 var mongoose = require('mongoose');
-var User = require('./User');
+var Account = require('./Account');
 var uuid = require('uuid/v4');
 
 var OrganisationSchema = new mongoose.Schema({
   name: {type:String, required:true},
   image: {type:String, ref:'Image'},
-  admin: [ {type:mongoose.Schema.Types.ObjectId, required:true, ref:User} ],
-  developers: [ {type:mongoose.Schema.Types.ObjectId, required:true, ref:User} ],
+  admin: [ {type:mongoose.Schema.Types.ObjectId, required:true, ref:Account} ],
+  developers: [ {type:mongoose.Schema.Types.ObjectId, required:true, ref:Account} ],
   email: {type:String, required:true},
   mainColour: {type:String, required:true},
   secondaryColour: {type:String, required:true},
@@ -22,14 +22,14 @@ OrganisationSchema.pre('save', function(next) {
 });
 
 /*
-Return 'admin' if user is admin.
-Return 'developer' if user is developer.
+Return 'admin' if account is admin.
+Return 'developer' if account is developer.
 Return null if neither admin nor developer.
 */
-OrganisationSchema.methods.getUserRole = function(user_id) {
-  if (this.admin.includes(user_id)){
+OrganisationSchema.methods.getAccountRole = function(account_id) {
+  if (this.admin.includes(account_id)){
     return 'admin';
-  } else if (this.developers.includes(user_id)){
+  } else if (this.developers.includes(account_id)){
     return 'developer';
   } else {
     return null;
