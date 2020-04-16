@@ -10,12 +10,13 @@
 
   <% include ../../partials/nav/pre-nav-dev-user.ejs %>
   <% include ../../partials/nav/post-nav.ejs %>
-  <div class='content'>
+  <div class='content page-height'>
 
-    <h2 class='form-signin-heading'>Please register</h2>
-    <% include ../../partials/auth/localRegister.ejs %>
+    <div style="margin: auto;">
+      <% include ../../partials/auth/localRegister.ejs %>
 
-    <% include ../../partials/auth/socialLogin.ejs %>
+      <% include ../../partials/auth/socialLogin.ejs %>
+    </div>
 
   </div>
 </body>

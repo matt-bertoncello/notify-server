@@ -9,13 +9,27 @@
 
   <% include ../../partials/nav/pre-nav-dev-user.ejs %>
   <% include ../../partials/nav/post-nav.ejs %>
-  <div class='content'>
+  <div class='page-section'>
+    <div class='content'>
 
-    <div class='title-container'>
-      <img class='notify-title' src='/images/notify-title.svg'>
-      <h1 class='text-title-fancy'>User</h1>
+      <div class='column-container page-height'>
+        <div style='margin:auto;'>
+          <div class='title-container'>
+            <img class='notify-title' src='/images/notify-title.svg'>
+            <h1 class='text-title-fancy'>User</h1>
+          </div>
+          <p class='marketing'>
+            Download the Notify application and create an account to receive real-time, bespoke
+            notifications from your developers and organisations. Go to the
+            <a href='/developer'>developer</a> page to find out how to generate notifications.
+          </p>
+        </div>
+
+        <div class='sec-fill title-page-register'>
+          <% include ../../partials/auth/localRegister.ejs %>
+        </div>
+      </div>
     </div>
-
   </div>
 </body>
 </html>

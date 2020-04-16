@@ -1,17 +1,24 @@
 <form class='form-signin' role='form' action='/auth/local/register' method='post'>
   <label class='sr-only' for='inputEmail'></label>
-  <div>
+  <div class='form-group'>
+    <label class='form-label-notify' for="email">Email</label>
     <input class='form-control' type='text' name='email' id='email' id='inputEmail' placeholder='email' required autofocus>
     <p class="error-text"><%= req.registerComment.email %></p>
   </div>
-  <div>
+  <div class='form-group'>
+    <label class='form-label-notify' for="password1">Password</label>
     <input class='form-control' type='password' name='password1' id='password1' id='inputPassword1' placeholder='password' required>
     <p class="error-text"><%= req.registerComment.password1 %></p>
+    <p class='form-note'>Password is case sensitive and must have at least 8 characters, including 3 numbers and 3 special characters.</p>
   </div>
-  <div>
+  <div class='form-group'>
+    <label class='form-label-notify' for="password2">Confirm Password</label>
     <input class='form-control' type='password' name='password2' id='password2' id='inputPassword2' placeholder='password' required>
     <p class="error-text"><%= req.registerComment.password2 %></p>
   </div>
-  <button class='card-link-inverted bordered' type='submit'>REGISTER</button>
-  <button type="button" class="card-link-inverted bordered" onclick="window.location.href='/login'">LOGIN</button>
+  <button class='card-link-inverted bordered' type='submit' style="margin-bottom:25px;">Sign up for Notify</button>
+  <p class='form-note'>By clicking "Sign up for Notify", you agree to our
+    <a>Terms of Service</a> and <a>Privacy Statement</a>.
+    We’ll occasionally send you account related emails.
+  </p>
 </form>
