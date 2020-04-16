@@ -25,13 +25,13 @@
 </head>
 <body>
 
-  <% include ../../../partials/pre-nav-dev.ejs %>
+  <% include ../../../partials/nav/pre-nav-dev.ejs %>
     <% if (organisation.image) { %>
       <li><a class='no-padding' href='/organisation/<%= organisation._id %>'><img style="height:50px;" src='/image/<%= organisation.image %>'></a></li>
     <% } else { %>
       <li class='nav-fancy'><a href='/organisation/<%= organisation._id %>'><%= organisation.name %></a></li>
     <% } %>
-  <% include ../../../partials/post-nav.ejs %>
+  <% include ../../../partials/nav/post-nav.ejs %>
   <div class='content'>
 
     <div class="jumbotron">
