@@ -1,7 +1,7 @@
-<form class='form-signin' role='form' action='/auth/local/login' method='post'>
+<form class='form-signin' role='form' action='/auth/local/login' method='post' autocomplete="on">
   <label class='sr-only' for='inputEmail'></label>
-  <input class='form-control' type='text' name='username' id='email' id='inputEmail' placeholder='email' required autofocus>
-  <input class='form-control' type='password' name='password' id='password' id='inputPassword' placeholder='password' required>
+  <input class='form-control' type='text' name='username' id='email' id='inputEmail' placeholder='email' autocomplete="email" required autofocus>
+  <input class='form-control' type='password' name='password' id='password' id='inputPassword' placeholder='password' autocomplete="current-password" required>
   <button class='card-link-inverted bordered' type='submit'>Sign in to Notify</button>
 </form>
 
