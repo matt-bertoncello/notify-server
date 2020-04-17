@@ -7,6 +7,9 @@
     display: block;
     padding-bottom: 10px;
   }
+  .content {
+    width: 80vw;
+  }
   .marketing {
     min-width: unset;
     width: unset;
@@ -25,9 +28,6 @@
 
 @media only screen and (min-width: 480px) {
   .notify-container {
-    width: 475px;
-  }
-  .content {
     width: 475px;
   }
   .hide-desktop {

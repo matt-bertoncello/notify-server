@@ -17,6 +17,7 @@ require('dotenv').config();
 /* Define routes */
 var auth = require('./routes/auth');
 var index = require('./routes/index');
+var legal = require('./routes/legal');
 var user = require('./routes/user/user');
 var image = require('./routes/developer/image');
 var notificationGroup = require('./routes/developer/notificationGroup');
@@ -71,6 +72,7 @@ app.use(express.static(path.join(__dirname, 'public')))
   .use(bodyParser.json())
   .use('/', index)
   .use('/auth', auth)
+  .use('/legal', legal)
   .use('/user', user)
   .use('/image', image)
   .use('/organisation', organisation)
