@@ -141,10 +141,16 @@ body {
   vertical-align: middle;
 }
 
-.nav-fancy {
+.nav-text-fancy {
   font-family: Puzzled;
   font-size: 48px;
   line-height: 1px;
+}
+
+.nav-text-bordered {
+  border: 1px solid var(--main-text-colour);
+  border-radius: 3px;
+  padding: 4px 8px;
 }
 
 .home-link:hover {
