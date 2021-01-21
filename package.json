@@ -38,7 +38,7 @@
     "passport-twitter": "^1.0.4",
     "pg": "^7.18.2",
     "shortid": "^2.2.15",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.0"
   },
   "devDependencies": {
     "request": "^2.88.2",
